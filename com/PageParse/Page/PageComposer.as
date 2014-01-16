@@ -3,14 +3,13 @@ package com.PageParse.Page
 	import com.PageParse.Page.Elements.Button;
 	import com.PageParse.Page.Elements.IElement;
 	import com.PageParse.Page.Elements.Image;
+	import com.PageParse.Page.Elements.Input;
 	import com.PageParse.Page.Elements.Output;
-	import com.PageParse.Page.Elements.Row;
 	import com.PageParse.Page.Elements.Slidebutton;
 	import com.PageParse.Page.Elements.Text;
 	
-	import flash.net.getClassByAlias;
 	import flash.utils.Dictionary;
-	import flash.utils.getDefinitionByName;
+
 
 
 	public class PageComposer
@@ -22,11 +21,11 @@ package com.PageParse.Page
 		private static var tokenEnd:String = ">";
 		
 		
-		elementDict.text = Text;
-		elementDict.image = Image;
-		elementDict.outout = Output;
-		elementDict.button = Button;
-		elementDict.slidebutton = Slidebutton
+		elementDict.IMAGE = Image;
+		elementDict.OUTPUT = Output;
+		elementDict.INPUT = Input;
+		elementDict.BUTTON = Button;
+		elementDict.SLIDEBUTTON = Slidebutton
 			
 		static public function init():void{
 			for(var token:String in elementDict){
@@ -40,47 +39,64 @@ package com.PageParse.Page
 			var page:Page = new Page;
 			var lines:Array = pageStr.split(newLineChar);
 			
+			
+			
+			
+			//need access to page hence function in a function
+			function gatherText(txt:String):void{
+				if(txt.length>0){
+					var text:Text = new Text();
+					text.compose(txt);
+					page.add(text);
+				}
+			}
+			
+			
 			var splitLine:Array;
+			var accumulatingText:String = '';
+			var line:String;
 			
 			for(var i:int=0;i<lines.length;i++){
-			
-				for(var token:String in tokens){
-					splitLine=lines[i].split(token);
+				line=lines[i];
+				for each(var token:String in tokens){
+					splitLine=line.split(token);
 		
-					if(splitLine.length>0){
-						addElements(token,lines[i],page);	
-				
+					if(splitLine.length>1){
 						
+						gatherText(accumulatingText)
+						accumulatingText='';
+						page.add(addElements(token,line,page));	
+						line='';
 						break;	
 					}
 				}
+				
+				if(line.length>0)accumulatingText+=line;
 			}
+			gatherText(accumulatingText);
 			
 		return page;
 			
 		}
 		
-		private static function addElements(token:String, line:String, page:Page):void
+		
+		private static function addElements(token:String, line:String, page:Page):IElement
 		{
 			var splitLine:Array = line.split(tokenEnd);
-			
 			var stim:String;
-			var row:Row;
-			var element:*;
+			var element:IElement;
 			var myClass:Class;
+			
 			
 			for(var i:int=0;i<splitLine.length;i++){
 				stim=splitLine[i];
 				stim.split(tokenStart+token).join("");
-				
-				row = new Row;
-				element = new (elementDict[token] as Class);
-			
-				//element.compose(stim);
-				//row.add(element);
-		
+				element = new elementDict[token];
+				element.compose(stim);
+
 			}
 			
+			return element;
 		}		
 		
 	}

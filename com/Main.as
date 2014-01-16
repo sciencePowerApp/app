@@ -32,11 +32,13 @@ bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla
-<button a> <button b goto:page1>
-<image.png>]]> ).toString();
+<BUTTON a> <BUTTON b goto:page1>
+<IMAGE image.png>]]> ).toString();
 			
 			PageComposer.init();
 			page = PageComposer.compose(pageStr);
+			
+			page.render(stage);
 	
 		}
 	}
