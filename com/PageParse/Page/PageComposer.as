@@ -74,7 +74,7 @@ package com.PageParse.Page
 				stim.split(tokenStart+token).join("");
 				
 				row = new Row;
-				element = new elementDict[token];
+				element = new (elementDict[token] as Class);
 			
 				//element.compose(stim);
 				//row.add(element);
