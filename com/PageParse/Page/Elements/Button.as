@@ -4,13 +4,17 @@ package com.PageParse.Page.Elements
 
 	public class Button implements IElement
 	{
-		public function compose(str:String):void
+		public function compose(arr:Array):void
 		{
 			
 		}
 		
 		public function giveElement():DisplayObject{
 			return null;
+		}
+		
+		public function render():void{
+			
 		}
 	}
 }

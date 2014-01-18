@@ -8,6 +8,7 @@ package com.PageParse.Page
 	import com.PageParse.Page.Elements.Slidebutton;
 	import com.PageParse.Page.Elements.Text;
 	
+	import flash.display.Stage;
 	import flash.utils.Dictionary;
 
 
@@ -19,7 +20,6 @@ package com.PageParse.Page
 		private static var tokens:Array = [];
 		private static var tokenStart:String = "<";
 		private static var tokenEnd:String = ">";
-		
 		
 		elementDict.IMAGE = Image;
 		elementDict.OUTPUT = Output;
@@ -34,19 +34,17 @@ package com.PageParse.Page
 		}
 
 		
-		static public function compose(pageStr:String):Page
+		static public function compose(stage:Stage,pageStr:String):Page
 		{
-			var page:Page = new Page;
+			var page:Page = new Page(stage);
 			var lines:Array = pageStr.split(newLineChar);
-			
-			
-			
 			
 			//need access to page hence function in a function
 			function gatherText(txt:String):void{
+
 				if(txt.length>0){
 					var text:Text = new Text();
-					text.compose(txt);
+					text.compose([txt]);
 					page.add(text);
 				}
 			}
@@ -55,49 +53,106 @@ package com.PageParse.Page
 			var splitLine:Array;
 			var accumulatingText:String = '';
 			var line:String;
+
+			var j:int;
+			var regExp:RegExp;
+			var paramsStr:String;
+			var params:Array;
 			
+			var search:Array;
+			var result:Array;
+			var arr:Array=[];
+			
+			
+
 			for(var i:int=0;i<lines.length;i++){
 				line=lines[i];
-				for each(var token:String in tokens){
-					splitLine=line.split(token);
-		
-					if(splitLine.length>1){
-						
+				
+				for each(var token:String in tokens){	
+					
+					search=tokenise(new RegExp("\<"+token+".*?\>","ig"),line);
+				
+					if(search){
+			
 						gatherText(accumulatingText)
 						accumulatingText='';
-						page.add(addElements(token,line,page));	
+						addElements(token,search,page);
 						line='';
-						break;	
+						break;		
 					}
 				}
 				
-				if(line.length>0)accumulatingText+=line;
+				if(line.length>0){
+					accumulatingText+=line;
+				}	
 			}
+			
 			gatherText(accumulatingText);
 			
 		return page;
 			
 		}
 		
+		private static function tokenise(regExp:RegExp,txt:String):Array{
+			var search:Array=[];
+			var result:Array = regExp.exec(txt);
+			if(result){
+				while(result!=null){
+					search.push(result[0]);
+					result = regExp.exec(txt);
+				}
+				return search;
+			}
+			return null;
+		}
 		
-		private static function addElements(token:String, line:String, page:Page):IElement
+		
+		private static function addElements(token:String, lines:Array, page:Page):void
 		{
-			var splitLine:Array = line.split(tokenEnd);
-			var stim:String;
+
 			var element:IElement;
 			var myClass:Class;
+			var params:Array;
 			
+			for(var i:int=0;i<lines.length;i++){
 			
-			for(var i:int=0;i<splitLine.length;i++){
-				stim=splitLine[i];
-				stim.split(tokenStart+token).join("");
 				element = new elementDict[token];
-				element.compose(stim);
-
+				params = parseParams(lines[i],token);
+				element.compose(params);
+				page.add(element);
+			
 			}
 			
-			return element;
+	
+			
+	
 		}		
+		
+		
+		private static function parseParams(paramsStr:String,token:String):Array
+		{
+			paramsStr = paramsStr.substr(0,paramsStr.length-tokenEnd.length);
+			paramsStr = paramsStr.substr(token.length+tokenStart.length+1);
+	
+			
+			
+			var ps:Array = tokenise(/\w+\:\w+/g,paramsStr)
+			
+			var myParams:Array = [];
+			var item:String;
+			var items:Array;
+			
+			if(ps){
+				for each(item in myParams){
+					items=item.split(":");
+					myParams[item[0]]=item[1];
+				}
+				paramsStr=paramsStr.split(item).join("");
+			}
+			myParams.data=paramsStr;	
+			
+			return ['22'];
+		}
 		
 	}
 }

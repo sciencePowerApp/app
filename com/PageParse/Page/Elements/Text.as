@@ -1,20 +1,27 @@
 package com.PageParse.Page.Elements
 {
+	import com.MobileScreen;
+	import com.PageParse.Page.Elements.Primitives.BasicText;
+	
 	import flash.display.DisplayObject;
-	import flash.text.TextField;
 
 	public class Text implements IElement
-	{
+	{	
+		private var txt:BasicText = new BasicText;
 		
-		private var txt:TextField = new TextField;
-				
-		
-		public function compose(str:String):void
+		public function compose(arr:Array):void
 		{
-			txt.htmlText=str;
+			txt.compose(arr.join(""));
+			txt.render(MobileScreen.stageWidth);
+		}
+		
+		public function render():void{
+			txt.render(MobileScreen.stageWidth);
+			
 		}
 		
 		public function giveElement():DisplayObject{
+		
 			return txt;
 		}
 	}

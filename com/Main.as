@@ -4,29 +4,43 @@ package com
 	import com.PageParse.Page.PageComposer;
 	
 	import flash.display.Stage;
+	import flash.events.Event;
 
 	public class Main
 	{
 		private var stage:Stage;
 		private var page:Page;
+
 		
 		
 		public function Main(stage:Stage)
 		{
 			this.stage=stage;
-			init();
+			var started:Boolean=false;
+			
+			var mobileScreen:MobileScreen = new MobileScreen(stage);
+			mobileScreen.addEventListener(Event.COMPLETE,function(e:Event):void{
+				if(started==false){
+					init();
+					started=true;
+				}
+				else if(page)page.reRender();
+			});
+			
+			mobileScreen.init();
 		}
+		
+
 		
 		private function init():void
 		{
-
-			
+	
 			var pageStr:String =( <![CDATA[bla bla bla bla bla bla bla bla bla bla
-bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
-<INPUTBOX A>
-<INPUTBOX B>
+<INPUT A><INPUT B>
 <OUTPUT B(log(A)) >
+<INPUT B>
 bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
@@ -36,9 +50,9 @@ bla bla bla bla bla
 <IMAGE image.png>]]> ).toString();
 			
 			PageComposer.init();
-			page = PageComposer.compose(pageStr);
+			page = PageComposer.compose(stage,pageStr);
 			
-			page.render(stage);
+			page.render();
 	
 		}
 	}
