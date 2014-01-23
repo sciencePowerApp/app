@@ -16,5 +16,9 @@ package com.PageParse.Page.Elements
 		public function render():void{
 			
 		}
+		
+		public function kill():void{
+			
+		}
 	}
 }

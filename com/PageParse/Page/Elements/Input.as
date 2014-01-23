@@ -4,24 +4,49 @@ package com.PageParse.Page.Elements
 	import com.PageParse.Page.Elements.Primitives.BasicText;
 	
 	import flash.display.DisplayObject;
+	import flash.display.Sprite;
+	import com.PageParse.Page.Elements.Primitives.BasicInput;
 
 	public class Input implements IElement
 	{
-		private var txt:BasicText = new BasicText;
+		
+		private var combined:Sprite = new Sprite;
+		
+		private var label:BasicText = new BasicText;
+		private var input:BasicInput = new BasicInput;
 		
 		public function compose(arr:Array):void
 		{
-			txt.compose(arr.toString());
-			txt.render(MobileScreen.stageWidth);
+			label.compose(arr);
+			label.selectable=false;
+			input.composeInput(arr);
+			
+			render();
+			
+			combined.addChild(label);
+			combined.addChild(input);
+			
 		}
 		
 		public function render():void{
-			txt.render(MobileScreen.stageWidth);
+			label.render(MobileScreen.stageWidth *.5);
+			input.render(MobileScreen.stageWidth *.5);
+			
+			label.x=0;
+			input.x=label.width;
 			
 		}
 		
 		public function giveElement():DisplayObject{
-			return txt;
+			return combined;
+		}
+		
+		public function kill():void{
+			combined.removeChild(label);
+			combined.removeChild(input);
+			label=null;
+			input.kill();
+			input=null;
 		}
 	}
 }

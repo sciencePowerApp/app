@@ -7,6 +7,7 @@ package com.PageParse.Page.Elements
 		function compose(arr:Array):void;
 		function giveElement():DisplayObject;
 		function render():void;
+		function kill():void;
 	
 	}
 }

@@ -1,8 +1,7 @@
 package com
 {
 	import com.PageParse.Page.Page;
-	import com.PageParse.Page.PageComposer;
-	
+	import com.PageParse.Page.PageComposer;	
 	import flash.display.Stage;
 	import flash.events.Event;
 
@@ -10,6 +9,7 @@ package com
 	{
 		private var stage:Stage;
 		private var page:Page;
+		private var github:GitHubLink;
 
 		
 		
@@ -17,6 +17,8 @@ package com
 		{
 			this.stage=stage;
 			var started:Boolean=false;
+			
+			github = new GitHubLink();
 			
 			var mobileScreen:MobileScreen = new MobileScreen(stage);
 			mobileScreen.addEventListener(Event.COMPLETE,function(e:Event):void{
@@ -38,9 +40,9 @@ package com
 			var pageStr:String =( <![CDATA[bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
-<INPUT A><INPUT B>
+<INPUT rama name:i1><INPUT hello! abc name:i2>
 <OUTPUT B(log(A)) >
-<INPUT B>
+<INPUT banana name:i3>
 bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla

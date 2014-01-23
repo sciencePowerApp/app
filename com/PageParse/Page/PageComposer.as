@@ -44,7 +44,9 @@ package com.PageParse.Page
 
 				if(txt.length>0){
 					var text:Text = new Text();
-					text.compose([txt]);
+					var arr:Array = [];
+					arr.data=txt;
+					text.compose(arr);
 					page.add(text);
 				}
 			}
@@ -122,10 +124,6 @@ package com.PageParse.Page
 				page.add(element);
 			
 			}
-			
-	
-			
-	
 		}		
 		
 		
@@ -138,20 +136,25 @@ package com.PageParse.Page
 			
 			var ps:Array = tokenise(/\w+\:\w+/g,paramsStr)
 			
+				
+		
+				
 			var myParams:Array = [];
 			var item:String;
 			var items:Array;
 			
 			if(ps){
-				for each(item in myParams){
+				for each(item in ps){
 					items=item.split(":");
-					myParams[item[0]]=item[1];
+					myParams[items[0]]=items[1];
+					paramsStr=paramsStr.split(item).join("");
+					
 				}
-				paramsStr=paramsStr.split(item).join("");
+				
 			}
 			myParams.data=paramsStr;	
 			
-			return ['22'];
+			return myParams;
 		}
 		
 	}

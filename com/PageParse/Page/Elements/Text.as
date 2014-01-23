@@ -11,7 +11,8 @@ package com.PageParse.Page.Elements
 		
 		public function compose(arr:Array):void
 		{
-			txt.compose(arr.join(""));
+			txt.compose(arr);
+			txt.selectable=false;
 			txt.render(MobileScreen.stageWidth);
 		}
 		
@@ -23,6 +24,10 @@ package com.PageParse.Page.Elements
 		public function giveElement():DisplayObject{
 		
 			return txt;
+		}
+		
+		public function kill():void{
+			txt = null;
 		}
 	}
 }
