@@ -1,8 +1,6 @@
 package com.PageParse.Page
 {
 	import com.MobileScreen;
-	import com.PageParse.Page.Elements.IElement;
-	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.display.Stage;
@@ -10,17 +8,17 @@ package com.PageParse.Page
 
 	public class Page
 	{
-		public var elements:Vector.<IElement> = new Vector.<IElement>;
+		public var row:Vector.<Row> = new Vector.<Row>;
 		private var stage:Stage;
 		private var page:Sprite;
 			
 		
 		public function kill():void{
 			var actualElement:DisplayObject;
-			for(var i:int=0;i<elements.length;i++){
-				actualElement = elements[i].giveElement();	
+			for(var i:int=0;i<row.length;i++){
+				actualElement = row[i].giveElement();	
 				if(actualElement!=null) stage.removeChild(actualElement);
-				elements[i].kill();
+				row[i].kill();
 			}
 			
 			stage.removeChild(page);
@@ -32,8 +30,8 @@ package com.PageParse.Page
 			stage.addChild(page);
 		}
 		
-		public function add(element:IElement):void{
-			elements.push(element);
+		public function add(_row:Row):void{
+			row.push(_row);
 		}
 		
 		
@@ -43,13 +41,13 @@ package com.PageParse.Page
 			var actualElement:DisplayObject;
 			var y:int=0;
 			
-			for(var i:int=0;i<elements.length;i++){
+			for(var i:int=0;i<row.length;i++){
 
-				actualElement = elements[i].giveElement();	
+				actualElement = row[i].giveElement();	
 				
 				if(actualElement!=null){ //for devel
 					if(initial)page.addChild(actualElement);
-					elements[i].render();
+					row[i].render();
 					actualElement.y=y;
 					y+=actualElement.height;
 				}	

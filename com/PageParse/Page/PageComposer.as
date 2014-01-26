@@ -47,7 +47,9 @@ package com.PageParse.Page
 					var arr:Array = [];
 					arr.data=txt;
 					text.compose(arr);
-					page.add(text);
+					var row:Row = new Row;
+					row.add(text);
+					page.add(row);
 				}
 			}
 			
@@ -75,7 +77,6 @@ package com.PageParse.Page
 					search=tokenise(new RegExp("\<"+token+".*?\>","ig"),line);
 				
 					if(search){
-			
 						gatherText(accumulatingText)
 						accumulatingText='';
 						addElements(token,search,page);
@@ -116,14 +117,16 @@ package com.PageParse.Page
 			var myClass:Class;
 			var params:Array;
 			
-			for(var i:int=0;i<lines.length;i++){
+			var row:Row = new Row;
 			
+			for(var i:int=0;i<lines.length;i++){
 				element = new elementDict[token];
 				params = parseParams(lines[i],token);
 				element.compose(params);
-				page.add(element);
+				row.add(element);
 			
 			}
+			page.add(row);
 		}		
 		
 		
@@ -136,9 +139,6 @@ package com.PageParse.Page
 			
 			var ps:Array = tokenise(/\w+\:\w+/g,paramsStr)
 			
-				
-		
-				
 			var myParams:Array = [];
 			var item:String;
 			var items:Array;
@@ -147,8 +147,7 @@ package com.PageParse.Page
 				for each(item in ps){
 					items=item.split(":");
 					myParams[items[0]]=items[1];
-					paramsStr=paramsStr.split(item).join("");
-					
+					paramsStr=paramsStr.split(item).join("");	
 				}
 				
 			}

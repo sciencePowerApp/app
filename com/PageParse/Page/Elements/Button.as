@@ -7,10 +7,11 @@ package com.PageParse.Page.Elements
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 
-	public class Button implements IElement
+	public class Button extends Element  implements IElement
 	{
 		private var button:BasicText = new BasicText;
 		private var backSpr:Sprite = new Sprite;
+		private var width:int;
 		
 		public function compose(arr:Array):void
 		{
@@ -18,21 +19,21 @@ package com.PageParse.Page.Elements
 			button.selectable=false;
 			backSpr.addChild(button);
 			listeners(true);
-			render()
 		}
 		
-		public function render():void
+		public function render(width:int):void
 		{
+			this.width = width;
 			colorBackground(0x335566);
 			button.x=backSpr.width*.5-button.width*.5;
 			button.y=backSpr.height*.5-button.height*.5;
-			button.render(MobileScreen.stageWidth);	
+			button.render(width);	
 
 		}
 		
 		private function colorBackground(col:int):void{
 			backSpr.graphics.beginFill(col);
-			backSpr.graphics.drawRoundRect(0,0,MobileScreen.stageWidth,100,10,10);
+			backSpr.graphics.drawRoundRect(0,0,width,100,10,10);
 		}
 		
 		private function listeners(ON:Boolean):void{
@@ -66,7 +67,6 @@ package com.PageParse.Page.Elements
 			backSpr.removeChild(button);
 			backSpr=null;
 			listeners(false);
-			
 		}
 		
 

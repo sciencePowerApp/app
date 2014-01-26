@@ -2,7 +2,7 @@ package com.PageParse.Page.Elements
 {
 	import flash.display.DisplayObject;
 
-	public class Output implements IElement
+	public class Output  extends Element implements IElement
 	{
 		public function compose(arr:Array):void
 		{
@@ -13,7 +13,7 @@ package com.PageParse.Page.Elements
 			return null;
 		}
 		
-		public function render():void{
+		public function render(width:int):void{
 			
 		}
 		

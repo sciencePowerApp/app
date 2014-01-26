@@ -7,11 +7,10 @@ package com.PageParse.Page.Elements
 	import flash.display.Sprite;
 	import com.PageParse.Page.Elements.Primitives.BasicInput;
 
-	public class Input implements IElement
+	public class Input  extends Element implements IElement
 	{
 		
 		private var combined:Sprite = new Sprite;
-		
 		private var label:BasicText = new BasicText;
 		private var input:BasicInput = new BasicInput;
 		
@@ -21,14 +20,13 @@ package com.PageParse.Page.Elements
 			label.selectable=false;
 			input.composeInput(arr);
 			
-			render();
 			
 			combined.addChild(label);
 			combined.addChild(input);
 			
 		}
 		
-		public function render():void{
+		public function render(width:int):void{
 			label.render(MobileScreen.stageWidth *.5);
 			input.render(MobileScreen.stageWidth *.5);
 			
