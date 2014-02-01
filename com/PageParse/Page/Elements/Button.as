@@ -1,21 +1,23 @@
 package com.PageParse.Page.Elements
 {
-	import com.MobileScreen;
+
 	import com.PageParse.Page.Elements.Primitives.BasicText;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 
-	public class Button extends Element  implements IElement
+	public class Button extends Element implements IElement
 	{
 		private var button:BasicText = new BasicText;
 		private var backSpr:Sprite = new Sprite;
 		private var width:int;
 		
-		public function compose(arr:Array):void
+		override public function compose(params:Object):void
 		{
-			button.compose(arr);
+			super.compose(params);
+			
+			button.compose(params);
 			button.selectable=false;
 			backSpr.addChild(button);
 			listeners(true);
@@ -25,13 +27,15 @@ package com.PageParse.Page.Elements
 		{
 			this.width = width;
 			colorBackground(0x335566);
+			button.render(width);	
 			button.x=backSpr.width*.5-button.width*.5;
 			button.y=backSpr.height*.5-button.height*.5;
-			button.render(width);	
+			
 
 		}
 		
 		private function colorBackground(col:int):void{
+			backSpr.graphics.clear();
 			backSpr.graphics.beginFill(col);
 			backSpr.graphics.drawRoundRect(0,0,width,100,10,10);
 		}

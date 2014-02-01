@@ -16,8 +16,20 @@ package com.Stored
 		
 		private static var images:Dictionary;
 		private static var pages:Dictionary;
+		
+		private static var _directory:String;
 
 		
+		public static function get directory():String
+		{
+			if(!_directory){
+				_directory = File.applicationStorageDirectory.resolvePath(LOCAL_DIR).nativePath;
+				if(_directory.indexOf("\\")!=-1)_directory+="\\";
+				else _directory+="/";
+			}
+			return _directory;
+		}
+
 		public static function image(name:String):Bitmap{
 			if(images.hasOwnProperty(name))return images[name];
 			return null;

@@ -4,7 +4,7 @@ package com.PageParse.Page.Elements
 
 	public interface IElement
 	{
-		function compose(arr:Array):void;
+		
 		function giveElement():DisplayObject;
 		function render(width:int):void;
 		function kill():void;

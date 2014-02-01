@@ -4,8 +4,9 @@ package com.PageParse.Page.Elements
 
 	public class Output  extends Element implements IElement
 	{
-		public function compose(arr:Array):void
+		override public function compose(params:Object):void
 		{
+			super.compose(params);
 			
 		}
 		

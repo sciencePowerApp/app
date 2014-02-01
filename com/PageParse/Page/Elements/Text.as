@@ -8,11 +8,14 @@ package com.PageParse.Page.Elements
 	{	
 		private var txt:BasicText = new BasicText;
 		
-		public function compose(arr:Array):void
+		override public function compose(params:Object):void
 		{
-			txt.compose(arr);
+			super.compose(params);
+			
+			txt.compose(params);
 			txt.selectable=false;
 			txt.render(MobileScreen.stageWidth);
+			alignment=LEFT;
 		}
 		
 		public function render(width:int):void{

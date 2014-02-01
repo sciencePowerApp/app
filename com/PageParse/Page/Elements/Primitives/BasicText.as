@@ -7,12 +7,12 @@ package com.PageParse.Page.Elements.Primitives
 	public class BasicText extends TextField
 	{
 		private var t:Timer;
-		public function compose(arr:Array):void
+		public function compose(params:Object):void
 		{
 			//this.background=true;
 			//this.backgroundColor=0x335566;
 			//this.border=true;
-			this.htmlText=arr.data;
+			this.htmlText=params.data;
 		}
 		
 		public function render(myWidth:int):void

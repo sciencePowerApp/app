@@ -14,16 +14,17 @@ package com.PageParse.Page.Elements
 		private var label:BasicText = new BasicText;
 		private var input:BasicInput = new BasicInput;
 		
-		public function compose(arr:Array):void
+		override public function compose(params:Object):void
 		{
-			label.compose(arr);
+			super.compose(params);
+			
+			label.compose(params);
 			label.selectable=false;
-			input.composeInput(arr);
+			input.composeInput(params);
 			
 			
 			combined.addChild(label);
-			combined.addChild(input);
-			
+			combined.addChild(input);	
 		}
 		
 		public function render(width:int):void{

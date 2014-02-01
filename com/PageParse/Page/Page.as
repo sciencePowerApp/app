@@ -1,6 +1,8 @@
 package com.PageParse.Page
 {
 	import com.MobileScreen;
+	import com.PageParse.Page.Elements.Element;
+	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.display.Stage;
@@ -50,6 +52,15 @@ package com.PageParse.Page
 					row[i].render();
 					actualElement.y=y;
 					y+=actualElement.height;
+					
+					switch(row[i].alignment){
+						case Element.MIDDLE:
+							actualElement.x=MobileScreen.stageWidth*.5-actualElement.width*.5;
+							break;
+						case Element.RIGHT:
+							actualElement.x=MobileScreen.stageWidth-actualElement.width;
+							break;
+					}
 				}	
 			}
 			page.y=MobileScreen.stageHeight*.5-page.height*.5;

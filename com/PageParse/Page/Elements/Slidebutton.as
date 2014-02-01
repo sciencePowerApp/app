@@ -4,9 +4,9 @@ package com.PageParse.Page.Elements
 
 	public class Slidebutton  extends Element implements IElement
 	{
-		public function compose(arr:Array):void
+		override public function compose(params:Object):void
 		{
-			
+			super.compose(params);
 		}
 		
 		public function giveElement():DisplayObject{

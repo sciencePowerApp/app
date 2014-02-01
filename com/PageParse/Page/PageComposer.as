@@ -1,6 +1,7 @@
 package com.PageParse.Page
 {
 	import com.PageParse.Page.Elements.Button;
+	import com.PageParse.Page.Elements.Element;
 	import com.PageParse.Page.Elements.IElement;
 	import com.PageParse.Page.Elements.Image;
 	import com.PageParse.Page.Elements.Input;
@@ -115,14 +116,15 @@ package com.PageParse.Page
 
 			var element:IElement;
 			var myClass:Class;
-			var params:Array;
+			var params:Object;
 			
 			var row:Row = new Row;
 			
 			for(var i:int=0;i<lines.length;i++){
 				element = new elementDict[token];
 				params = parseParams(lines[i],token);
-				element.compose(params);
+				(element as Element).compose(params);
+				
 				row.add(element);
 			
 			}
@@ -130,16 +132,16 @@ package com.PageParse.Page
 		}		
 		
 		
-		private static function parseParams(paramsStr:String,token:String):Array
+		private static function parseParams(paramsStr:String,token:String):Object
 		{
 			paramsStr = paramsStr.substr(0,paramsStr.length-tokenEnd.length);
 			paramsStr = paramsStr.substr(token.length+tokenStart.length+1);
 	
 			
 			
-			var ps:Array = tokenise(/\w+\:\w+/g,paramsStr)
+			var ps:Array = tokenise(/[a-zA-Z0-9%]+\:[a-zA-Z0-9%.]+/g,paramsStr)
 			
-			var myParams:Array = [];
+			var myParams:Object = {};
 			var item:String;
 			var items:Array;
 			

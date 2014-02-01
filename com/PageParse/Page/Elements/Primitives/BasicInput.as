@@ -9,10 +9,10 @@ package com.PageParse.Page.Elements.Primitives
 	{
 		private var t:Timer;
 		
-		public function composeInput(arr:Array):void
+		public function composeInput(params:Object):void
 		{
 			var chars:int=20;
-			if(arr.hasOwnProperty("chars")==true)chars=int(chars);
+			if(params.hasOwnProperty("chars")==true)chars=int(chars);
 			
 			this.restrict="0-9";
 			var inputTxt:String = '';

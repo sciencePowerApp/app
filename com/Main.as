@@ -23,9 +23,8 @@ package com
 			
 			stored = new Stored();
 			stored.addEventListener(Event.COMPLETE,function(e:Event):void{
-				trace(e.target,123)
-			
-			
+				//trace(e.target,123)
+				
 			});
 			stored.init();
 			
@@ -38,7 +37,7 @@ package com
 					init();
 					started=true;
 				}
-				else if(page)page.reRender();
+				else if(page)page.render();
 			});
 			
 			mobileScreen.init();
@@ -52,7 +51,7 @@ package com
 			var pageStr:String =( <![CDATA[bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
-<INPUT rama name:i1><INPUT hello! abc name:i2>
+<INPUT rama name:i1><INPUT hello! abc name:i2 alignment:left>
 <OUTPUT B(log(A)) >
 <INPUT banana name:i3>
 bla bla bla bla bla bla bla bla bla bla
@@ -61,7 +60,7 @@ bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla
 <BUTTON a> <BUTTON b goto:page1>
-<IMAGE image.png>]]> ).toString();
+<IMAGE width:70% height:20% file:a.png>]]> ).toString();
 			
 			PageComposer.init();
 			page = PageComposer.compose(stage,pageStr);

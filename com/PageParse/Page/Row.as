@@ -1,6 +1,7 @@
 package com.PageParse.Page
 {
 	import com.MobileScreen;
+	import com.PageParse.Page.Elements.Element;
 	import com.PageParse.Page.Elements.IElement;
 	
 	import flash.display.DisplayObject;
@@ -11,8 +12,11 @@ package com.PageParse.Page
 		private var row:Vector.<IElement> = new Vector.<IElement>;
 		private var spr:Sprite;
 		
+		public var alignment:String;
+		
 		public function add(element:IElement):void
 		{
+			alignment=(element as Element).alignment;
 			row.push(element);
 		}
 		
@@ -21,7 +25,9 @@ package com.PageParse.Page
 			var element:DisplayObject;
 			for(var i:int=0;i<row.length;i++){
 				element=row[i].giveElement();
-				if(element)spr.addChild(element);
+				if(element){
+					spr.addChild(element);
+				}
 			}
 			
 			return spr;
@@ -29,14 +35,18 @@ package com.PageParse.Page
 		
 		public function render():void{
 			var maxWidth:int=0;
-			var element:IElement;
+			var ielement:IElement;
+			var element:DisplayObject;
+
 			for(var i:int=0;i<row.length;i++){
-				element=row[i];
-				if(element.giveElement()){
-					row[i].render(MobileScreen.stageWidth/row.length);
+				ielement=row[i];
+				element=ielement.giveElement();
+				
+				if(ielement.giveElement()){
+					ielement.render(MobileScreen.stageWidth/row.length);
 					
-					row[i].giveElement().x=maxWidth;
-					maxWidth=row[i].giveElement().width;
+					element.x=maxWidth;
+					maxWidth=element.width;
 				}
 			}
 	
