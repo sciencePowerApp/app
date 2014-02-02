@@ -16,11 +16,13 @@ package com
 		private var github:GitHubLink;
 		private var stored:Stored;
 
+		public static var myStage:Stage;
 		
 		
 		public function Main(stage:Stage)
 		{
 			this.stage=stage;
+			myStage=stage;
 			var started:Boolean=false;
 			
 			stored = new Stored();
@@ -62,14 +64,15 @@ bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla
 <BUTTON a> <BUTTON b goto:page1>
+<FORMULA a=2>
 <IMAGE width:70% height:20% file:a.png>]]> ).toString();
 			
-			//PageComposer.init();
-			//page = PageComposer.compose(stage,pageStr);
+			PageComposer.init();
+			page = PageComposer.compose(stage,pageStr);
 			
-			//page.render();
+			page.render();
 			
-		
+		/*
 			pageStr =( <![CDATA[bla bla bla bla bla bla bla bla bla bla
 			bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
 			bla bla bla bla bla bla bla bla bla bla
@@ -81,9 +84,9 @@ bla bla bla bla bla
 			
 			PageComposer.init();
 			menu = new Menu(stage);
-			PageComposer.compose(stage,pageStr,menu); //hacky way to get around a typecasting issue
+			PageComposer.compose(stage,pageStr,menu); //hacky way to get around a typecasting issue.
 			
-			menu.render();
+			menu.render();*/
 	
 		}
 	}

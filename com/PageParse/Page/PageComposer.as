@@ -2,6 +2,7 @@ package com.PageParse.Page
 {
 	import com.PageParse.Page.Elements.Button;
 	import com.PageParse.Page.Elements.Element;
+	import com.PageParse.Page.Elements.Formula;
 	import com.PageParse.Page.Elements.IElement;
 	import com.PageParse.Page.Elements.Image;
 	import com.PageParse.Page.Elements.Input;
@@ -28,6 +29,8 @@ package com.PageParse.Page
 		elementDict.INPUT = Input;
 		elementDict.BUTTON = Button;
 		elementDict.SLIDEBUTTON = Slidebutton;
+		elementDict.FORMULA = Formula;
+		
 			
 		static public function init():void{
 			for(var token:String in elementDict){
