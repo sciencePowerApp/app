@@ -1,5 +1,6 @@
 package com
 {
+	import com.PageParse.Page.Menu;
 	import com.PageParse.Page.Page;
 	import com.PageParse.Page.PageComposer;
 	import com.Stored.Stored;
@@ -11,6 +12,7 @@ package com
 	{
 		private var stage:Stage;
 		private var page:Page;
+		private var menu:Menu;
 		private var github:GitHubLink;
 		private var stored:Stored;
 
@@ -62,10 +64,26 @@ bla bla bla bla bla
 <BUTTON a> <BUTTON b goto:page1>
 <IMAGE width:70% height:20% file:a.png>]]> ).toString();
 			
-			PageComposer.init();
-			page = PageComposer.compose(stage,pageStr);
+			//PageComposer.init();
+			//page = PageComposer.compose(stage,pageStr);
 			
-			page.render();
+			//page.render();
+			
+		
+			pageStr =( <![CDATA[bla bla bla bla bla bla bla bla bla bla
+			bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+			bla bla bla bla bla bla bla bla bla bla
+			<PAGE width:20% alignment:right >
+			<INPUT rama name:i1><INPUT hello! abc name:i2 alignment:left>
+			<INPUT banana name:i3>
+			<BUTTON a> <BUTTON b goto:page1>
+			]]> ).toString();
+			
+			PageComposer.init();
+			menu = new Menu(stage);
+			PageComposer.compose(stage,pageStr,menu); //hacky way to get around a typecasting issue
+			
+			menu.render();
 	
 		}
 	}

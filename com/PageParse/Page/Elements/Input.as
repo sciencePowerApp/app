@@ -1,13 +1,11 @@
 package com.PageParse.Page.Elements
 {
-	import com.MobileScreen;
 	import com.PageParse.Page.Elements.Primitives.BasicText;
-	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import com.PageParse.Page.Elements.Primitives.BasicInput;
 
-	public class Input  extends Element implements IElement
+	public class Input extends Element implements IElement
 	{
 		
 		private var combined:Sprite = new Sprite;
@@ -28,12 +26,11 @@ package com.PageParse.Page.Elements
 		}
 		
 		public function render(width:int):void{
-			label.render(MobileScreen.stageWidth *.5);
-			input.render(MobileScreen.stageWidth *.5);
+			label.render(width *.5);
+			input.render(width *.5);
 			
 			label.x=0;
-			input.x=label.width;
-			
+			input.x=label.width;			
 		}
 		
 		public function giveElement():DisplayObject{

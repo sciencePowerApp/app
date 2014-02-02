@@ -19,7 +19,7 @@ package com.PageParse.Page.Elements
 		}
 		
 		public function render(width:int):void{
-			txt.render(MobileScreen.stageWidth);
+			txt.render(width);
 			
 		}
 		

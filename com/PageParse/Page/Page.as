@@ -8,11 +8,14 @@ package com.PageParse.Page
 	import flash.display.Stage;
 
 
-	public class Page
+	public class Page extends Element
 	{
 		public var row:Vector.<Row> = new Vector.<Row>;
 		private var stage:Stage;
-		private var page:Sprite;
+		private var pageSpr:Sprite;
+		private var scale_width:Number=1;
+		
+		public var visible:Boolean=true;
 			
 		
 		public function kill():void{
@@ -23,13 +26,13 @@ package com.PageParse.Page
 				row[i].kill();
 			}
 			
-			stage.removeChild(page);
+			stage.removeChild(pageSpr);
 		}
 		
 		public function Page(stage:Stage){
-			this.stage=stage;
-			page = new Sprite;
-			stage.addChild(page);
+			this.stage			=stage;
+			pageSpr = new Sprite;
+			stage.addChild(pageSpr);
 		}
 		
 		public function add(_row:Row):void{
@@ -37,9 +40,8 @@ package com.PageParse.Page
 		}
 		
 		
-		public function render(initial=true):void{
+		public function render():void{
 			
-
 			var actualElement:DisplayObject;
 			var y:int=0;
 			
@@ -48,27 +50,41 @@ package com.PageParse.Page
 				actualElement = row[i].giveElement();	
 				
 				if(actualElement!=null){ //for devel
-					if(initial)page.addChild(actualElement);
-					row[i].render();
+					pageSpr.addChild(actualElement);
+					row[i].render(scale_width);
 					actualElement.y=y;
 					y+=actualElement.height;
 					
-					switch(row[i].alignment){
-						case Element.MIDDLE:
-							actualElement.x=MobileScreen.stageWidth*.5-actualElement.width*.5;
-							break;
-						case Element.RIGHT:
-							actualElement.x=MobileScreen.stageWidth-actualElement.width;
-							break;
-					}
+					align(actualElement,scale_width,alignment);
+					
 				}	
 			}
-			page.y=MobileScreen.stageHeight*.5-page.height*.5;
+			pageSpr.y=MobileScreen.stageHeight*.5-pageSpr.height*.5;
+
+			align(pageSpr,1,alignment);
 			
 		}
 		
-		public function reRender():void{
-			render(false);
+		private function align(element:DisplayObject,_scale:Number, alignment:String):void{
+			
+			switch(alignment){
+				case Element.MIDDLE:
+					element.x=_scale*MobileScreen.stageWidth*.5-element.width*.5;
+					break;
+				case Element.RIGHT:
+					element.x=_scale*MobileScreen.stageWidth-element.width;
+					break;
+			}
+		}
+		
+
+		public function decorate(params:Object):void
+		{
+			compose(params);
+			
+			if(params.hasOwnProperty("width")){
+				scale_width=Number(params.width.split("%").join(""))*.01;
+			}
 		}
 	}
 }

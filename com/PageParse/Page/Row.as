@@ -33,7 +33,7 @@ package com.PageParse.Page
 			return spr;
 		}
 		
-		public function render():void{
+		public function render(scale_width:Number):void{
 			var maxWidth:int=0;
 			var ielement:IElement;
 			var element:DisplayObject;
@@ -43,7 +43,7 @@ package com.PageParse.Page
 				element=ielement.giveElement();
 				
 				if(ielement.giveElement()){
-					ielement.render(MobileScreen.stageWidth/row.length);
+					ielement.render(scale_width*MobileScreen.stageWidth/row.length);
 					
 					element.x=maxWidth;
 					maxWidth=element.width;

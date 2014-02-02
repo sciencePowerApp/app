@@ -21,23 +21,28 @@ package com.PageParse.Page
 		private static var tokens:Array = [];
 		private static var tokenStart:String = "<";
 		private static var tokenEnd:String = ">";
+		private static var PAGE:String="page";
 		
 		elementDict.IMAGE = Image;
 		elementDict.OUTPUT = Output;
 		elementDict.INPUT = Input;
 		elementDict.BUTTON = Button;
-		elementDict.SLIDEBUTTON = Slidebutton
+		elementDict.SLIDEBUTTON = Slidebutton;
 			
 		static public function init():void{
 			for(var token:String in elementDict){
 				tokens.push(token);
 			}
+			tokens.push(PAGE);
 		}
 
 		
-		static public function compose(stage:Stage,pageStr:String):Page
+		static public function compose(stage:Stage,pageStr:String,_page:Page=null):Page
 		{
-			var page:Page = new Page(stage);
+			var page:Page
+			
+			if(_page)	page=_page;
+			else 		page = new Page(stage);
 			var lines:Array = pageStr.split(newLineChar);
 			
 			//need access to page hence function in a function
@@ -118,17 +123,21 @@ package com.PageParse.Page
 			var myClass:Class;
 			var params:Object;
 			
-			var row:Row = new Row;
+			var row:Row;
 			
-			for(var i:int=0;i<lines.length;i++){
-				element = new elementDict[token];
+			for(var i:int=0;i<lines.length;i++){	
 				params = parseParams(lines[i],token);
-				(element as Element).compose(params);
 				
-				row.add(element);
-			
+				if(token==PAGE)page.decorate(params)
+				else{
+					element = new elementDict[token];
+					(element as Element).compose(params);
+					row ||= new Row;
+					row.add(element);
+				}
 			}
-			page.add(row);
+			
+			if(row)page.add(row);
 		}		
 		
 		
