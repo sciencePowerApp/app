@@ -6,30 +6,33 @@ package com.PageParse.Page.Elements
 
 	public class Text extends Element implements IElement
 	{	
-		private var txt:BasicText = new BasicText;
+		public var basicTxt:BasicText = new BasicText;
 		
 		override public function compose(params:Object):void
 		{
 			super.compose(params);
-			
-			txt.compose(params);
-			txt.selectable=false;
-			txt.render(MobileScreen.stageWidth);
+			basicTxt.compose(params);
+			basicTxt.selectable=false;
+			basicTxt.render(MobileScreen.stageWidth);
 			alignment=LEFT;
 		}
 		
+		public function setText(txt:String):void{
+			basicTxt.htmlText=txt;
+		}
+		
 		public function render(width:int):void{
-			txt.render(width);
-			
+			basicTxt.render(width);
+			basicTxt.x=0;
 		}
 		
 		public function giveElement():DisplayObject{
 		
-			return txt;
+			return basicTxt;
 		}
 		
 		public function kill():void{
-			txt = null;
+			basicTxt = null;
 		}
 	}
 }

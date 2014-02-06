@@ -23,6 +23,8 @@ package com.PageParse.Page
 		private static var tokenStart:String = "<";
 		private static var tokenEnd:String = ">";
 		private static var PAGE:String="page";
+		private static var FORMULA:String = "FORMULA";
+		
 		
 		elementDict.IMAGE = Image;
 		elementDict.OUTPUT = Output;
@@ -46,6 +48,9 @@ package com.PageParse.Page
 			
 			if(_page)	page=_page;
 			else 		page = new Page(stage);
+			
+			pageStr = removeFormula(pageStr);
+			
 			var lines:Array = pageStr.split(newLineChar);
 			
 			//need access to page hence function in a function
@@ -75,7 +80,7 @@ package com.PageParse.Page
 			var search:Array;
 			var result:Array;
 			var arr:Array=[];
-			
+						
 			
 
 			for(var i:int=0;i<lines.length;i++){
@@ -100,9 +105,40 @@ package com.PageParse.Page
 			}
 			
 			gatherText(accumulatingText);
-			
+		
+		page.linkupVariablesFormula();
+		
 		return page;
 			
+		}
+		
+		private static function removeFormula(txt:String):String
+		{
+			
+			var pos:int = txt.indexOf("<"+FORMULA);
+
+	
+			while(pos!=-1){
+				var endPos:int;
+				var temp:String;
+				
+				pos+=FORMULA.length+1;
+				temp=txt.substr(pos);
+				
+				endPos=temp.indexOf(">>");
+				if(endPos==-1)break;
+				endPos++;
+			
+				temp=txt.substr(pos,endPos);
+				if(temp.indexOf("<"+FORMULA)!=-1)break;
+				
+				Formula.formulae.push(temp);
+				txt=txt.split(temp).join(" id:"+Formula.formulaeLen());
+				
+				pos = txt.indexOf("<"+FORMULA);
+			}
+			
+			return txt;
 		}
 		
 		private static function tokenise(regExp:RegExp,txt:String):Array{

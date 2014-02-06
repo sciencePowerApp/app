@@ -22,18 +22,14 @@ package com.PageParse.Page.Elements
 		{
 			super.compose(params);
 			
-			
 			if(params.hasOwnProperty('width'))width=int(params['width'].split("%").join(""));			
 			
 			if(file){
-				
-				file=Stored.directory+file;		
-				
+				file=Stored.directory+file;			
 				imageLoader = new Loader();
 				imageLoader.load(new URLRequest(file));
 				imageLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, imageLoaded);
 			}
-			
 		}
 		
 		protected function imageLoaded(e:Event):void
@@ -56,12 +52,9 @@ package com.PageParse.Page.Elements
 			element.addChild(imageLoader);
 			imageLoader.x=element.width*.5-imageLoader.width*.5;
 			imageLoader.y=element.height*.5-imageLoader.height*.5;
-			
-			
 		}
 		
 		public function giveElement():DisplayObject{
-
 			return element;
 		}
 		
@@ -81,6 +74,9 @@ package com.PageParse.Page.Elements
 		}
 		
 		public function kill():void{
+			if(element.contains(imageLoader))	element.removeChild(imageLoader);
+			imageLoader.close();
+			
 			
 		}
 	}

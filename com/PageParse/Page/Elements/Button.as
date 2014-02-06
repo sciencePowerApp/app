@@ -16,7 +16,7 @@ package com.PageParse.Page.Elements
 		override public function compose(params:Object):void
 		{
 			super.compose(params);
-			
+			params.autoSize=true;
 			button.compose(params);
 			button.selectable=false;
 			backSpr.addChild(button);

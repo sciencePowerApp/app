@@ -1,9 +1,10 @@
 package com.PageParse.Page.Elements
 {
+	import com.PageParse.Page.Elements.Primitives.BasicInput;
 	import com.PageParse.Page.Elements.Primitives.BasicText;
+	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
-	import com.PageParse.Page.Elements.Primitives.BasicInput;
 
 	public class Input extends Element implements IElement
 	{
@@ -12,12 +13,23 @@ package com.PageParse.Page.Elements
 		private var label:BasicText = new BasicText;
 		private var input:BasicInput = new BasicInput;
 		
+		
+		public function what():String{
+			return label.text;
+		}
+		
+		public function request():Number{
+			return Number(input.text);
+		}
+		
 		override public function compose(params:Object):void
 		{
+			params.autoSize=true;
 			super.compose(params);
 			
 			label.compose(params);
 			label.selectable=false;
+
 			input.composeInput(params);
 			
 			

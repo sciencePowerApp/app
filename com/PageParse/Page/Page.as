@@ -2,10 +2,15 @@ package com.PageParse.Page
 {
 	import com.MobileScreen;
 	import com.PageParse.Page.Elements.Element;
+	import com.PageParse.Page.Elements.Formula;
+	import com.PageParse.Page.Elements.IElement;
+	import com.PageParse.Page.Elements.Input;
+	import com.PageParse.Page.Elements.Output;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.display.Stage;
+	import flash.utils.Dictionary;
 
 
 	public class Page extends Element
@@ -16,6 +21,7 @@ package com.PageParse.Page
 		private var scale_width:Number=1;
 		
 		public var visible:Boolean=true;
+		private var pageScroll:PageScroll;
 			
 		
 		public function kill():void{
@@ -39,6 +45,33 @@ package com.PageParse.Page
 			row.push(_row);
 		}
 		
+		public function linkupVariablesFormula():void{
+		
+					
+			var inputs:Vector.<IElement>;
+			var outputs:Vector.<IElement>;
+			
+			for(var i:int=0;i<row.length;i++){
+				inputs=row[i].addSpecificType(Input,inputs);
+				outputs=row[i].addSpecificType(Output,outputs);
+			}
+			
+			
+			if(outputs){
+				
+				if(inputs){
+					var inputRequests:Dictionary = new Dictionary;
+					for(i=0;i<inputs.length;i++){
+						inputRequests[(inputs[i] as Input).what()] = (inputs[i] as Input).request();
+					}
+				
+					for(i=0;i<outputs.length;i++){
+						(outputs[i] as Output).variables(inputRequests);
+					}
+				}
+			}
+		}
+		
 		
 		public function render():void{
 			
@@ -59,9 +92,25 @@ package com.PageParse.Page
 					
 				}	
 			}
-			pageSpr.y=MobileScreen.stageHeight*.5-pageSpr.height*.5;
-
+			
 			align(pageSpr,1,alignment);
+			pageSpr.x=0;
+			
+			if(pageSpr.height<=MobileScreen.stageHeight){
+				pageSpr.y=MobileScreen.stageHeight*.5-pageSpr.height*.5;
+				scroll(true);
+			}
+			else{
+				pageSpr.y=0;
+				scroll(true);
+			}
+			
+		}
+		
+		private function scroll(on:Boolean):void
+		{
+			if(!pageScroll) pageScroll = new PageScroll(pageSpr);
+			else pageScroll.update();
 			
 		}
 		
@@ -74,6 +123,8 @@ package com.PageParse.Page
 				case Element.RIGHT:
 					element.x=_scale*MobileScreen.stageWidth-element.width;
 					break;
+				default:
+					element.x=0;
 			}
 		}
 		

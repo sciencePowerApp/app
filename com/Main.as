@@ -57,6 +57,28 @@ bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla 
 bla bla bla bla bla bla bla bla bla bla
 <INPUT rama name:i1><INPUT hello! abc name:i2 alignment:left>
 <OUTPUT B(log(A)) >
+<FORMULA<mathml>
+<mrow>
+<mrow>
+	<mfrac linethickness="2" mathcolor="#006699">
+		<mi fontweight="bold"> a + b +c </mi>
+		<mi mathcolor="#ff0000"> b </mi>
+	</mfrac>
+</mrow>
+<mo>+</mo>
+<mfrac linethickness="2" fontstyle="italic" >
+	<mrow><mi mathcolor="#00ff00">3456</mi><mo>+</mo><mfrac>
+		<mi> a </mi>
+		<mi mathsize="8"> b + c + d</mi>
+	</mfrac>
+	</mrow><mrow><mn>3</mn>
+<mfrac mathcolor="#ffff00">
+		<mi> c + d </mi>
+		<mi mathcolor="#ff0000"> d </mi>
+	</mfrac>
+</mrow></mfrac>
+</mrow>
+</mathml>>
 <INPUT banana name:i3>
 bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
@@ -64,7 +86,6 @@ bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla
 <BUTTON a> <BUTTON b goto:page1>
-<FORMULA a=2>
 <IMAGE width:70% height:20% file:a.png>]]> ).toString();
 			
 			PageComposer.init();

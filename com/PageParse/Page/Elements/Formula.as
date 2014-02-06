@@ -1,48 +1,33 @@
 package com.PageParse.Page.Elements
 {
-	import com.Main;
-	
+
 	import flash.display.DisplayObject;
-	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	
 	import learnmath.mathml.formula.MathML;
 	import learnmath.mathml.formula.Style;
 
+
 	public class Formula extends Element implements IElement
 	{
 		private var m:MathML;
-		private var formula:MovieClip;
+		private var formula:Sprite;
+		public static var formulae:Array = [];
+		
+		
+		public static function formulaeLen():int{
+			return formulae.length;
+		}
+		
+		public function giveInputs(inputs:Vector.<Input>):void{
+			
+		}
 		
 		override public function compose(params:Object):void
 		{
-			
-			var xml:XML = <mathml>
-<mrow>
-<mrow>
-	<mfrac linethickness="2" mathcolor="#006699">
-		<mi fontweight="bold"> a + b +c </mi>
-		<mi mathcolor="#ff0000"> b </mi>
-	</mfrac>
-</mrow>
-<mo>+</mo>
-<mfrac linethickness="2" fontstyle="italic" >
-	<mrow><mi mathcolor="#00ff00">3456</mi><mo>+</mo><mfrac>
-		<mi> a </mi>
-		<mi mathsize="8"> b + c + d</mi>
-	</mfrac>
-	</mrow><mrow><mn>3</mn>
-<mfrac mathcolor="#ffff00">
-		<mi> c + d </mi>
-		<mi mathcolor="#ff0000"> d </mi>
-	</mfrac>
-</mrow></mfrac>
-</mrow>
-</mathml>
-
-			
-			m = new MathML(xml);
-			formula = new MovieClip;
+		
+			m = new MathML(XML(formulae[params.id-1]));
+			formula = new Sprite;
 		
 			var s:Style = new Style;
 			s.color="#000000";
@@ -64,7 +49,7 @@ package com.PageParse.Page.Elements
 		}
 		
 		public function kill():void{
-			
+			m = null;
 		}
 	}
 }

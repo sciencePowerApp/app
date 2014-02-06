@@ -2,11 +2,12 @@ package com.PageParse.Page.Elements.Primitives
 {	;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
-	import flash.utils.Timer;
 	
 	public class BasicText extends TextField
 	{
-		private var t:Timer;
+
+		private var autoS:Boolean=false;
+		
 		public function compose(params:Object):void
 		{
 			//this.background=true;
@@ -26,6 +27,7 @@ package com.PageParse.Page.Elements.Primitives
 			else{
 				this.multiline = false;
 				this.wordWrap = false;
+				this.width = myWidth;
 				this.autoSize = TextFieldAutoSize.LEFT;
 			}
 		}
