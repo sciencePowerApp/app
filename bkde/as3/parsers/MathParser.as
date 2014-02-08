@@ -35,7 +35,7 @@ Last modified: June 30, 2007
 
 package bkde.as3.parsers {
 
-import bkde.as3.parsers.CompiledObject;
+
 
  public class MathParser {
 
@@ -286,8 +286,8 @@ private function setToken(curtype:String,curvalue:String,curlength:Number):void 
 
 
 private function nextToken(inputstring:String,pos:Number):Boolean {
-	
-  var char, t, inilen, cpos, cstring;
+
+  var char:String, t:String, inilen:int, cpos:Number, cstring:String;
   
   cstring=inputstring;
   
@@ -363,10 +363,10 @@ private function nextToken(inputstring:String,pos:Number):Boolean {
 
 
 
-function checkToks(inputstring:String):void {
+private function checkToks(inputstring:String):void {
 	
-	var pstring, pinilen, ppos, fpos, bpos, fchar, 
-	bchar, counter, matchpar, iscomma, comcounter;
+	var pstring:String, pinilen:int, ppos:int, fpos:int, bpos:int, fchar:String, 
+	bchar:String, counter:int, matchpar:int, iscomma:int, comcounter:int;
 		
 	pstring=inputstring;
 	
@@ -670,7 +670,7 @@ function checkToks(inputstring:String):void {
 
 private function conOper(inputstring:String, char:String):String {
 
-  var transtring, inilen, mco, curpos, leftoper, rightoper,leftmove,rightmove;
+  var transtring:String, inilen:int, mco:int, curpos:int, leftoper:String, rightoper:String,leftmove:int,rightmove:Number;
 
   inilen=inputstring.length;
   
@@ -763,7 +763,7 @@ private function conOper(inputstring:String, char:String):String {
 
 private function conUnary(inputstring:String):String {
 		
-  var transtring, inilen, mco, curpos, i, j;
+  var transtring:String, inilen:int, curpos:int, i:int, j:int;
      
   inilen=inputstring.length;
   
@@ -818,7 +818,7 @@ private function unaryId(char:String):Boolean {
 
 private function goRight(inputstring:String, pos:Number):Number {
 	
-	var rightchar, rightcounter, matchpar;
+	var rightchar:String, rightcounter:int, matchpar:int;
 	
 	rightchar=inputstring.charAt(pos+1);
 	
@@ -921,7 +921,7 @@ return rightcounter;
 
 private function goLeft(inputstring:String,pos:Number):Number {
 	
-	var leftchar, leftcounter, matchpar;
+	var leftchar:String, leftcounter:int, matchpar:int;
 	
 	leftchar=inputstring.charAt(pos-1);
 	
@@ -1015,8 +1015,8 @@ return leftcounter;
 
 private function conCaret(inputstring:String):String {
 
-var transtring, inilen, mco, curpos, leftmove,
-rightmove, base, expon;
+var transtring:String, inilen:int, curpos:int, leftmove:Number, mco:int,
+rightmove:Number, base:String, expon:String;
 
   inilen=inputstring.length;
   
@@ -1085,7 +1085,7 @@ rightmove, base, expon;
 
 private function whiteSpaces(inputstring:String):String {
 
-   var curpos, transtring, inilen, counter=0;
+   var curpos:int, transtring:String, inilen:int, counter:int=0;
    
    inilen=inputstring.length;
    
@@ -1109,7 +1109,7 @@ private function whiteSpaces(inputstring:String):String {
 
 private function checkLegal(inputstring:String):Boolean {
 	
-	  var i, legal, curchar;
+	  var i:int, legal:int, curchar:String;
 
       if(inputstring==""){
 	   
@@ -1136,7 +1136,7 @@ private function checkLegal(inputstring:String):Boolean {
 
 private function checkPars(inputstring:String):Boolean {
 	
-	var i, j, matchpar, left=0, right=0, counter=0;
+	var i:int, j:int, matchpar:int, left:int=0, right:int=0, counter:int=0;
 	
 	for(i=0; i<inputstring.length; i++){
 		
@@ -1220,8 +1220,8 @@ private function checkPars(inputstring:String):Boolean {
 
 private function makeStack(inputstring:String):Array {
 	
-	var mstring, minilen, mpos, mstack, checkStack, 
-	checkExpr, counter, checkResult;
+	var mstring:String, minilen:int, mpos:int, mstack:Array, checkStack:Array, 
+	checkExpr:Array, counter:int, checkResult:Array;
 		
 	mstring=inputstring;
 	
@@ -1328,13 +1328,13 @@ private function callError(mess:String):void {
 private function checkEval(compiledExpression:Array):void {
 
 
-	var entrytype="";
+	var entrytype:String="";
 
-	var operands=[];
+	var operands:Array=[];
 	
-	var arg1, arg2;
+	var arg1:String, arg2:String;
 
-	for( var i = 0; i < compiledExpression.length; i++){
+	for( var i:int = 0; i < compiledExpression.length; i++){
 
 		entrytype = compiledExpression[i++];
 
@@ -1390,61 +1390,61 @@ if(isNaN(operands[0])){
 
 
 
-private function sin(a){
+private function sin(a:Number):Number{
 	
 	return Math.sin(a);
 	
 }
 
-private function cos(a){
+private function cos(a:Number):Number{
 	
 	return Math.cos(a);
 	
 }
 
 
-private function tan(a){
+private function tan(a:Number):Number{
 	
 	return Math.tan(a);
 	
 }
 
 
-private function ln(a){
+private function ln(a:Number):Number{
 	
 	return Math.log(a);
 	
 }
 
 
-private function sqrt(a){
+private function sqrt(a:Number):Number{
 	
 	return Math.sqrt(a);
 	
 }
 
 
-private function abs(a){
+private function abs(a:Number):Number{
 	
 	return Math.abs(a);
 	
 }
 
 
-private function asin(a){
+private function asin(a:Number):Number{
 	
 	return Math.asin(a);
 	
 }
 
-private function acos(a){
+private function acos(a:Number):Number{
 	
 	return Math.acos(a);
 	
 }
 
 
-private function atan(a){
+private function atan(a:Number):Number{
 	
 	return Math.atan(a);
 	
@@ -1452,7 +1452,7 @@ private function atan(a){
 
 
 
-private function floor(a){
+private function floor(a:Number):Number{
 	
 	return Math.floor(a);
 	
@@ -1460,34 +1460,34 @@ private function floor(a){
 
 
 
-private function ceil(a){
+private function ceil(a:Number):Number{
 	
 	return Math.ceil(a);
 	
 }
 
-private function round(a){
+private function round(a:Number):Number{
 	
 	return Math.round(a);
 	
 }
 
 
-private function max(a,b){
+private function max(a:Number,b:Number):Number{
 	
 	return Math.max(a,b);
 	
 }
 
 
-private function min(a,b){
+private function min(a:Number,b:Number):Number{
 	
 	return Math.min(a,b);
 	
 }
 
 
-private function plus(a,b){
+private function plus(a:Number,b:Number):Number{
 
 	return a + b;
 
@@ -1496,7 +1496,7 @@ private function plus(a,b){
 
 
 
-private function minus(a,b){
+private function minus(a:Number,b:Number):Number{
 
 	return a - b;
 
@@ -1504,14 +1504,14 @@ private function minus(a,b){
 
 
 
-private function mul(a,b){
+private function mul(a:Number,b:Number):Number{
 
 	return a * b;
 
 }
 
 
-private function div(a,b){
+private function div(a:Number,b:Number):Number{
 
 	return a / b;
 
@@ -1519,7 +1519,7 @@ private function div(a,b){
 
 
 
-private function  pow(a, b) {
+private function  pow(a:Number, b:Number):Number {
 
    
     if (a<0 && b==Math.floor(b)){
@@ -1554,11 +1554,11 @@ public function doEval(compiledExpression:Array,aVarVals:Array): Number {
 	
 	var j:Number;
 	
-	var arg0;
+	var arg0:Number;
 	
-	var arg1;
+	var arg1:Number;
 	
-	var arg2;
+	var arg2:Number;
 	
 	if(aVarVals.length!=aVarNames.length){
 		

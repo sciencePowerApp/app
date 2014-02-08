@@ -3,9 +3,8 @@ package com.PageParse.Page
 	import com.MobileScreen;
 	import com.PageParse.Page.Elements.Button;
 	import com.PageParse.Page.Elements.Element;
-	import com.PageParse.Page.Elements.Formula;
 	import com.PageParse.Page.Elements.IElement;
-	import com.PageParse.Page.Elements.Input;
+	import com.PageParse.Page.Elements.IGiveValue;
 	import com.PageParse.Page.Elements.Output;
 	
 	import flash.display.DisplayObject;
@@ -49,12 +48,12 @@ package com.PageParse.Page
 		public function wireUp():void{
 		
 					
-			var inputs:Vector.<IElement>;
+			var giveValues:Vector.<IElement>;
 			var outputs:Vector.<IElement>;
 			var buttons:Vector.<IElement>;
 			
 			for(var i:int=0;i<row.length;i++){
-				inputs=row[i].addSpecificType(Input,inputs);
+				giveValues=row[i].addSpecificType(IGiveValue,giveValues);
 				outputs=row[i].addSpecificType(Output,outputs);
 				buttons=row[i].addSpecificType(Button,buttons);
 			}
@@ -63,10 +62,10 @@ package com.PageParse.Page
 			
 			if(outputs){
 				//wire up outputs with inputs
-				if(inputs){
+				if(giveValues){
 					var inputRequests:Dictionary = new Dictionary;
-					for(i=0;i<inputs.length;i++){
-						inputRequests[(inputs[i] as Input).what()] = (inputs[i] as Input).request;
+					for(i=0;i<giveValues.length;i++){
+						inputRequests[(giveValues[i] as IGiveValue).what()] = (giveValues[i] as IGiveValue).request;
 					}
 				
 					for(i=0;i<outputs.length;i++){
@@ -83,7 +82,7 @@ package com.PageParse.Page
 						what=(outputs[i] as Output).what();
 						actionsObj[what] ||= new Vector.<Function>;
 						actionsObj[what].push((outputs[i] as Output).compute);	
-						trace(13,what,actionsObj[what])
+						
 					}
 					for(i=0;i<buttons.length;i++){
 						what = (buttons[i] as Button).whichHappen();

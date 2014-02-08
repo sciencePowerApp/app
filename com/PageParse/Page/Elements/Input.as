@@ -6,7 +6,7 @@ package com.PageParse.Page.Elements
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 
-	public class Input extends Element implements IElement
+	public class Input extends Element implements IElement, IGiveValue
 	{
 		
 		private var combined:Sprite = new Sprite;
@@ -18,7 +18,8 @@ package com.PageParse.Page.Elements
 			return name;
 		}
 		
-		public function request():String{
+		public function request(callBackF:Function):String{
+			//never uses the callBackF.  Just included to passify the Interface IGiveValue
 			return input.text;
 		}
 		

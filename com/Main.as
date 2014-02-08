@@ -56,7 +56,7 @@ package com
 bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
 <INPUT rama default:1 name:B><INPUT hello! abc name:A default:4 alignment:left>
-<OUTPUT A*sqrt(pi/B) dp:4 name:output1>
+<OUTPUT A*sqrt(pi/B) dp:4 name:output1><OUTPUT A*sqrt(pi/output1) dp:4 name:output2>
 <FORMULA<mathml>
 <mrow>
 <mrow>
@@ -85,7 +85,7 @@ bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla
-<BUTTON calc action:output1> <BUTTON b goto:page1>
+<BUTTON calc action:output1> <BUTTON b action:output2>
 <IMAGE width:70% height:20% file:a.png>]]> ).toString();
 			
 			PageComposer.init();
