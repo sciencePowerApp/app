@@ -14,9 +14,16 @@ package com.PageParse.Page.Elements.Primitives
 			var chars:int=20;
 			if(params.hasOwnProperty("chars")==true)chars=int(chars);
 			
+			
 			this.restrict="0-9";
+			
 			var inputTxt:String = '';
-			for(var i:int=0;i<chars;i++)inputTxt+=' ';
+			if(params.hasOwnProperty("default")){
+				inputTxt=params['default']
+			}
+			else{
+				for(var i:int=0;i<chars;i++)inputTxt+=' ';
+			}
 			this.text=inputTxt;
 			this.type = TextFieldType.INPUT;
 			this.addEventListener(TextEvent.TEXT_INPUT,listener);

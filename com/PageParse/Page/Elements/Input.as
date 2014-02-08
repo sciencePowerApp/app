@@ -12,19 +12,20 @@ package com.PageParse.Page.Elements
 		private var combined:Sprite = new Sprite;
 		private var label:BasicText = new BasicText;
 		private var input:BasicInput = new BasicInput;
+		private var name:String;
 		
-		
-		public function what():String{
-			return label.text;
+		public function what():String{			
+			return name;
 		}
 		
-		public function request():Number{
-			return Number(input.text);
+		public function request():String{
+			return input.text;
 		}
 		
 		override public function compose(params:Object):void
 		{
 			params.autoSize=true;
+			name=params.name;
 			super.compose(params);
 			
 			label.compose(params);

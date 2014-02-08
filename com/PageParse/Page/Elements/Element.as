@@ -1,5 +1,7 @@
 package com.PageParse.Page.Elements
 {
+	import flash.utils.Dictionary;
+
 	public class Element
 	{
 		public static var LEFT:String = "left";
@@ -17,6 +19,13 @@ package com.PageParse.Page.Elements
 				}
 			}
 			
+		}
+		
+		public function wipeDictionary(d:Dictionary):void{
+			for(var variable:String in d){
+				delete d[variable];
+			}
+			d=null;
 		}
 	
 	}

@@ -55,8 +55,8 @@ package com
 			var pageStr:String =( <![CDATA[bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
-<INPUT rama name:i1><INPUT hello! abc name:i2 alignment:left>
-<OUTPUT B(log(A)) >
+<INPUT rama default:1 name:B><INPUT hello! abc name:A default:4 alignment:left>
+<OUTPUT A*sqrt(pi/B) dp:4 name:output1>
 <FORMULA<mathml>
 <mrow>
 <mrow>
@@ -79,13 +79,13 @@ bla bla bla bla bla bla bla bla bla bla
 </mrow></mfrac>
 </mrow>
 </mathml>>
-<INPUT banana name:i3>
+<INPUT banana default:1 name:i3>
 bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla
-<BUTTON a> <BUTTON b goto:page1>
+<BUTTON calc action:output1> <BUTTON b goto:page1>
 <IMAGE width:70% height:20% file:a.png>]]> ).toString();
 			
 			PageComposer.init();

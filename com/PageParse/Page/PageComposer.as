@@ -106,7 +106,7 @@ package com.PageParse.Page
 			
 			gatherText(accumulatingText);
 		
-		page.linkupVariablesFormula();
+		page.wireUp();
 		
 		return page;
 			

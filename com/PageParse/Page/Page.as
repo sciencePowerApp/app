@@ -1,6 +1,7 @@
 package com.PageParse.Page
 {
 	import com.MobileScreen;
+	import com.PageParse.Page.Elements.Button;
 	import com.PageParse.Page.Elements.Element;
 	import com.PageParse.Page.Elements.Formula;
 	import com.PageParse.Page.Elements.IElement;
@@ -45,30 +46,62 @@ package com.PageParse.Page
 			row.push(_row);
 		}
 		
-		public function linkupVariablesFormula():void{
+		public function wireUp():void{
 		
 					
 			var inputs:Vector.<IElement>;
 			var outputs:Vector.<IElement>;
+			var buttons:Vector.<IElement>;
 			
 			for(var i:int=0;i<row.length;i++){
 				inputs=row[i].addSpecificType(Input,inputs);
 				outputs=row[i].addSpecificType(Output,outputs);
+				buttons=row[i].addSpecificType(Button,buttons);
 			}
 			
+	
 			
 			if(outputs){
-				
+				//wire up outputs with inputs
 				if(inputs){
 					var inputRequests:Dictionary = new Dictionary;
 					for(i=0;i<inputs.length;i++){
-						inputRequests[(inputs[i] as Input).what()] = (inputs[i] as Input).request();
+						inputRequests[(inputs[i] as Input).what()] = (inputs[i] as Input).request;
 					}
 				
 					for(i=0;i<outputs.length;i++){
 						(outputs[i] as Output).variables(inputRequests);
 					}
 				}
+				
+				//wire up buttons with outputs
+				if(buttons){
+				
+					var what:String;
+					var actionsObj:Object = {};
+					for(i=0;i<outputs.length;i++){
+						what=(outputs[i] as Output).what();
+						actionsObj[what] ||= new Vector.<Function>;
+						actionsObj[what].push((outputs[i] as Output).compute);	
+						trace(13,what,actionsObj[what])
+					}
+					for(i=0;i<buttons.length;i++){
+						what = (buttons[i] as Button).whichHappen();
+						if(what!='' && actionsObj.hasOwnProperty(what)){
+							(buttons[i] as Button).actions(actionsObj[what]);
+						}
+						else{
+							if(''!=(what=(buttons[i] as Button).gotoPage())){
+								
+								//put in 'goto page' stuff (going to page what)
+								
+							}
+						}
+						
+					}
+				}
+				
+				
 			}
 		}
 		

@@ -13,14 +13,32 @@ package com.PageParse.Page.Elements
 		private var backSpr:Sprite = new Sprite;
 		private var width:int;
 		
+		private var actionFs:Vector.<Function>;
+		private var myAction:String='';
+		private var gotoP:String='';
+		
 		override public function compose(params:Object):void
 		{
 			super.compose(params);
 			params.autoSize=true;
+			if(params.hasOwnProperty("action"))myAction=params.action;
+			if(params.hasOwnProperty("goto"))gotoP=params['goto'];
 			button.compose(params);
 			button.selectable=false;
 			backSpr.addChild(button);
 			listeners(true);
+		}
+		
+		public function whichHappen():String{
+			return myAction;
+		}
+		
+		public function gotoPage():String{
+			return gotoP;
+		}
+		
+		public function actions(actionFs:Vector.<Function>):void{
+			this.actionFs = actionFs;
 		}
 		
 		public function render(width:int):void
@@ -60,6 +78,9 @@ package com.PageParse.Page.Elements
 		}
 		
 		private function mouseDownL(e:MouseEvent):void{
+			for each(var f:Function in actionFs){
+				f();
+			}
 			colorBackground(0x6699FF);
 		}
 		
@@ -68,6 +89,7 @@ package com.PageParse.Page.Elements
 		}
 		
 		public function kill():void{
+			actionFs=null;
 			backSpr.removeChild(button);
 			backSpr=null;
 			listeners(false);
