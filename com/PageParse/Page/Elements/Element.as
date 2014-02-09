@@ -7,8 +7,15 @@ package com.PageParse.Page.Elements
 		public static var LEFT:String = "left";
 		public static var RIGHT:String= "right";
 		public static var MIDDLE:String="middle";
+		public static var TOP:String="top";
+		public static var BOTTOM:String="bottom";
+		public static var FONT_SIZE:int = 12;
 		
 		public var alignment:String = MIDDLE;
+		public var vertical:String = BOTTOM;
+		public var name:String;
+		public var background:int;
+		public var fontSize:int = 12;
 		
 		public function compose(params:Object):void{
 			
@@ -28,5 +35,7 @@ package com.PageParse.Page.Elements
 			d=null;
 		}
 	
+		
+
 	}
 }

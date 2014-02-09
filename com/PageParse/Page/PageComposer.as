@@ -166,7 +166,6 @@ package com.PageParse.Page
 			
 			for(var i:int=0;i<lines.length;i++){	
 				params = parseParams(lines[i],token);
-				
 				if(token==PAGE)page.decorate(params)
 				else{
 					element = new elementDict[token];
@@ -176,6 +175,7 @@ package com.PageParse.Page
 				}
 			}
 			
+			if (page.decorated==false)page.decorate(null);
 			if(row)page.add(row);
 		}		
 		

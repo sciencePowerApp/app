@@ -4,9 +4,6 @@ package com.PageParse.Page.Elements
 	
 	import flash.utils.Dictionary;
 	
-	import bkde.as3.parsers.CompiledObject;
-	import bkde.as3.parsers.MathParser;
-	
 
 	public class Output  extends Text implements IElement, IGiveValue
 	{
@@ -18,7 +15,6 @@ package com.PageParse.Page.Elements
 		private var calc:Calculate;
 
 		private var inputRequests:Dictionary;
-		public var name:String;
 		private var updateElseWhereWithAnswer:Function;
 		
 		override public function compose(params:Object):void

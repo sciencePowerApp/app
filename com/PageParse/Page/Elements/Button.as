@@ -6,6 +6,7 @@ package com.PageParse.Page.Elements
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.text.TextFieldAutoSize;
 
 	public class Button extends Element implements IElement
 	{
@@ -14,14 +15,21 @@ package com.PageParse.Page.Elements
 		private var width:int;
 		
 		private var actionFs:Vector.<Function>;
-		private var myAction:String='';
-		private var gotoP:String='';
+		public var action:String='';
+		public var gotoP:String='';
+		
+		
 		
 		override public function compose(params:Object):void
 		{
+			alignment=MIDDLE;
+			vertical=MIDDLE;
+			background=0x335566;
+			
 			super.compose(params);
+			
 			params.autoSize=true;
-			if(params.hasOwnProperty("action"))myAction=params.action;
+			params.centrePos=true;
 			if(params.hasOwnProperty("goto"))gotoP=params['goto'];
 			button.compose(params);
 			button.selectable=false;
@@ -30,7 +38,7 @@ package com.PageParse.Page.Elements
 		}
 		
 		public function whichHappen():String{
-			return myAction;
+			return action;
 		}
 		
 		public function gotoPage():String{
@@ -44,11 +52,32 @@ package com.PageParse.Page.Elements
 		public function render(width:int):void
 		{
 			this.width = width;
-			colorBackground(0x335566);
-			button.render(width);	
-			button.x=backSpr.width*.5-button.width*.5;
-			button.y=backSpr.height*.5-button.height*.5;
-			
+			colorBackground(background);
+			button.render(width);
+			switch(alignment){
+				case LEFT:
+					button.x=0;
+				case MIDDLE:
+					
+					button.x=backSpr.width*.5-button.width*.5;
+					break;
+				case TOP:
+					button.x=backSpr.width*.5;
+					break;
+				
+			}
+			switch(vertical){
+				case TOP:
+					button.y=backSpr.height*.5-button.height;
+					break;
+				case MIDDLE:
+					button.y=backSpr.height*.5-button.height*.5;
+					break;
+				case BOTTOM:
+					
+					button.y=backSpr.height*.5;
+					break;
+			}
 
 		}
 		
@@ -74,7 +103,7 @@ package com.PageParse.Page.Elements
 		}
 		
 		private function mouseAwayL(e:MouseEvent):void{
-			colorBackground(0x335566);
+			colorBackground(background);
 		}
 		
 		private function mouseDownL(e:MouseEvent):void{

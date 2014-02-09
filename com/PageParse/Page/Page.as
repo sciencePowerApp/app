@@ -6,25 +6,33 @@ package com.PageParse.Page
 	import com.PageParse.Page.Elements.IElement;
 	import com.PageParse.Page.Elements.IGiveValue;
 	import com.PageParse.Page.Elements.Output;
+	import com.commands.GlobalCommands;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.display.Stage;
+	import flash.events.Event;
 	import flash.utils.Dictionary;
 
+	
+	
 
 	public class Page extends Element
 	{
 		public var row:Vector.<Row> = new Vector.<Row>;
-		private var stage:Stage;
-		private var pageSpr:Sprite;
-		private var scale_width:Number=1;
+		protected var stage:Stage;
+		protected var pageSpr:Sprite;
+		protected var scale_width:Number=1;
 		
 		public var visible:Boolean=true;
-		private var pageScroll:PageScroll;
-			
+		protected var pageScroll:PageScroll;
+		public var decorated:Boolean = false;
+		
+		
 		
 		public function kill():void{
+			stage.removeEventListener(Event.CHANGE,refreshL);
+			if(pageScroll)pageScroll.kill();
 			var actualElement:DisplayObject;
 			for(var i:int=0;i<row.length;i++){
 				actualElement = row[i].giveElement();	
@@ -37,8 +45,15 @@ package com.PageParse.Page
 		
 		public function Page(stage:Stage){
 			this.stage			=stage;
+			stage.addEventListener(Event.CHANGE,refreshL);
 			pageSpr = new Sprite;
+			
 			stage.addChild(pageSpr);
+		}
+		
+		protected function refreshL(event:Event):void
+		{
+			render();	
 		}
 		
 		public function add(_row:Row):void{
@@ -58,7 +73,7 @@ package com.PageParse.Page
 				buttons=row[i].addSpecificType(Button,buttons);
 			}
 			
-	
+
 			
 			if(outputs){
 				//wire up outputs with inputs
@@ -72,38 +87,42 @@ package com.PageParse.Page
 						(outputs[i] as Output).variables(inputRequests);
 					}
 				}
+			}
 				
-				//wire up buttons with outputs
-				if(buttons){
+			//wire up buttons with outputs
+			if(buttons){
+			
+				var what:String;
+				var actionsObj:Object = GlobalCommands.GET();
 				
-					var what:String;
-					var actionsObj:Object = {};
+				if(outputs){
 					for(i=0;i<outputs.length;i++){
 						what=(outputs[i] as Output).what();
 						actionsObj[what] ||= new Vector.<Function>;
 						actionsObj[what].push((outputs[i] as Output).compute);	
 						
 					}
-					for(i=0;i<buttons.length;i++){
-						what = (buttons[i] as Button).whichHappen();
-						if(what!='' && actionsObj.hasOwnProperty(what)){
-							(buttons[i] as Button).actions(actionsObj[what]);
-						}
-						else{
-							if(''!=(what=(buttons[i] as Button).gotoPage())){
-								
-								//put in 'goto page' stuff (going to page what)
-								
-							}
-						}
-						
-					}
 				}
 				
+				for(i=0;i<buttons.length;i++){
+					what = (buttons[i] as Button).whichHappen();
+					
+					if(what!='' && actionsObj.hasOwnProperty(what)){
+						(buttons[i] as Button).actions(actionsObj[what]);
+					}
+					else{
+						if(''!=(what=(buttons[i] as Button).gotoPage())){
+							
+							//put in 'goto page' stuff (going to page what)
+							
+						}
+					}
+					
+				}
 				
 			}
 		}
-		
+	
 		
 		public function render():void{
 			
@@ -138,15 +157,14 @@ package com.PageParse.Page
 			}
 			
 		}
-		
-		private function scroll(on:Boolean):void
+
+		public function scroll(on:Boolean):void
 		{
 			if(!pageScroll) pageScroll = new PageScroll(pageSpr);
 			else pageScroll.update();
-			
 		}
 		
-		private function align(element:DisplayObject,_scale:Number, alignment:String):void{
+		protected function align(element:DisplayObject,_scale:Number, alignment:String):void{
 			
 			switch(alignment){
 				case Element.MIDDLE:
@@ -163,11 +181,32 @@ package com.PageParse.Page
 
 		public function decorate(params:Object):void
 		{
+			decorated=true;
+			background= 0xffffff;
 			compose(params);
 			
-			if(params.hasOwnProperty("width")){
+			
+			if(params && params.hasOwnProperty("width")){
 				scale_width=Number(params.width.split("%").join(""))*.01;
 			}
+			
+			sortBackground();
 		}
+		
+		public function getElement(name:String):IElement{
+			var element:IElement;
+			for(var i:int=0;i<row.length;i++){
+				element=row[i].getElement(name);
+				if(element)return element;
+			}
+			return element;
+		}
+		
+		public function sortBackground():void
+		{
+			pageSpr.graphics.beginFill(background,.9);
+			pageSpr.graphics.drawRect(0,0,MobileScreen.stageWidth*scale_width,MobileScreen.stageHeight);
+		}
+		
 	}
 }

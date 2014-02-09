@@ -24,6 +24,13 @@ package com.PageParse.Page
 			return v;
 		}
 		
+		public function getElement(name:String):IElement{
+			for(var i:int=0;i<row.length;i++){
+				if((row[i] as Element).name == name)return row[i];
+			}
+			return null;
+		}
+		
 		public function add(element:IElement):void
 		{
 			alignment=(element as Element).alignment;

@@ -7,21 +7,25 @@ package com.PageParse.Page
 	import com.greensock.plugins.TweenPlugin;
 	
 	import flash.display.Sprite;
+	import flash.display.Stage;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.utils.getTimer;
-	import flash.display.Stage;
 
 
 	public class PageScroll 
 	{
 		private var blitMask:BlitMask;
-		private var pageSpr:Sprite;
+		protected var pageSpr:Sprite;
 		private var stage:Stage;
 		
 		private var t1:uint, t2:uint, y1:Number, y2:Number, yOverlap:Number, yOffset:Number;
 		private var bounds:Rectangle;
 		
+		
+		public function kill():void{
+			pageSpr.removeEventListener(MouseEvent.MOUSE_DOWN,_mouseDownHandler);	
+		}
 		
 		public function PageScroll(pageSpr:Sprite) 
 		{
@@ -31,14 +35,18 @@ package com.PageParse.Page
 			
 			TweenPlugin.activate([ThrowPropsPlugin]);
 			update();
-			stage.addEventListener(MouseEvent.MOUSE_DOWN,_mouseDownHandler);	
+			pageSpr.addEventListener(MouseEvent.MOUSE_DOWN,_mouseDownHandler);	
 		}
 		
 		public function update():void{
 			bounds = new Rectangle(pageSpr.x,pageSpr.y,pageSpr.width,pageSpr.height);
 			if(blitMask)blitMask.dispose();
-			blitMask = new BlitMask(pageSpr,0,0,MobileScreen.stageWidth,MobileScreen.stageHeight,true);	
+			blitMask = getBlitMask();
 			blitMask.disableBitmapMode();
+		}
+		
+		public function getBlitMask():BlitMask{
+			return new BlitMask(pageSpr,0,0,MobileScreen.stageWidth,MobileScreen.stageHeight,true);	
 		}
 		
 		private function _mouseDownHandler(e:MouseEvent):void {

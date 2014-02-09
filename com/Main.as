@@ -4,6 +4,7 @@ package com
 	import com.PageParse.Page.Page;
 	import com.PageParse.Page.PageComposer;
 	import com.Stored.Stored;
+	import com.commands.GlobalCommands;
 	
 	import flash.display.Stage;
 	import flash.events.Event;
@@ -15,6 +16,7 @@ package com
 		private var menu:Menu;
 		private var github:GitHubLink;
 		private var stored:Stored;
+		private var globalCommands:GlobalCommands;
 
 		public static var myStage:Stage;
 		
@@ -41,7 +43,10 @@ package com
 					init();
 					started=true;
 				}
-				else if(page)page.render();
+				else if(page){
+					if(menu)menu.render()
+					page.render();
+				}
 			});
 			
 			mobileScreen.init();
@@ -51,7 +56,8 @@ package com
 		
 		private function init():void
 		{
-	
+			globalCommands = new GlobalCommands(stage,page,menu);
+			
 			var pageStr:String =( <![CDATA[bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla
@@ -88,26 +94,27 @@ bla bla bla bla bla
 <BUTTON calc action:output1> <BUTTON b action:output2>
 <IMAGE width:70% height:20% file:a.png>]]> ).toString();
 			
-			PageComposer.init();
-			page = PageComposer.compose(stage,pageStr);
+
 			
+			PageComposer.init();
+			
+			page = PageComposer.compose(stage,pageStr);
 			page.render();
 			
-		/*
-			pageStr =( <![CDATA[bla bla bla bla bla bla bla bla bla bla
-			bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
-			bla bla bla bla bla bla bla bla bla bla
-			<PAGE width:20% alignment:right >
-			<INPUT rama name:i1><INPUT hello! abc name:i2 alignment:left>
-			<INPUT banana name:i3>
-			<BUTTON a> <BUTTON b goto:page1>
+		
+			pageStr =( <![CDATA[
+			<PAGE background:0xFFFFFF shadow:true width:40% alignment:right>
+			<BUTTON A background:0xffffff action:lightScheme colour:0x000000> <BUTTON A action:darkScheme background:0x000000 colour:0xffffff>
+			<BUTTON A + action:fontBigger> <BUTTON A - action:fontSmaller >
+			<BUTTON Image + action:imageBigger> <BUTTON Image - action:imageSmaller >
+			<BUTTON name:menu>
 			]]> ).toString();
 			
 			PageComposer.init();
 			menu = new Menu(stage);
 			PageComposer.compose(stage,pageStr,menu); //hacky way to get around a typecasting issue.
 			
-			menu.render();*/
+			menu.render();
 	
 		}
 	}
