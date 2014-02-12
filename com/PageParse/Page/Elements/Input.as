@@ -1,18 +1,18 @@
 package com.PageParse.Page.Elements
 {
-	import com.PageParse.Page.Elements.Primitives.BasicInput;
-	import com.PageParse.Page.Elements.Primitives.BasicText;
-	
+	import com.PageParse.Page.Elements.Primitives.BasicInput;	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
+	import com.PageParse.Page.Elements.Primitives.CenterText;
 
 	public class Input extends Element implements IElement, IGiveValue
 	{
 		
 		private var combined:Sprite = new Sprite;
-		private var label:BasicText = new BasicText;
+		private var label:CenterText = new CenterText;
 		private var input:BasicInput = new BasicInput;
 		private var name:String;
+		
 		
 		public function what():String{			
 			return name;

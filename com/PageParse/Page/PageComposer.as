@@ -187,7 +187,7 @@ package com.PageParse.Page
 	
 			
 			
-			var ps:Array = tokenise(/[a-zA-Z0-9%]+\:[a-zA-Z0-9%.]+/g,paramsStr)
+			var ps:Array = tokenise(/[a-zA-Z0-9%]+\:[a-zA-Z0-9%\/.]+/g,paramsStr)
 			
 			var myParams:Object = {};
 			var item:String;

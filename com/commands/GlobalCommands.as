@@ -7,6 +7,7 @@ package com.commands
 	
 	import flash.display.Stage;
 	import flash.events.Event;
+	import com.GitHubLink;
 
 	public class GlobalCommands
 	{
@@ -16,6 +17,7 @@ package com.commands
 		private var stage:Stage;
 		private var menu:Menu;
 		private var page:Page;
+		private var githubLink:GitHubLink;
 		
 		public function GlobalCommands(stage:Stage,page:Page,menu:Menu)
 		{
@@ -37,6 +39,13 @@ package com.commands
 				
 			commands.darkScheme
 			commands.lightScheme;
+			
+			commands.github = github;
+		}
+		
+		private function github(data:Object):void{
+			githubLink = new GitHubLink(data.toString());
+			trace(123,data);
 		}
 		
 		private function fontSize(num:int):Function{

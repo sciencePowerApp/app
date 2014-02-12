@@ -10,7 +10,6 @@ package com.PageParse.Page.Elements.Primitives
 		private var autoS:Boolean=false;
 		private var tf:TextFormat;
 		static public var fontSize:int=12;
-		private var centrePos:Boolean=false;
 		
 		public function compose(params:Object):void
 		{
@@ -29,12 +28,12 @@ package com.PageParse.Page.Elements.Primitives
 			setSize();
 			this.multiline = true;
 			this.wordWrap = true;
-			if(centrePos==false)this.width = myWidth;
+			this.width = myWidth;
 			
-			this.autoSize = TextFieldAutoSize.CENTER;
+			this.autoSize = TextFieldAutoSize.LEFT;
 		}
 		
-		private function setSize():void{
+		protected function setSize():void{
 			if(!tf){
 				tf=new TextFormat;
 			}

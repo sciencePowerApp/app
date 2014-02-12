@@ -14,11 +14,13 @@ package com
 		private var loader:DataLoader;
 		private var zip:Zip;
 		private var lib:ZipLibrary;
-		public function GitHubLink()
+		
+		
+		public function GitHubLink(url:String)
 		{
+			if(url.substr(0,7)!="https://")url="https://"+url;
 			
-			
-			loader = new DataLoader("https://github.com/sciencePowerApp/stats/archive/master.zip");
+			loader = new DataLoader(url);
 			
 			loader.addEventListener(LoaderEvent.COMPLETE,completeL);
 			loader.addEventListener(LoaderEvent.ERROR,errorL);

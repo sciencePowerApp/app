@@ -5,6 +5,7 @@ package com.PageParse.Page
 	import com.PageParse.Page.Elements.Element;
 	import com.PageParse.Page.Elements.IElement;
 	import com.PageParse.Page.Elements.IGiveValue;
+	import com.PageParse.Page.Elements.IWantValues;
 	import com.PageParse.Page.Elements.Output;
 	import com.commands.GlobalCommands;
 	
@@ -69,7 +70,7 @@ package com.PageParse.Page
 			
 			for(var i:int=0;i<row.length;i++){
 				giveValues=row[i].addSpecificType(IGiveValue,giveValues);
-				outputs=row[i].addSpecificType(Output,outputs);
+				outputs=row[i].addSpecificType(IWantValues,outputs);
 				buttons=row[i].addSpecificType(Button,buttons);
 			}
 			
@@ -84,7 +85,7 @@ package com.PageParse.Page
 					}
 				
 					for(i=0;i<outputs.length;i++){
-						(outputs[i] as Output).variables(inputRequests);
+						(outputs[i] as IWantValues).variables(inputRequests);
 					}
 				}
 			}
@@ -97,10 +98,11 @@ package com.PageParse.Page
 				
 				if(outputs){
 					for(i=0;i<outputs.length;i++){
-						what=(outputs[i] as Output).what();
-						actionsObj[what] ||= new Vector.<Function>;
-						actionsObj[what].push((outputs[i] as Output).compute);	
-						
+						if(outputs[i] is Output){
+							what=(outputs[i] as Output).what();
+							actionsObj[what] ||= new Vector.<Function>;
+							actionsObj[what].push((outputs[i] as Output).compute);	
+						}
 					}
 				}
 				
@@ -149,7 +151,8 @@ package com.PageParse.Page
 			
 			if(pageSpr.height<=MobileScreen.stageHeight){
 				pageSpr.y=MobileScreen.stageHeight*.5-pageSpr.height*.5;
-				scroll(true);
+				scroll(false);
+				
 			}
 			else{
 				pageSpr.y=0;
@@ -160,8 +163,16 @@ package com.PageParse.Page
 
 		public function scroll(on:Boolean):void
 		{
-			if(!pageScroll) pageScroll = new PageScroll(pageSpr);
-			else pageScroll.update();
+			if(!pageScroll){
+				if(on) pageScroll = new PageScroll(pageSpr);
+			}
+			else{
+				if(on)pageScroll.update();
+				else{
+					pageScroll.kill();
+					pageScroll=null;
+				}
+			}
 		}
 		
 		protected function align(element:DisplayObject,_scale:Number, alignment:String):void{

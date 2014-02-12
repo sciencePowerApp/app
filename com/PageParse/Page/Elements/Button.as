@@ -1,22 +1,24 @@
 package com.PageParse.Page.Elements
 {
-
-	import com.PageParse.Page.Elements.Primitives.BasicText;
+	
+	import com.PageParse.Page.Elements.Primitives.ButtonText;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
-	import flash.text.TextFieldAutoSize;
+	import flash.utils.Dictionary;
 
-	public class Button extends Element implements IElement
+	public class Button extends Element implements IElement, IWantValues
 	{
-		private var button:BasicText = new BasicText;
+		private var button:ButtonText = new ButtonText;
 		private var backSpr:Sprite = new Sprite;
 		private var width:int;
 		
 		private var actionFs:Vector.<Function>;
 		public var action:String='';
 		public var gotoP:String='';
+		public var sendData:String;
+		private var inputRequests:Dictionary;
 		
 		
 		
@@ -29,12 +31,15 @@ package com.PageParse.Page.Elements
 			super.compose(params);
 			
 			params.autoSize=true;
-			params.centrePos=true;
 			if(params.hasOwnProperty("goto"))gotoP=params['goto'];
 			button.compose(params);
 			button.selectable=false;
 			backSpr.addChild(button);
 			listeners(true);
+		}
+		
+		public function variables(inputRequests:Dictionary):void{
+			this.inputRequests = inputRequests;
 		}
 		
 		public function whichHappen():String{
@@ -108,7 +113,10 @@ package com.PageParse.Page.Elements
 		
 		private function mouseDownL(e:MouseEvent):void{
 			for each(var f:Function in actionFs){
-				f();
+				if(f.length==0)f();
+				else if(f.length==1){
+					f(inputRequests[sendData](null)); //some global commands want data
+				}
 			}
 			colorBackground(0x6699FF);
 		}
@@ -119,6 +127,7 @@ package com.PageParse.Page.Elements
 		
 		public function kill():void{
 			actionFs=null;
+			wipeDictionary(inputRequests);
 			backSpr.removeChild(button);
 			backSpr=null;
 			listeners(false);

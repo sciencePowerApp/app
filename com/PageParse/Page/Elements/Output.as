@@ -5,7 +5,7 @@ package com.PageParse.Page.Elements
 	import flash.utils.Dictionary;
 	
 
-	public class Output  extends Text implements IElement, IGiveValue
+	public class Output  extends Text implements IElement, IGiveValue, IWantValues
 	{
 		
 		private var formula:String;

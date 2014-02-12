@@ -34,9 +34,7 @@ package com
 			});
 			stored.init();
 			
-			
-			//github = new GitHubLink();
-			
+	
 			var mobileScreen:MobileScreen = new MobileScreen(stage);
 			mobileScreen.addEventListener(Event.COMPLETE,function(e:Event):void{
 				if(started==false){
@@ -95,10 +93,12 @@ bla bla bla bla bla
 <IMAGE width:70% height:20% file:a.png>]]> ).toString();
 			
 
-			
+			var mainPage:String =( <![CDATA[Main page
+			<INPUT allowText:true github zip url default:github.com/sciencePowerApp/stats/archive/master.zip name:url>
+			<BUTTON calc sendData:url action:github>]]> ).toString();			
 			PageComposer.init();
 			
-			page = PageComposer.compose(stage,pageStr);
+			page = PageComposer.compose(stage,mainPage);
 			page.render();
 			
 		
