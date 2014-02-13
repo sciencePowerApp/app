@@ -8,14 +8,16 @@ package com.PageParse.Page.Elements.Primitives
 	{
 
 		private var autoS:Boolean=false;
-		private var tf:TextFormat;
+		protected var tf:TextFormat;
 		static public var fontSize:int=12;
 		
 		public function compose(params:Object):void
 		{
-			//this.background=true;
-			//this.backgroundColor=0x335566;
-			//this.border=true;
+			if(params.hasOwnProperty('background')){
+				this.background=true;
+				this.backgroundColor=params.background;
+			}
+			
 			if(params.hasOwnProperty('colour'))this.textColor=params.colour;
 			this.htmlText=params.data;
 			setSize()
@@ -33,14 +35,15 @@ package com.PageParse.Page.Elements.Primitives
 			this.autoSize = TextFieldAutoSize.LEFT;
 		}
 		
-		protected function setSize():void{
+		protected function setSize(size:int=-1):void{
 			if(!tf){
 				tf=new TextFormat;
 			}
-				tf.size=fontSize;
-				this.setTextFormat(tf)
-				this.defaultTextFormat=tf;
-			
+			if(size!=-1)tf.size=size;
+			else 		tf.size=fontSize;
+			this.setTextFormat(tf)
+			this.defaultTextFormat=tf;
+		
 		}
 		
 

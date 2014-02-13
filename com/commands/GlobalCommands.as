@@ -1,5 +1,6 @@
 package com.commands
 {
+	import com.GitHubLink;
 	import com.PageParse.Page.Menu;
 	import com.PageParse.Page.Page;
 	import com.PageParse.Page.Elements.Element;
@@ -7,7 +8,6 @@ package com.commands
 	
 	import flash.display.Stage;
 	import flash.events.Event;
-	import com.GitHubLink;
 
 	public class GlobalCommands
 	{
@@ -44,8 +44,10 @@ package com.commands
 		}
 		
 		private function github(data:Object):void{
-			githubLink = new GitHubLink(data.toString());
-			trace(123,data);
+			var messaging:MessagingToUser = new MessagingToUser(stage);
+			messaging.doingStuff(true);
+			
+			//githubLink = new GitHubLink(data.toString());
 		}
 		
 		private function fontSize(num:int):Function{
