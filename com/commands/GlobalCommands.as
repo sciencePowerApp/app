@@ -47,7 +47,17 @@ package com.commands
 			var messaging:MessagingToUser = new MessagingToUser(stage);
 			messaging.doingStuff(true);
 			
-			//githubLink = new GitHubLink(data.toString());
+			function saveDataF(DO:Boolean):void{
+				trace(123,DO);
+				messaging.yesNo(false);
+			}
+			
+			function resultF(result:Boolean):void{
+				messaging.doingStuff(false);				
+				if(githubLink.message!='')	messaging.yesNo(true, githubLink.message,saveDataF);
+			}
+			
+			githubLink = new GitHubLink(data.toString(),resultF);
 		}
 		
 		private function fontSize(num:int):Function{

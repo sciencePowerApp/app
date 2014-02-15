@@ -9,15 +9,19 @@ package com
 	import org.as3commons.zip.ZipFile;
 	import org.as3commons.zip.ZipLibrary;
 
-	public class GitHubLink
+	public class GitHubLink 
 	{
 		private var loader:DataLoader;
 		private var zip:Zip;
 		private var lib:ZipLibrary;
+		private var resultF:Function;
+		private var zipFiles:Vector.<ZipFile>;
+		private var MESSAGE:String = "version";
+		public var message:String;
 		
-		
-		public function GitHubLink(url:String)
+		public function GitHubLink(url:String, resultF:Function)
 		{
+			this.resultF = resultF;
 			if(url.substr(0,7)!="https://")url="https://"+url;
 			
 			loader = new DataLoader(url);
@@ -39,8 +43,13 @@ package com
 		protected function errorL(e:LoaderEvent):void
 		{
 			trace(e);
+			result(false);
 			
-			
+		}
+		
+		private function result(result:Boolean):void
+		{
+			if(resultF)resultF(result);
 		}
 		
 		protected function completeL(e:LoaderEvent):void
@@ -62,12 +71,21 @@ package com
 		
 		protected function zipCompleteL(e:Event):void
 		{
-			var zipFile:ZipFile;
-			for(var i:int=0;i<zip.getFileCount();i++){
-				zipFile=zip.getFileAt(i);
-				trace(123,zipFile.filename,zipFile.content)
-			}
 			
+			zipFiles = new Vector.<ZipFile>;
+			var zipFile:ZipFile;
+			message='';
+			var ver:Boolean=false;
+			for(var i:int=0;i<zip.getFileCount();i++){
+				zipFile=zip.getFileAt(i)
+				zipFiles.push(zipFile);
+				
+				if(zipFile.filename.indexOf(MESSAGE)!=-1){
+					message=zipFile.content.toString();
+					ver=true;
+				}
+			}
+			result(ver);
 		
 		}
 	}
