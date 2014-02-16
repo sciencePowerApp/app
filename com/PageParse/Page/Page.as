@@ -8,15 +8,12 @@ package com.PageParse.Page
 	import com.PageParse.Page.Elements.IWantValues;
 	import com.PageParse.Page.Elements.Output;
 	import com.commands.GlobalCommands;
-	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
 
-	
-	
 
 	public class Page extends Element
 	{
@@ -24,13 +21,11 @@ package com.PageParse.Page
 		protected var stage:Stage;
 		protected var pageSpr:Sprite;
 		protected var scale_width:Number=1;
-		
 		public var visible:Boolean=true;
 		protected var pageScroll:PageScroll;
 		public var decorated:Boolean = false;
 		
-		
-		
+
 		public function kill():void{
 			stage.removeEventListener(Event.CHANGE,refreshL);
 			if(pageScroll)pageScroll.kill();
@@ -62,7 +57,6 @@ package com.PageParse.Page
 		}
 		
 		public function wireUp():void{
-		
 					
 			var giveValues:Vector.<IElement>;
 			var outputs:Vector.<IElement>;
@@ -127,6 +121,8 @@ package com.PageParse.Page
 	
 		
 		public function render():void{
+			var stageHeight:int=MobileScreen.stageHeight;
+			if(stageHeight==0)return;
 			
 			var actualElement:DisplayObject;
 			var y:int=0;
@@ -148,9 +144,9 @@ package com.PageParse.Page
 			
 			align(pageSpr,1,alignment);
 			pageSpr.x=0;
-			
-			if(pageSpr.height<=MobileScreen.stageHeight){
-				pageSpr.y=MobileScreen.stageHeight*.5-pageSpr.height*.5;
+
+			if(pageSpr.height<=stageHeight){
+				pageSpr.y=stageHeight*.5-pageSpr.height*.5;
 				scroll(false);
 				
 			}
@@ -158,7 +154,7 @@ package com.PageParse.Page
 				pageSpr.y=0;
 				scroll(true);
 			}
-			
+
 		}
 
 		public function scroll(on:Boolean):void

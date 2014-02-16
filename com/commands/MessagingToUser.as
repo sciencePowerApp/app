@@ -1,11 +1,13 @@
 package com.commands
 {
+	import com.MobileScreen;
+	
 	import flash.display.Stage;
 
 	public class MessagingToUser
 	{
 		private var stage:Stage;
-		private var doingStuffObj:DoingStuff;
+		private var _doingStuff:DoingStuff;
 		private var _yesNo:YesNo;
 		
 		public function MessagingToUser(stage:Stage)
@@ -16,8 +18,8 @@ package com.commands
 		public function doingStuff(ON:Boolean):void
 		{
 			// TODO Auto Generated method stub
-			if(ON)	doingStuffObj = new DoingStuff(stage);
-			else	doingStuffObj.kill();
+			if(ON)	_doingStuff = new DoingStuff(stage);
+			else	_doingStuff.kill();
 
 		}
 		
@@ -30,26 +32,32 @@ package com.commands
 			else _yesNo.kill();
 			
 		}
+		
+		public function render(width:int):void
+		{
+			if(_yesNo)_yesNo.render(width);
+			if(_doingStuff)_doingStuff.render(width);
+			
+		}
 	}
 }
 
 import com.MobileScreen;
 import com.PageParse.Page.Elements.Button;
-import com.PageParse.Page.Elements.Text;
 
 import flash.display.DisplayObject;
 import flash.display.Sprite;
 
 internal class YesNo extends Sprite
 {
-	var question:Text = new Text;
+
 	var yes:Button = new Button;
 	var no:Button = new Button
 	
 	public function YesNo(message:String, saveDataF:Function):void{
 		
-		question.compose({data:message});
-		yes.compose({data:"yes"});
+
+		yes.compose({data:message});
 		no.compose({data:"no"});
 		
 
@@ -60,37 +68,11 @@ internal class YesNo extends Sprite
 		no.actions(new <Function>[function():void{
 			saveDataF(false);
 		}]);
+		
 			
-		
-		question.render(MobileScreen.stageWidth);
-		yes.render(MobileScreen.stageWidth*.5);
-		no.render(MobileScreen.stageWidth*.5);
-		
-		var yMod:int=0;
-		var element:DisplayObject=question.giveElement();
-		yMod+=element.height;
-		this.addChild(element);
-		element = yes.giveElement();
-		yMod+=element.height;
-		var h:int=element.y=this.height;
-		var w:int=element.width;
-		this.addChild(element);
-		element = no.giveElement();
-		yMod+=element.height;
-		element.y=h;
-		element.x=w;
-		this.addChild(element);
-		
-		yMod=MobileScreen.stageHeight*.5-yMod*.5;
-		for(var i:int=0;i<3;i++){
-			element = this.getChildAt(i);
-			element.y+=yMod;
-		}
+		render(MobileScreen.stageWidth);
 		
 		
-		
-		this.graphics.beginFill(0xffffff,.8);
-		this.graphics.drawRect(0,0,MobileScreen.stageWidth,MobileScreen.stageHeight);
 		
 	}
 	
@@ -100,6 +82,29 @@ internal class YesNo extends Sprite
 	}
 	
 	
+	public function render(width:int):void
+	{	
+		yes.render(width*.5);
+		no.render(width*.5);	
+	
+		var element:DisplayObject = yes.giveElement();
+		this.addChild(element);
+
+		var _y:int=element.width;
+		
+		element = no.giveElement();
+		element.x=_y;
+		this.addChild(element);
+		
+		for (var i:int=0;i<this.numChildren;i++){
+			element = this.getChildAt(i);
+			element.y=MobileScreen.stageHeight*.5-element.height*.5;
+		}
+		
+		this.graphics.clear();
+		this.graphics.beginFill(0xffffff,.8);
+		this.graphics.drawRect(0,0,MobileScreen.stageWidth,MobileScreen.stageHeight);
+	}
 }
 
 
@@ -108,24 +113,35 @@ import com.PageParse.Page.Elements.Primitives.CenterText;
 import flash.display.Stage;
 import flash.events.TimerEvent;
 import flash.utils.Timer;
+import flash.display.Shape;
+
 
 internal class DoingStuff extends CenterText
 {
-	var symbol:String = "**";
-	var t:Timer;
-	var left:Boolean=false;
-	var count:int=10;
+	private var symbol:String = "**";
+	private var t:Timer;
+	private var left:Boolean=false;
+	private var count:int=10;
+	public var renderSize:int = 200;
+	public var bg:Shape = new Shape;
 
 	public function DoingStuff(stage:Stage){
+		stage.addChild(bg);
 		stage.addChild(this);
 	
 		t = new Timer(500);
 		t.addEventListener(TimerEvent.TIMER,timerL);
 		compose({data:"",background:0x000000,colour:0x000000});
-		render(200);
+		render(renderSize);
 		setSize(40);
-		
 		t.start();
+	}
+	
+	override public function render(myWidth:int):void{
+		bg.graphics.clear();
+		bg.graphics.beginFill(0xffffff,.8);
+		bg.graphics.drawRect(0,0,MobileScreen.stageWidth,MobileScreen.stageHeight);
+		super.render(width);
 	}
 	
 	protected function timerL(event:TimerEvent):void
@@ -147,7 +163,8 @@ internal class DoingStuff extends CenterText
 	
 	override public function kill():void{
 		t.stop();
-		this.parent.removeChild(this);
+		stage.removeChild(bg);
+		stage.removeChild(this);
 		t.removeEventListener(TimerEvent.TIMER,timerL);
 		super.kill();
 	}

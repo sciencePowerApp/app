@@ -1,10 +1,12 @@
 package com.commands
 {
 	import com.GitHubLink;
+	import com.MobileScreen;
 	import com.PageParse.Page.Menu;
 	import com.PageParse.Page.Page;
 	import com.PageParse.Page.Elements.Element;
 	import com.PageParse.Page.Elements.Primitives.BasicText;
+	import com.Stored.Stored;
 	
 	import flash.display.Stage;
 	import flash.events.Event;
@@ -18,7 +20,7 @@ package com.commands
 		private var menu:Menu;
 		private var page:Page;
 		private var githubLink:GitHubLink;
-		
+		private var messaging:MessagingToUser;
 		public function GlobalCommands(stage:Stage,page:Page,menu:Menu)
 		{
 			this.stage=stage;
@@ -44,12 +46,16 @@ package com.commands
 		}
 		
 		private function github(data:Object):void{
-			var messaging:MessagingToUser = new MessagingToUser(stage);
+			messaging = new MessagingToUser(stage);
 			messaging.doingStuff(true);
 			
 			function saveDataF(DO:Boolean):void{
-				trace(123,DO);
-				messaging.yesNo(false);
+				if(true){
+					Stored.saveFiles(githubLink.files);
+					messaging.yesNo(false);
+				}
+				githubLink.kill();
+					
 			}
 			
 			function resultF(result:Boolean):void{
@@ -86,6 +92,11 @@ package com.commands
 			}
 			
 			return copy;
+		}
+		
+		public function render():void
+		{
+			if(messaging)messaging.render(MobileScreen.stageWidth);
 		}
 	}
 }

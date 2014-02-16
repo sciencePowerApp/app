@@ -9,6 +9,8 @@ package com.Stored
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.filesystem.File;
+	import flash.filesystem.FileMode;
+	import flash.filesystem.FileStream;
 	import flash.utils.Dictionary;
 
 	public class Stored extends Sprite
@@ -70,6 +72,35 @@ package com.Stored
 		}
 		
 		
+		
+		public static function saveFiles(files:Array):void{
+			var folder:File = File.applicationStorageDirectory.resolvePath(LOCAL_DIR);	
+			var file:File;
+			var fileStream:FileStream;
+			
+	
+			if (folder.exists) folder.deleteDirectory(true);
+			
+			folder.createDirectory();
+			
+			for each(var fileObj:Object in files){
+				//byteArray:zipFile.content, fileName:zipFile.filename 
+				try {
+					file = folder.resolvePath(fileObj.fileName);
+					trace(1223,file,fileObj.fileName)
+					fileStream = new FileStream();
+					fileStream.open(file, FileMode.UPDATE);
+					fileStream.writeBytes(fileObj.byteArray,0,fileObj.byteArray);
+					fileStream.close();
+				}
+				catch (e:Error) {
+					trace("prob saving file:",e);
+				}
+			}
+			
+		}
+		
+		
 	
 		
 		private function pimpFiles(directory:File):void{
@@ -80,7 +111,12 @@ package com.Stored
 				var extension:String;
 				
 				for each (var file:File in localFiles){
-					if (!file.isDirectory){
+					
+					if(!file.exists || file.name.indexOf(".")==-1){
+						// do nothing
+					}
+					
+					else if (!file.isDirectory){
 		
 						switch(file.name.split(".")[1].toLowerCase()){
 							
@@ -125,5 +161,8 @@ package com.Stored
 		
 	
 		
+		public function getPage(name:String):String{
+			return pages[name+".txt"];
+		}
 	}
 }

@@ -23,38 +23,38 @@ package com
 		
 		public function Main(stage:Stage)
 		{
+			
+			
+	
+			var mobileScreen:MobileScreen = new MobileScreen(stage);
+			mobileScreen.addEventListener(Event.COMPLETE,function(e:Event):void{
+				if(page){
+					if(menu)menu.render()
+					if(page)page.render();
+					globalCommands.render();
+				}
+			});
+			
+			mobileScreen.init();
+			
 			this.stage=stage;
 			myStage=stage;
 			var started:Boolean=false;
 			
 			stored = new Stored();
 			stored.addEventListener(Event.COMPLETE,function(e:Event):void{
-				//trace(e.target,123)
-				
+				initPage(stored.getPage("home"),stored.getPage("menu"));
 			});
+			
 			stored.init();
-			
-	
-			var mobileScreen:MobileScreen = new MobileScreen(stage);
-			mobileScreen.addEventListener(Event.COMPLETE,function(e:Event):void{
-				if(started==false){
-					init();
-					started=true;
-				}
-				else if(page){
-					if(menu)menu.render()
-					page.render();
-				}
-			});
-			
-			mobileScreen.init();
+			globalCommands = new GlobalCommands(stage,page,menu);
 		}
 		
 
 		
-		private function init():void
+		private function initPage(homeStr:String, menuStr:String):void
 		{
-			globalCommands = new GlobalCommands(stage,page,menu);
+			
 			
 			var pageStr:String =( <![CDATA[bla bla bla bla bla bla bla bla bla bla
 bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
@@ -93,27 +93,20 @@ bla bla bla bla bla
 <IMAGE width:70% height:20% file:a.png>]]> ).toString();
 			
 
-			var mainPage:String =( <![CDATA[Main page
+			/*homeStr =( <![CDATA[Main page
 			<INPUT allowText:true github zip url default:github.com/sciencePowerApp/stats/archive/master.zip name:url>
-			<BUTTON calc sendData:url action:github>]]> ).toString();			
-			PageComposer.init();
+			<BUTTON calc sendData:url action:github>]]> ).toString();		*/
 			
-			page = PageComposer.compose(stage,mainPage);
+			
+			
+
+
+			PageComposer.init();
+			page = PageComposer.compose(stage,homeStr);
 			page.render();
 			
-		
-			pageStr =( <![CDATA[
-			<PAGE background:0xFFFFFF shadow:true width:40% alignment:right>
-			<BUTTON A background:0xffffff action:lightScheme colour:0x000000> <BUTTON A action:darkScheme background:0x000000 colour:0xffffff>
-			<BUTTON A + action:fontBigger> <BUTTON A - action:fontSmaller >
-			<BUTTON Image + action:imageBigger> <BUTTON Image - action:imageSmaller >
-			<BUTTON name:menu>
-			]]> ).toString();
-			
-			PageComposer.init();
 			menu = new Menu(stage);
-			PageComposer.compose(stage,pageStr,menu); //hacky way to get around a typecasting issue.
-			
+			PageComposer.compose(stage,menuStr,menu); //hacky way to get around a typecasting issue.
 			menu.render();
 	
 		}

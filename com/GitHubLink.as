@@ -2,9 +2,8 @@ package com
 {
 	import com.greensock.events.LoaderEvent;
 	import com.greensock.loading.DataLoader;
-	
 	import flash.events.Event;
-	
+	import flash.filesystem.File;
 	import org.as3commons.zip.Zip;
 	import org.as3commons.zip.ZipFile;
 	import org.as3commons.zip.ZipLibrary;
@@ -15,9 +14,18 @@ package com
 		private var zip:Zip;
 		private var lib:ZipLibrary;
 		private var resultF:Function;
-		private var zipFiles:Vector.<ZipFile>;
 		private var MESSAGE:String = "version";
+		
 		public var message:String;
+		public var files:Array;
+		
+		public function kill():void{
+			
+			zip.close();
+			lib = null;
+			resultF = null;
+			files = null;
+		}
 		
 		public function GitHubLink(url:String, resultF:Function)
 		{
@@ -72,17 +80,31 @@ package com
 		protected function zipCompleteL(e:Event):void
 		{
 			
-			zipFiles = new Vector.<ZipFile>;
+
+			files = [];
 			var zipFile:ZipFile;
+			var file:File;
 			message='';
 			var ver:Boolean=false;
+			var fileName:String;
+			var sep:String;
 			for(var i:int=0;i<zip.getFileCount();i++){
 				zipFile=zip.getFileAt(i)
-				zipFiles.push(zipFile);
 				
-				if(zipFile.filename.indexOf(MESSAGE)!=-1){
-					message=zipFile.content.toString();
-					ver=true;
+				fileName=zipFile.filename;
+				if(!sep){
+					sep="/";
+					if(fileName.indexOf("\\")!=-1) sep="\\";
+				}
+				
+				fileName=fileName.split(sep).reverse()[0].toString();
+				
+				if(fileName!="" && ["README.md","LICENSE"].indexOf(fileName)==-1){ 
+					files.push({ byteArray:zipFile.content, fileName:fileName });
+					if(zipFile.filename.indexOf(MESSAGE)!=-1){
+						message=zipFile.content.toString();
+						ver=true;
+					}
 				}
 			}
 			result(ver);

@@ -32,6 +32,7 @@ package com.Stored
 		}
 		
 		protected function finished():void{
+			filestream.close();
 			this.dispatchEvent(new Event(Event.COMPLETE,true));
 		}
 		
