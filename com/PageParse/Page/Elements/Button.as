@@ -16,7 +16,7 @@ package com.PageParse.Page.Elements
 		
 		private var actionFs:Vector.<Function>;
 		public var action:String='';
-		public var gotoP:String='';
+		public var gotoP:String;
 		public var sendData:String;
 		private var inputRequests:Dictionary;
 		
@@ -31,7 +31,10 @@ package com.PageParse.Page.Elements
 			super.compose(params);
 			
 			params.autoSize=true;
-			if(params.hasOwnProperty("goto"))gotoP=params['goto'];
+			if(params.hasOwnProperty("goto")){
+				gotoP=params["goto"];
+				action="goto";
+			}
 			button.compose(params);
 			button.selectable=false;
 			backSpr.addChild(button);
@@ -87,12 +90,15 @@ package com.PageParse.Page.Elements
 		}
 		
 		private function colorBackground(col:int):void{
-			backSpr.graphics.clear();
-			backSpr.graphics.beginFill(col);
-			backSpr.graphics.drawRoundRect(0,0,width,100,10,10);
+			if(backSpr){
+				backSpr.graphics.clear();
+				backSpr.graphics.beginFill(col);
+				backSpr.graphics.drawRoundRect(0,0,width,100,10,10);
+			}
 		}
 		
 		private function listeners(ON:Boolean):void{
+			
 			var f:Function;
 			if(ON)f=backSpr.addEventListener;
 			else  f=backSpr.removeEventListener;
@@ -112,10 +118,13 @@ package com.PageParse.Page.Elements
 		}
 		
 		private function mouseDownL(e:MouseEvent):void{
+			
+			
 			for each(var f:Function in actionFs){
 				if(f.length==0)f();
 				else if(f.length==1){
-					f(inputRequests[sendData](null)); //some global commands want data
+					if(!gotoP)	f(inputRequests[sendData](null)); //some global commands want data
+					else		f(gotoP);
 				}
 			}
 			colorBackground(0x6699FF);
@@ -126,11 +135,11 @@ package com.PageParse.Page.Elements
 		}
 		
 		public function kill():void{
+			listeners(false);
 			actionFs=null;
 			wipeDictionary(inputRequests);
 			backSpr.removeChild(button);
 			backSpr=null;
-			listeners(false);
 		}
 		
 

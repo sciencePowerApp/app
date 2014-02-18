@@ -31,8 +31,6 @@ package com.PageParse.Page
 			if(pageScroll)pageScroll.kill();
 			var actualElement:DisplayObject;
 			for(var i:int=0;i<row.length;i++){
-				actualElement = row[i].giveElement();	
-				if(actualElement!=null) stage.removeChild(actualElement);
 				row[i].kill();
 			}
 			
@@ -105,15 +103,7 @@ package com.PageParse.Page
 					
 					if(what!='' && actionsObj.hasOwnProperty(what)){
 						(buttons[i] as Button).actions(actionsObj[what]);
-					}
-					else{
-						if(''!=(what=(buttons[i] as Button).gotoPage())){
-							
-							//put in 'goto page' stuff (going to page what)
-							
-						}
-					}
-					
+					}					
 				}
 				
 			}

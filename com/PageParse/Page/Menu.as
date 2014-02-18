@@ -78,5 +78,14 @@ package com.PageParse.Page
 		override public function sortBackground():void
 		{
 		}
+		
+		public function toTop():void
+		{
+			if(menuSpr.stage){
+				menuSpr.stage.addChild(menuSpr);
+				render();
+			}
+			
+		}
 	}
 }

@@ -18,7 +18,7 @@ package com.PageParse.Page
 	public class PageComposer
 	{
 		private static var elementDict:Dictionary = new Dictionary; 
-		private static var newLineChar:String = String.fromCharCode(13);
+		private static var newLineChar:String = String.fromCharCode(10);
 		private static var tokens:Array = [];
 		private static var tokenStart:String = "<";
 		private static var tokenEnd:String = ">";
@@ -52,6 +52,7 @@ package com.PageParse.Page
 			pageStr = removeFormula(pageStr);
 			
 			var lines:Array = pageStr.split(newLineChar);
+			
 			
 			//need access to page hence function in a function
 			function gatherText(txt:String):void{

@@ -14,6 +14,12 @@ package com.PageParse.Page
 		
 		public var alignment:String;
 		
+		public function kill():void{
+			for each(var element:IElement in row){
+				element.kill();
+			}
+		}
+		
 		public function addSpecificType(_class:Class,v:Vector.<IElement>):Vector.<IElement>{
 			for(var i:int=0;i<row.length;i++){
 				if(row[i] is _class){

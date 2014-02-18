@@ -17,14 +17,14 @@ package com.commands
 		public static var commands:Object;
 		
 		private var stage:Stage;
-		private var menu:Menu;
-		private var page:Page;
 		private var githubLink:GitHubLink;
 		private var messaging:MessagingToUser;
-		public function GlobalCommands(stage:Stage,page:Page,menu:Menu)
+		private var initPageF:Function;
+		
+		public function GlobalCommands(stage:Stage,initPageF:Function)
 		{
 			this.stage=stage;
-
+			this.initPageF = initPageF;
 			
 			init();
 			
@@ -43,6 +43,12 @@ package com.commands
 			commands.lightScheme;
 			
 			commands.github = github;
+			
+			commands['goto'] = gotoP;
+		}
+		
+		private function gotoP(pageName:String):void{
+			initPageF(pageName);
 		}
 		
 		private function github(data:Object):void{
