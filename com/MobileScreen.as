@@ -17,13 +17,14 @@ package com
 		
 		public static const HORIZONTAL:String = 'horizontal';
 		public static const VERTICAL:String = 'vertical';
-		
+		public static var started:Boolean = true;
 
 		
 		private var _frameCnt:int=0;
 		private var theStage:Stage;
 		private var orientation:String;
 		private var mobile:Boolean = false;
+		
 
 		public function kill():void{
 			theStage.removeEventListener(StageOrientationEvent.ORIENTATION_CHANGE,orientChanL);
@@ -31,8 +32,8 @@ package com
 		
 		public function MobileScreen(theStage:Stage)
 		{
-			this.theStage = theStage;
-			
+			this.theStage 	= 	theStage;
+			started	=	true;
 			switch(theStage.orientation){
 				case StageOrientation.ROTATED_LEFT:
 				case StageOrientation.ROTATED_RIGHT:

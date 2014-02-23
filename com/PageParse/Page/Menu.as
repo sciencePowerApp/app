@@ -83,6 +83,7 @@ package com.PageParse.Page
 		{
 			if(menuSpr.stage){
 				menuSpr.stage.addChild(menuSpr);
+				pageSpr.stage.addChild(pageSpr);
 				render();
 			}
 			

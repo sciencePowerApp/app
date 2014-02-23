@@ -52,10 +52,12 @@ package com.PageParse.Page.Elements
 		}
 		
 		public function kill():void{
-			combined.removeChild(label);
-			combined.removeChild(input);
+			if(label)combined.removeChild(label);
+			if(input){
+				combined.removeChild(input);
+				input.kill();
+			}
 			label=null;
-			input.kill();
 			input=null;
 		}
 	}

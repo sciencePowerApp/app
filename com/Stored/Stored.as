@@ -18,9 +18,14 @@ package com.Stored
 		
 		private static var images:Dictionary;
 		private static var pages:Dictionary;
-		
 		private static var _directory:String;
-
+		
+		public static var loaded:Boolean = false;
+		
+		public function kill():void{
+			images=null;
+			pages=null;
+		}
 		
 		public static function get directory():String
 		{
@@ -73,7 +78,7 @@ package com.Stored
 		
 		
 		
-		public static function saveFiles(files:Array):void{
+		public static function saveFiles(files:Array,finishedF:Function):void{
 			var folder:File = File.applicationStorageDirectory.resolvePath(LOCAL_DIR);	
 			var file:File;
 			var fileStream:FileStream;
@@ -87,17 +92,17 @@ package com.Stored
 				//byteArray:zipFile.content, fileName:zipFile.filename 
 				try {
 					file = folder.resolvePath(fileObj.fileName);
-					trace(1223,file,fileObj.fileName)
 					fileStream = new FileStream();
 					fileStream.open(file, FileMode.UPDATE);
 					fileStream.writeBytes(fileObj.byteArray,0,fileObj.byteArray);
 					fileStream.close();
+					
 				}
 				catch (e:Error) {
 					trace("prob saving file:",e);
 				}
 			}
-			
+			if(finishedF)finishedF();
 		}
 		
 		
@@ -111,6 +116,7 @@ package com.Stored
 				var extension:String;
 				
 				for each (var file:File in localFiles){
+					
 					
 					if(!file.exists || file.name.indexOf(".")==-1){
 						// do nothing
@@ -150,19 +156,23 @@ package com.Stored
 				if(raw is RawImage)		images[raw.name]=(raw as RawImage).image();
 				else if(raw is RawLog)  Params.init((raw as RawText).text());
 				else if(raw is RawText)	pages[raw.name]=(raw as RawText).text();
+				loaded=true;
 				
 			}
 			
 			
 			sprListen.removeChild(raw);
 			raw.kill();
-			if(sprListen.numChildren==0)this.dispatchEvent(new Event(Event.COMPLETE));
+			if(sprListen.numChildren==0){
+				this.dispatchEvent(new Event(Event.COMPLETE));
+			}
 		}
 		
 	
 		
 		public function getPage(name:String):String{
-			return pages[name+".txt"];
+			if(pages && pages.hasOwnProperty(name+".txt"))	return pages[name+".txt"];
+			else return null;
 		}
 	}
 }

@@ -34,7 +34,7 @@ package com.PageParse.Page
 				row[i].kill();
 			}
 			
-			stage.removeChild(pageSpr);
+			if(stage.contains(pageSpr))stage.removeChild(pageSpr);
 		}
 		
 		public function Page(stage:Stage){
@@ -84,9 +84,10 @@ package com.PageParse.Page
 				
 			//wire up buttons with outputs
 			if(buttons){
-			
+		
 				var what:String;
 				var actionsObj:Object = GlobalCommands.GET();
+				
 				
 				if(outputs){
 					for(i=0;i<outputs.length;i++){

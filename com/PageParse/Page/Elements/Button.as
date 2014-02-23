@@ -98,15 +98,16 @@ package com.PageParse.Page.Elements
 		}
 		
 		private function listeners(ON:Boolean):void{
-			
-			var f:Function;
-			if(ON)f=backSpr.addEventListener;
-			else  f=backSpr.removeEventListener;
-			
-			f(MouseEvent.MOUSE_OVER,mouseOverL);
-			f(MouseEvent.MOUSE_OUT,mouseAwayL);
-			f(MouseEvent.MOUSE_DOWN,mouseDownL);
-			f(MouseEvent.MOUSE_UP,mouseUpL);
+			if(backSpr){
+				var f:Function;
+				if(ON)f=backSpr.addEventListener;
+				else  f=backSpr.removeEventListener;
+				
+				f(MouseEvent.MOUSE_OVER,mouseOverL);
+				f(MouseEvent.MOUSE_OUT,mouseAwayL);
+				f(MouseEvent.MOUSE_DOWN,mouseDownL);
+				f(MouseEvent.MOUSE_UP,mouseUpL);
+			}
 		}
 		
 		private function mouseOverL(e:MouseEvent):void{
@@ -119,8 +120,8 @@ package com.PageParse.Page.Elements
 		
 		private function mouseDownL(e:MouseEvent):void{
 			
-			
 			for each(var f:Function in actionFs){
+
 				if(f.length==0)f();
 				else if(f.length==1){
 					if(!gotoP)	f(inputRequests[sendData](null)); //some global commands want data
@@ -138,7 +139,7 @@ package com.PageParse.Page.Elements
 			listeners(false);
 			actionFs=null;
 			wipeDictionary(inputRequests);
-			backSpr.removeChild(button);
+			if(backSpr)backSpr.removeChild(button);
 			backSpr=null;
 		}
 		

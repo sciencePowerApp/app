@@ -18,14 +18,15 @@ package com
 		private var stored:Stored;
 		private var globalCommands:GlobalCommands;
 
-		public static var myStage:Stage;
 		
-		
-		public function Main(stage:Stage)
+		public function Main(stage:Stage=null)
 		{
+			if(stage)this.stage=stage;
 			
+			PageComposer.init();
 			
-	
+			globalCommands ||= new GlobalCommands(stage,commandsF);
+			
 			var mobileScreen:MobileScreen = new MobileScreen(stage);
 			mobileScreen.addEventListener(Event.COMPLETE,function(e:Event):void{
 				if(page){
@@ -36,20 +37,40 @@ package com
 			});
 			
 			mobileScreen.init();
-			PageComposer.init();
 			
-			this.stage=stage;
-			myStage=stage;
-			var started:Boolean=false;
+			setup();
+		}
+		
+		private function setup():void
+		{
 			
+
 			stored = new Stored();
+			
 			stored.addEventListener(Event.COMPLETE,function(e:Event):void{
-				initMenu();
-				initPage("home");
+				
+				if(Stored.loaded){
+					initMenu();
+					initPage("home");
+				}
+				else firstBoot();
 			});
 			
 			stored.init();
-			globalCommands = new GlobalCommands(stage,initPage);
+			
+		}
+		
+		private function firstBoot():void
+		{
+			var firstBootPage:String = (<![CDATA[First time booted up
+			
+			<INPUT allowText:true github zip url default:github.com/sciencePowerApp/stats/archive/master.zip name:url>
+
+				<BUTTON update stats from github sendData:url action:github>
+
+]]> ).toString();
+			
+			initPage(firstBootPage,true);
 		}
 		
 		private function initMenu():void
@@ -60,15 +81,41 @@ package com
 			menu.render();
 			
 		}		
+		
+		private function commandsF(command:String,params:String=''):void{
+			switch(command){
+				
+				case GlobalCommands.GOTO_PAGE:
+					initPage(params);
+					break;
+				
+				case GlobalCommands.RESET_APP:
+					stored.kill();
+					page.kill();
+					setup();
+
+					break;
+				
+				default: throw new Error("devel err");
+				
+				
+				
+			}
+		}
 
 		
-		private function initPage(pageName:String):void
+		private function initPage(pageName:String, givenPage:Boolean = false):void
 		{
 			if(page)page.kill();
-			var homeStr:String = stored.getPage(pageName)
+			
+			var homeStr:String;
+			if(givenPage)	homeStr=pageName
+			else 			homeStr = stored.getPage(pageName);
+			
 			page = PageComposer.compose(stage,homeStr);
 			page.render();
-			menu.toTop();
+			if(menu)menu.toTop();
+			else if(givenPage==false)	initMenu();
 		}
 	}
 }

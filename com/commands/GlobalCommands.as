@@ -2,8 +2,6 @@ package com.commands
 {
 	import com.GitHubLink;
 	import com.MobileScreen;
-	import com.PageParse.Page.Menu;
-	import com.PageParse.Page.Page;
 	import com.PageParse.Page.Elements.Element;
 	import com.PageParse.Page.Elements.Primitives.BasicText;
 	import com.Stored.Stored;
@@ -19,12 +17,15 @@ package com.commands
 		private var stage:Stage;
 		private var githubLink:GitHubLink;
 		private var messaging:MessagingToUser;
-		private var initPageF:Function;
+		private var callBackF:Function;
 		
-		public function GlobalCommands(stage:Stage,initPageF:Function)
+		public static const GOTO_PAGE:String = "goto_page";
+		public static const RESET_APP:String = "reset_app";
+		
+		public function GlobalCommands(stage:Stage,callBackF:Function)
 		{
 			this.stage=stage;
-			this.initPageF = initPageF;
+			this.callBackF = callBackF;
 			
 			init();
 			
@@ -32,32 +33,38 @@ package com.commands
 		
 		private function init():void
 		{
-			commands = {};
-			commands.fontSmaller = fontSize(-1);
-			commands.fontBigger= fontSize(1);
+			if(!commands){
+				commands = {};
+				commands.fontSmaller = fontSize(-1);
+				commands.fontBigger= fontSize(1);
+					
+				commands.imageSmaller
+				commands.imageBigger
+					
+				commands.darkScheme
+				commands.lightScheme;
 				
-			commands.imageSmaller
-			commands.imageBigger
+				commands.github = github;
 				
-			commands.darkScheme
-			commands.lightScheme;
-			
-			commands.github = github;
-			
-			commands['goto'] = gotoP;
+				commands['goto'] = gotoP;
+			}
 		}
 		
 		private function gotoP(pageName:String):void{
-			initPageF(pageName);
+			callBackF(GOTO_PAGE,pageName);
 		}
 		
 		private function github(data:Object):void{
 			messaging = new MessagingToUser(stage);
 			messaging.doingStuff(true);
 			
+			function finishedSavingF():void{
+				callBackF(RESET_APP);
+			}
+			
 			function saveDataF(DO:Boolean):void{
 				if(true){
-					Stored.saveFiles(githubLink.files);
+					Stored.saveFiles(githubLink.files,finishedSavingF);
 					messaging.yesNo(false);
 				}
 				githubLink.kill();
@@ -91,6 +98,7 @@ package com.commands
 		
 		public static function GET():Object
 		{
+	
 			var copy:Object = {};
 			for(var key:String in commands){
 				copy[key]=new Vector.<Function>;
