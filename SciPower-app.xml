@@ -93,7 +93,7 @@
 
         <!-- Whether the app will begin auto-orienting on launch. Optional. Mobile only. Default false -->
 
-        <!-- <autoOrients></autoOrients> -->
+		<autoOrients>true</autoOrients>
 
         <!-- Whether the app launches in full screen. Optional. Mobile only. Default false -->
 
@@ -111,7 +111,7 @@
 
 		<!-- Display Resolution for the app (either "standard" or "high"). Optional, OSX-only. Default "standard" -->
 		<!-- <requestedDisplayResolution></requestedDisplayResolution> -->
-	<autoOrients>true</autoOrients>
+
         <fullScreen>true</fullScreen>
         <visible>true</visible>
     </initialWindow>
