@@ -1,12 +1,9 @@
 package com.PageParse.Page.Elements
 {
-	import com.Stored.Stored;
-	
+	import com.Stored.BaseStored;	
+	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
-	import flash.display.Loader;
 	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.net.URLRequest;
 
 	public class Image extends Element implements IElement
 	{
@@ -15,7 +12,7 @@ package com.PageParse.Page.Elements
 		public var file:String;
 		private var element:Sprite = new Sprite;
 		private var loaded:Boolean = false;
-		private var imageLoader:Loader
+		private var image:Bitmap;
 
 		
 		override public function compose(params:Object):void
@@ -25,34 +22,15 @@ package com.PageParse.Page.Elements
 			if(params.hasOwnProperty('width'))width=int(params['width'].split("%").join(""));			
 			
 			if(file){
-				file=Stored.directory+file;			
-				imageLoader = new Loader();
-				imageLoader.load(new URLRequest(file));
-				imageLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, imageLoaded);
-			}
+
+				image = BaseStored.image(file);
+				loaded=true;
+				}
+			
 		}
 		
-		protected function imageLoaded(e:Event):void
-		{
-			e.currentTarget.removeEventListener(e.type,arguments.callee);
-			loaded=true;
-			addImage();
-		}
 		
-		private function addImage():void
-		{
-			var myWidth:int=imageLoader.width;
-			var myHeight:int=imageLoader.height;
-			
-			var maxScale:Number = element.width/myWidth;
-			if(element.height/myHeight<maxScale) maxScale = element.height/myHeight;
-			
-			imageLoader.scaleX=maxScale;
-			imageLoader.scaleY=maxScale;
-			element.addChild(imageLoader);
-			imageLoader.x=element.width*.5-imageLoader.width*.5;
-			imageLoader.y=element.height*.5-imageLoader.height*.5;
-		}
+
 		
 		public function giveElement():DisplayObject{
 			return element;
@@ -60,22 +38,28 @@ package com.PageParse.Page.Elements
 		
 		public function render(width:int):void{
 			
+			width*=this.width*.01;
+			
 			if(loaded==false){
-				//trace(123,width,this.width,100)
 				element.graphics.clear();
 				element.graphics.beginFill(0x616161);
-				element.graphics.drawRect(0,0,width*this.width/100, width*this.width/100);
-					
+				element.graphics.drawRect(0,0,width, width);		
 			}
-			//trace(element.width,element.height)
-			
-			
-			
+			else{
+				var maxScale:Number = image.width/width;
+				if(maxScale<image.height/width)maxScale=image.height/width;
+				image.scaleX=1/maxScale;
+				image.scaleY=1/maxScale;
+				
+				element.addChild(image);
+				image.x=element.width*.5-image.width*.5;
+				image.y=element.height*.5-image.height*.5;
+			}
 		}
 		
 		public function kill():void{
-			if(element.contains(imageLoader))	element.removeChild(imageLoader);
-			imageLoader.close();
+			if(element.contains(image))	element.removeChild(image);
+			image = null;
 			
 			
 		}

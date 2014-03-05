@@ -1,7 +1,5 @@
 package com.commands
 {
-	import com.MobileScreen;
-	
 	import flash.display.Stage;
 
 	public class MessagingToUser
@@ -42,9 +40,8 @@ package com.commands
 	}
 }
 
-import com.MobileScreen;
+import com.BaseMobileScreen;
 import com.PageParse.Page.Elements.Button;
-
 import flash.display.DisplayObject;
 import flash.display.Sprite;
 
@@ -70,7 +67,7 @@ internal class YesNo extends Sprite
 		}]);
 		
 			
-		render(MobileScreen.stageWidth);
+		render(BaseMobileScreen.stageWidth);
 		
 		
 		
@@ -98,12 +95,12 @@ internal class YesNo extends Sprite
 		
 		for (var i:int=0;i<this.numChildren;i++){
 			element = this.getChildAt(i);
-			element.y=MobileScreen.stageHeight*.5-element.height*.5;
+			element.y=BaseMobileScreen.stageHeight*.5-element.height*.5;
 		}
 		
 		this.graphics.clear();
 		this.graphics.beginFill(0xffffff,.8);
-		this.graphics.drawRect(0,0,MobileScreen.stageWidth,MobileScreen.stageHeight);
+		this.graphics.drawRect(0,0,BaseMobileScreen.stageWidth,BaseMobileScreen.stageHeight);
 	}
 }
 
@@ -140,7 +137,7 @@ internal class DoingStuff extends CenterText
 	override public function render(myWidth:int):void{
 		bg.graphics.clear();
 		bg.graphics.beginFill(0xffffff,.8);
-		bg.graphics.drawRect(0,0,MobileScreen.stageWidth,MobileScreen.stageHeight);
+		bg.graphics.drawRect(0,0,BaseMobileScreen.stageWidth,BaseMobileScreen.stageHeight);
 		super.render(width);
 	}
 	

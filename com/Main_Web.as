@@ -3,32 +3,32 @@ package com
 	import com.PageParse.Page.Menu;
 	import com.PageParse.Page.Page;
 	import com.PageParse.Page.PageComposer;
-	import com.Stored.Stored;
+	import com.Stored.BaseStored;
 	import com.commands.BaseGlobalCommands;
-	import com.commands.GlobalCommands;
 	
 	import flash.display.Stage;
-	import flash.events.Event;
-
-	public class Main
+	import comms.WebInterface;
+	
+	public class Main_Web
 	{
+		
 		private var stage:Stage;
 		private var page:Page;
 		private var menu:Menu;
-		private var github:GitHubLink;
-		private var stored:Stored;
-		private var globalCommands:GlobalCommands;
-
+		private var stored:BaseStored;
+		private var globalCommands:BaseGlobalCommands;
+		private var webInterface:WebInterface;
 		
-		public function Main(stage:Stage=null)
+		
+		public function Main_Web(stage:Stage=null)
 		{
 			if(stage)this.stage=stage;
 			
 			PageComposer.init();
 			
-			globalCommands ||= new GlobalCommands(stage,commandsF);
+			globalCommands ||= new BaseGlobalCommands(stage,commandsF);
 			
-			var mobileScreen:MobileScreen = new MobileScreen(stage);
+			/*var mobileScreen:BaseMobileScreen = new BaseMobileScreen(stage);
 			mobileScreen.addEventListener(Event.COMPLETE,function(e:Event):void{
 				if(page){
 					if(menu)menu.render()
@@ -38,29 +38,32 @@ package com
 			});
 			
 			mobileScreen.init();
-			
-			setup();
+			*/
+			webInterface = new WebInterface(stage,this);
 		}
 		
 		private function setup():void
 		{
 			
-
-			stored = new Stored();
+			
+			//get input
+			/*stored = new Stored_web();
 			
 			stored.addEventListener(Event.COMPLETE,function(e:Event):void{
 				
-				if(Stored.loaded){
+				if(Stored_web.loaded){
 					initMenu();
-					//initPage("home");
+					initPage("home");
 				}
 				else firstBoot();
 			});
 			
-			stored.init();
+			stored.init();*/
 			
 		}
 		
+		
+	
 		private function firstBoot():void
 		{
 			var firstBootPage:String = (<![CDATA[First time booted up
@@ -94,16 +97,14 @@ package com
 					stored.kill();
 					page.kill();
 					setup();
-
+					
 					break;
 				
 				default: throw new Error("devel err");
-				
-				
-				
+		
 			}
 		}
-
+		
 		
 		private function initPage(pageName:String, givenPage:Boolean = false):void
 		{
@@ -117,6 +118,19 @@ package com
 			page.render();
 			if(menu)menu.toTop();
 			else if(givenPage==false)	initMenu();
+		}
+		
+		public function render():void
+		{
+			if(menu)menu.render()
+			if(page)page.render();
+			globalCommands.render();
+			
+		}
+		
+		public function pass_page(data:String):void
+		{
+			initPage(data,true);
 		}
 	}
 }

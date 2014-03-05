@@ -1,7 +1,9 @@
 package com.PageParse.Page.Elements
 {
-	import com.MobileScreen;
+
+	import com.BaseMobileScreen;
 	import com.PageParse.Page.Elements.Primitives.BasicText;
+	
 	import flash.display.DisplayObject;
 
 	public class Text extends Element implements IElement
@@ -13,7 +15,8 @@ package com.PageParse.Page.Elements
 			super.compose(params);
 			basicTxt.compose(params);
 			basicTxt.selectable=false;
-			basicTxt.render(MobileScreen.stageWidth);
+
+			basicTxt.render(BaseMobileScreen.stageWidth);
 			alignment=LEFT;
 		}
 		

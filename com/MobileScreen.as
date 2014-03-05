@@ -1,22 +1,17 @@
 package com
 {
 
-	import flash.display.Screen;
+
 	import flash.display.Sprite;
 	import flash.display.Stage;
-	import flash.display.StageOrientation;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.StageOrientationEvent;
-	import flash.geom.Rectangle;
 	import flash.system.Capabilities;
 	import flash.utils.Timer;
 	
-	public class MobileScreen extends Sprite
+	public class MobileScreen extends BaseMobileScreen
 	{
-		
-		public static var stageWidth:int;
-		public static var stageHeight:int;
 		
 		public static const HORIZONTAL:String = 'horizontal';
 		public static const VERTICAL:String = 'vertical';
@@ -32,6 +27,7 @@ package com
 
 		public function kill():void{
 			theStage.removeEventListener(StageOrientationEvent.ORIENTATION_CHANGE,orientChanL);
+			
 			t.stop();
 		}
 		
@@ -39,10 +35,10 @@ package com
 		{
 			this.theStage 	= 	theStage;
 			started	=	true;
-			
+			super(theStage);
 		}
 		
-		public function init():void{	
+		override public function init():void{	
 
 			if(flash.system.Capabilities.os.indexOf('Windows')==-1)mobile=true; //for devel
 
@@ -88,23 +84,25 @@ package com
 				
 				
 			if(orientation=="default"){
-				stageWidth = Capabilities.screenResolutionX;
-				stageHeight = Capabilities.screenResolutionY;
+				BaseMobileScreen.stageWidth = Capabilities.screenResolutionX;
+				BaseMobileScreen.stageHeight = Capabilities.screenResolutionY;
 			}
 			else{
-				stageWidth = Capabilities.screenResolutionY;
-				stageHeight = Capabilities.screenResolutionX;
+				BaseMobileScreen.stageWidth = Capabilities.screenResolutionY;
+				BaseMobileScreen.stageHeight = Capabilities.screenResolutionX;
 			}
 			
 			
 			if(!mobile){
-				stageWidth = theStage.fullScreenWidth;
-				stageHeight = theStage.fullScreenHeight;
+				BaseMobileScreen.stageWidth = theStage.fullScreenWidth;
+				BaseMobileScreen.stageHeight = theStage.fullScreenHeight;
 			}
 			
 			this.dispatchEvent(new Event(Event.COMPLETE));
 		
 		
 		}
+		
+		
 	}
 }

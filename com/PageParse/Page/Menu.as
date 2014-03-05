@@ -1,7 +1,9 @@
 package com.PageParse.Page
 {
-	import com.MobileScreen;
+	import com.BaseMobileScreen;
+
 	import com.PageParse.Page.Elements.IElement;
+	
 	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.events.MouseEvent;
@@ -34,12 +36,14 @@ package com.PageParse.Page
 		
 		private function setPosition(UP:Boolean):void{
 			if(UP)	{
+
 				pageSpr.y=-pageSpr.height+menuSpr.height*.75;
-				pageSpr.x=MobileScreen.stageWidth-pageSpr.width*.5;
+				pageSpr.x=BaseMobileScreen.stageWidth-pageSpr.width*.5;
+
 			}
 			else	{
 				pageSpr.y=0;
-				pageSpr.x=MobileScreen.stageWidth-pageSpr.width;
+				pageSpr.x=BaseMobileScreen.stageWidth-pageSpr.width;
 			}
 		}
 		

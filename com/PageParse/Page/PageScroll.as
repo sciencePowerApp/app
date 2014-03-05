@@ -1,6 +1,6 @@
 package com.PageParse.Page
 {
-	import com.MobileScreen;
+	import com.BaseMobileScreen;
 	import com.greensock.BlitMask;
 	import com.greensock.TweenLite;
 	import com.greensock.plugins.ThrowPropsPlugin;
@@ -46,7 +46,7 @@ package com.PageParse.Page
 		}
 		
 		public function getBlitMask():BlitMask{
-			return new BlitMask(pageSpr,0,0,MobileScreen.stageWidth,MobileScreen.stageHeight,true);	
+			return new BlitMask(pageSpr,0,0,BaseMobileScreen.stageWidth,BaseMobileScreen.stageHeight,true);	
 		}
 		
 		private function _mouseDownHandler(e:MouseEvent):void {

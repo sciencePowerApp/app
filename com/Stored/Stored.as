@@ -4,8 +4,6 @@ package com.Stored
 	import com.Stored.RawElements.RawImage;
 	import com.Stored.RawElements.RawLog;
 	import com.Stored.RawElements.RawText;
-	
-	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.filesystem.File;
@@ -13,16 +11,15 @@ package com.Stored
 	import flash.filesystem.FileStream;
 	import flash.utils.Dictionary;
 
-	public class Stored extends Sprite
+	public class Stored extends BaseStored
 	{
 		
-		private static var images:Dictionary;
-		private static var pages:Dictionary;
+
 		private static var _directory:String;
 		
 		public static var loaded:Boolean = false;
 		
-		public function kill():void{
+		override public function kill():void{
 			images=null;
 			pages=null;
 		}
@@ -31,21 +28,14 @@ package com.Stored
 		{
 			if(!_directory){
 				_directory = File.applicationStorageDirectory.resolvePath(LOCAL_DIR).nativePath;
+	
 				if(_directory.indexOf("\\")!=-1)_directory+="\\";
 				else _directory+="/";
 			}
 			return _directory;
 		}
 
-		public static function image(name:String):Bitmap{
-			if(images.hasOwnProperty(name))return images[name];
-			return null;
-		}
-		
-		public static function page(name:String):String{
-			if(pages.hasOwnProperty(name))return pages[name];
-			return null;
-		}
+
 		
 		//a little odd, but I think this way is neater than having loads of call back functions
 		//eg just one listener for ALL the Elements we are trying to load.
@@ -60,10 +50,11 @@ package com.Stored
 			}
 		}
 		
-		public function init():void
+		override public function init():void
 		{
 
 			var dir:File = File.applicationStorageDirectory.resolvePath(LOCAL_DIR);			
+			trace(dir.nativePath)
 			if(dir.exists){
 				images = new Dictionary;
 				pages  = new Dictionary;
@@ -110,7 +101,6 @@ package com.Stored
 		
 		private function pimpFiles(directory:File):void{
 			//chance of a race condition here... as all our files are within same directory, should not be a prob.
-			trace(directory.nativePath)
 			if (directory.isDirectory){
 				var localFiles:Array = directory.getDirectoryListing();
 				var extension:String;
@@ -123,21 +113,24 @@ package com.Stored
 					}
 					
 					else if (!file.isDirectory){
-		
+	
 						switch(file.name.split(".")[1].toLowerCase()){
 							
 							case "png":
 							case "jpg":
+								
 								sprListen.addChild(new RawImage(file));	
 								break;
-							case "txt":
+							case "xml":
 								sprListen.addChild(new RawText(file));
 								break;
 							case "log":
 
 								sprListen.addChild(new RawLog(file));
 								break;
-							default: throw new Error();
+							default: 
+								trace(file.name,22)
+								throw new Error();
 						}
 					}
 					else{
@@ -170,8 +163,8 @@ package com.Stored
 		
 	
 		
-		public function getPage(name:String):String{
-			if(pages && pages.hasOwnProperty(name+".txt"))	return pages[name+".txt"];
+		override public function getPage(name:String):String{
+			if(pages && pages.hasOwnProperty(name+".xml"))	return pages[name+".xml"];
 			else return null;
 		}
 	}

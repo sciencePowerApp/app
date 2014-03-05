@@ -1,19 +1,19 @@
 package com.PageParse.Page
 {
-	import com.MobileScreen;
+	import com.BaseMobileScreen;
 	import com.PageParse.Page.Elements.Button;
 	import com.PageParse.Page.Elements.Element;
 	import com.PageParse.Page.Elements.IElement;
 	import com.PageParse.Page.Elements.IGiveValue;
 	import com.PageParse.Page.Elements.IWantValues;
 	import com.PageParse.Page.Elements.Output;
-	import com.commands.GlobalCommands;
+	import com.commands.BaseGlobalCommands;
+	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
-
 
 	public class Page extends Element
 	{
@@ -86,8 +86,7 @@ package com.PageParse.Page
 			if(buttons){
 		
 				var what:String;
-				var actionsObj:Object = GlobalCommands.GET();
-				
+				var actionsObj:Object = BaseGlobalCommands.GET();				
 				
 				if(outputs){
 					for(i=0;i<outputs.length;i++){
@@ -112,7 +111,7 @@ package com.PageParse.Page
 	
 		
 		public function render():void{
-			var stageHeight:int=MobileScreen.stageHeight;
+			var stageHeight:int=BaseMobileScreen.stageHeight;
 			if(stageHeight==0)return;
 			
 			var actualElement:DisplayObject;
@@ -144,6 +143,7 @@ package com.PageParse.Page
 			else{
 				pageSpr.y=0;
 				scroll(true);
+
 			}
 
 		}
@@ -166,10 +166,10 @@ package com.PageParse.Page
 			
 			switch(alignment){
 				case Element.MIDDLE:
-					element.x=_scale*MobileScreen.stageWidth*.5-element.width*.5;
+					element.x=_scale*BaseMobileScreen.stageWidth*.5-element.width*.5;
 					break;
 				case Element.RIGHT:
-					element.x=_scale*MobileScreen.stageWidth-element.width;
+					element.x=_scale*BaseMobileScreen.stageWidth-element.width;
 					break;
 				default:
 					element.x=0;
@@ -203,7 +203,7 @@ package com.PageParse.Page
 		public function sortBackground():void
 		{
 			pageSpr.graphics.beginFill(background,.9);
-			pageSpr.graphics.drawRect(0,0,MobileScreen.stageWidth*scale_width,MobileScreen.stageHeight);
+			pageSpr.graphics.drawRect(0,0,BaseMobileScreen.stageWidth*scale_width,BaseMobileScreen.stageHeight);
 		}
 		
 	}

@@ -1,6 +1,6 @@
 package com.PageParse.Page
 {
-	import com.MobileScreen;
+	import com.BaseMobileScreen;
 	import com.greensock.BlitMask;
 	
 	import flash.display.Sprite;
@@ -13,7 +13,7 @@ package com.PageParse.Page
 		}
 		
 		override public function getBlitMask():BlitMask{
-			return new BlitMask(pageSpr,0,pageSpr.y,MobileScreen.stageWidth,MobileScreen.stageHeight*2,true);	
+			return new BlitMask(pageSpr,0,pageSpr.y,BaseMobileScreen.stageWidth,BaseMobileScreen.stageHeight*2,true);	
 		}
 	}
 }

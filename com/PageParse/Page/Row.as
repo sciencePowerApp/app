@@ -1,6 +1,6 @@
 package com.PageParse.Page
 {
-	import com.MobileScreen;
+	import com.BaseMobileScreen;
 	import com.PageParse.Page.Elements.Element;
 	import com.PageParse.Page.Elements.IElement;
 	
@@ -66,7 +66,7 @@ package com.PageParse.Page
 				element=ielement.giveElement();
 				
 				if(ielement.giveElement()){
-					ielement.render(scale_width*MobileScreen.stageWidth/row.length);
+					ielement.render(scale_width*BaseMobileScreen.stageWidth/row.length);
 					
 					element.x=maxWidth;
 					maxWidth=element.width;

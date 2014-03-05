@@ -47,65 +47,38 @@ package com.PageParse.Page
 			var page:Page
 			
 			if(_page)	page=_page;
-			else 		page = new Page(stage);
+			else 		page = new Page(stage);	
+	
+			var pageXML:XML=XML(pageStr);
+			var childXML:XML;
 			
-			pageStr = removeFormula(pageStr);
 			
-			var lines:Array = pageStr.split(newLineChar);
+			page.decorate(parseParams(pageXML))
 			
-			
-			//need access to page hence function in a function
-			function gatherText(txt:String):void{
-
-				if(txt.length>0){
-					var text:Text = new Text();
-					var arr:Array = [];
-					arr.data=txt;
-					text.compose(arr);
-					var row:Row = new Row;
-					row.add(text);
-					page.add(row);
-				}
+			var element:IElement;
+			var myClass:Class;
+			var params:Object;
+			var stimName:String;
+			var row:Row = new Row();
+			var up:Boolean;
+			for(var i:int=0;i<pageXML.length();i++){	
+				childXML = pageXML.children()[i];
+				stimName = childXML.name();
+				params = parseParams(childXML);
+				params.data=childXML.toString();
+				
+				if(elementDict[stimName]==undefined)throw new Error("unrecognised stimulus type in page: "+stimName);
+				
+				element = new elementDict[stimName];
+		
+				(element as Element).compose(params);
+				if(params.up!='true')row = new Row;
+				row.add(element);
+				
 			}
 			
-			
-			var splitLine:Array;
-			var accumulatingText:String = '';
-			var line:String;
-
-			var j:int;
-			var regExp:RegExp;
-			var paramsStr:String;
-			var params:Array;
-			
-			var search:Array;
-			var result:Array;
-			var arr:Array=[];
-						
-			
-
-			for(var i:int=0;i<lines.length;i++){
-				line=lines[i];
-				
-				for each(var token:String in tokens){	
-					
-					search=tokenise(new RegExp("\<"+token+".*?\>","ig"),line);
-				
-					if(search){
-						gatherText(accumulatingText)
-						accumulatingText='';
-						addElements(token,search,page);
-						line='';
-						break;		
-					}
-				}
-				
-				if(line.length>0){
-					accumulatingText+=line;
-				}	
-			}
-			
-			gatherText(accumulatingText);
+			if (page.decorated==false)page.decorate(null);
+			if(params.up!='true')page.add(row);
 		
 		page.wireUp();
 		
@@ -113,7 +86,9 @@ package com.PageParse.Page
 			
 		}
 		
-		private static function removeFormula(txt:String):String
+	
+		
+/*		private static function removeFormula(txt:String):String
 		{
 			
 			var pos:int = txt.indexOf("<"+FORMULA);
@@ -140,7 +115,7 @@ package com.PageParse.Page
 			}
 			
 			return txt;
-		}
+		}*/
 		
 		private static function tokenise(regExp:RegExp,txt:String):Array{
 			var search:Array=[];
@@ -155,54 +130,13 @@ package com.PageParse.Page
 			return null;
 		}
 		
-		
-		private static function addElements(token:String, lines:Array, page:Page):void
-		{
 
-			var element:IElement;
-			var myClass:Class;
-			var params:Object;
-			
-			var row:Row;
-			
-			for(var i:int=0;i<lines.length;i++){	
-				params = parseParams(lines[i],token);
-				if(token==PAGE)page.decorate(params)
-				else{
-					element = new elementDict[token];
-					(element as Element).compose(params);
-					row ||= new Row;
-					row.add(element);
-				}
-			}
-			
-			if (page.decorated==false)page.decorate(null);
-			if(row)page.add(row);
-		}		
-		
-		
-		private static function parseParams(paramsStr:String,token:String):Object
+		private static function parseParams(childXML:XML):Object
 		{
-			paramsStr = paramsStr.substr(0,paramsStr.length-tokenEnd.length);
-			paramsStr = paramsStr.substr(token.length+tokenStart.length+1);
-	
-			
-			
-			var ps:Array = tokenise(/[a-zA-Z0-9%]+\:[a-zA-Z0-9%\/.]+/g,paramsStr)
-			
 			var myParams:Object = {};
-			var item:String;
-			var items:Array;
 			
-			if(ps){
-				for each(item in ps){
-					items=item.split(":");
-					myParams[items[0]]=items[1];
-					paramsStr=paramsStr.split(item).join("");	
-				}
-				
-			}
-			myParams.data=paramsStr;	
+			for each (var att : XML in childXML.@*)
+			myParams["" + att.name ()] = "" + att.valueOf ();
 			
 			return myParams;
 		}
