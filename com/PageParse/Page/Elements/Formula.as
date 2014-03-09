@@ -12,12 +12,8 @@ package com.PageParse.Page.Elements
 	{
 		private var m:MathML;
 		private var formula:Sprite;
-		public static var formulae:Array = [];
-		
-		
-		public static function formulaeLen():int{
-			return formulae.length;
-		}
+		private var formulaXML:XML;
+
 		
 		public function giveInputs(inputs:Vector.<Input>):void{
 			
@@ -25,8 +21,8 @@ package com.PageParse.Page.Elements
 		
 		override public function compose(params:Object):void
 		{
-		
-			m = new MathML(XML(formulae[params.id-1]));
+			formulaXML = XML(params.data).children()[0];
+			m = new MathML(<mathml>{formulaXML}</mathml>);
 			formula = new Sprite;
 		
 			var s:Style = new Style;
@@ -41,6 +37,7 @@ package com.PageParse.Page.Elements
 		}
 		
 		public function giveElement():DisplayObject{
+			trace(formula.width,formula.height)
 			return formula;
 		}
 		

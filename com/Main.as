@@ -52,7 +52,7 @@ package com
 				
 				if(Stored.loaded){
 					initMenu();
-					//initPage("home");
+					initPage("home");
 				}
 				else firstBoot();
 			});
@@ -98,9 +98,6 @@ package com
 					break;
 				
 				default: throw new Error("devel err");
-				
-				
-				
 			}
 		}
 

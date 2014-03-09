@@ -32,7 +32,7 @@ package com.PageParse.Page
 		elementDict.BUTTON = Button;
 		elementDict.SLIDEBUTTON = Slidebutton;
 		elementDict.FORMULA = Formula;
-		
+		elementDict.TEXT = Text;
 			
 		static public function init():void{
 			for(var token:String in elementDict){
@@ -60,8 +60,9 @@ package com.PageParse.Page
 			var params:Object;
 			var stimName:String;
 			var row:Row = new Row();
-			var up:Boolean;
-			for(var i:int=0;i<pageXML.length();i++){	
+
+			for(var i:int=0;i<pageXML.children().length();i++){
+
 				childXML = pageXML.children()[i];
 				stimName = childXML.name();
 				params = parseParams(childXML);
@@ -70,16 +71,15 @@ package com.PageParse.Page
 				if(elementDict[stimName]==undefined)throw new Error("unrecognised stimulus type in page: "+stimName);
 				
 				element = new elementDict[stimName];
-		
 				(element as Element).compose(params);
-				if(params.up!='true')row = new Row;
-				row.add(element);
 				
+				if(!params.hasOwnProperty('up')){
+					row = new Row;
+					page.add(row);
+				}
+				row.add(element);
 			}
-			
-			if (page.decorated==false)page.decorate(null);
-			if(params.up!='true')page.add(row);
-		
+
 		page.wireUp();
 		
 		return page;
@@ -87,49 +87,6 @@ package com.PageParse.Page
 		}
 		
 	
-		
-/*		private static function removeFormula(txt:String):String
-		{
-			
-			var pos:int = txt.indexOf("<"+FORMULA);
-
-	
-			while(pos!=-1){
-				var endPos:int;
-				var temp:String;
-				
-				pos+=FORMULA.length+1;
-				temp=txt.substr(pos);
-				
-				endPos=temp.indexOf(">>");
-				if(endPos==-1)break;
-				endPos++;
-			
-				temp=txt.substr(pos,endPos);
-				if(temp.indexOf("<"+FORMULA)!=-1)break;
-				
-				Formula.formulae.push(temp);
-				txt=txt.split(temp).join(" id:"+Formula.formulaeLen());
-				
-				pos = txt.indexOf("<"+FORMULA);
-			}
-			
-			return txt;
-		}*/
-		
-		private static function tokenise(regExp:RegExp,txt:String):Array{
-			var search:Array=[];
-			var result:Array = regExp.exec(txt);
-			if(result){
-				while(result!=null){
-					search.push(result[0]);
-					result = regExp.exec(txt);
-				}
-				return search;
-			}
-			return null;
-		}
-		
 
 		private static function parseParams(childXML:XML):Object
 		{

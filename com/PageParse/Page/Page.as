@@ -19,7 +19,7 @@ package com.PageParse.Page
 	{
 		public var row:Vector.<Row> = new Vector.<Row>;
 		protected var stage:Stage;
-		protected var pageSpr:Sprite;
+		protected var pageSpr:Sprite = new Sprite;
 		protected var scale_width:Number=1;
 		public var visible:Boolean=true;
 		protected var pageScroll:PageScroll;
@@ -40,7 +40,6 @@ package com.PageParse.Page
 		public function Page(stage:Stage){
 			this.stage			=stage;
 			stage.addEventListener(Event.CHANGE,refreshL);
-			pageSpr = new Sprite;
 			
 			stage.addChild(pageSpr);
 		}
@@ -55,7 +54,7 @@ package com.PageParse.Page
 		}
 		
 		public function wireUp():void{
-					
+			if(decorated==false)	decorate(null);
 			var giveValues:Vector.<IElement>;
 			var outputs:Vector.<IElement>;
 			var buttons:Vector.<IElement>;

@@ -1,9 +1,10 @@
 package comms
 {
+	import flash.display.Stage;
+	import flash.text.TextField;
+	
 	import comms.services.External_JS_Interface;
 	import comms.services.iExternal_JS_Interface;
-	
-	import flash.display.Stage;
 	
 
 	public class Communicator
@@ -35,10 +36,11 @@ package comms
 			external_JS_Interface.call("toJS",'linkup','')
 		}
 		
-			
+				
+		
 		//receiver function
 		public static function toAS3(what:String, data:String):void{
-			
+				
 			if(what=='linkedup' && data=='') {
 				_runBacklog();
 			}

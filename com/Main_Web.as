@@ -6,7 +6,10 @@ package com
 	import com.Stored.BaseStored;
 	import com.commands.BaseGlobalCommands;
 	
+	import flash.display.Sprite;
 	import flash.display.Stage;
+	import flash.events.MouseEvent;
+	
 	import comms.WebInterface;
 	
 	public class Main_Web
@@ -40,6 +43,55 @@ package com
 			mobileScreen.init();
 			*/
 			webInterface = new WebInterface(stage,this);
+			
+
+			//stage.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void{
+				pass_page(String(<PAGE>
+<TEXT>{Math.random()*1000}</TEXT>
+<INPUT default="1" name="B">rama</INPUT>
+<INPUT name="A" default="4" alignment="left">hello! abc</INPUT>
+<OUTPUT dp="4" name="output1">A*sqrt(pi/B)</OUTPUT>
+<OUTPUT dp="4" name="output2">A*sqrt(pi/output1)</OUTPUT>
+<FORMULA><mathml>
+<mrow>
+<mrow>
+	<mfrac linethickness="2" mathcolor="#006699">
+		<mi fontweight="bold"> a + b +c </mi>
+		<mi mathcolor="#ff0000"> b </mi>
+	</mfrac>
+</mrow>
+<mo>+</mo>
+<mfrac linethickness="2" fontstyle="italic" >
+	<mrow><mi mathcolor="#00ff00">3456</mi><mo>+</mo><mfrac>
+		<mi> a </mi>
+		<mi mathsize="8"> b + c + d</mi>
+	</mfrac>
+	</mrow><mrow><mn>3</mn>
+<mfrac mathcolor="#ffff00">
+		<mi> c + d </mi>
+		<mi mathcolor="#ff0000"> d </mi>
+	</mfrac>
+</mrow></mfrac>
+</mrow>
+</mathml>
+</FORMULA>
+<INPUT default="1" name="3"/>
+<TEXT>bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla bla bla bla bla bla
+bla bla bla bla bla</TEXT>
+<BUTTON action="output1">calc</BUTTON>
+<BUTTON action="output2">b</BUTTON>
+<IMAGE width="70%" height="20%" file="a.png"/>
+</PAGE>))
+			
+			
+			
+			//});
+			
+			
+			
 		}
 		
 		private function setup():void
@@ -110,12 +162,14 @@ package com
 		{
 			if(page)page.kill();
 			
+			
 			var homeStr:String;
 			if(givenPage)	homeStr=pageName
 			else 			homeStr = stored.getPage(pageName);
 			
 			page = PageComposer.compose(stage,homeStr);
 			page.render();
+
 			if(menu)menu.toTop();
 			else if(givenPage==false)	initMenu();
 		}

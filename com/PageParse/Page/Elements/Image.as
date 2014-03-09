@@ -24,7 +24,7 @@ package com.PageParse.Page.Elements
 			if(file){
 
 				image = BaseStored.image(file);
-				loaded=true;
+				if(image)	loaded=true;
 				}
 			
 		}
@@ -58,7 +58,7 @@ package com.PageParse.Page.Elements
 		}
 		
 		public function kill():void{
-			if(element.contains(image))	element.removeChild(image);
+			if(image && element.contains(image))	element.removeChild(image);
 			image = null;
 			
 			

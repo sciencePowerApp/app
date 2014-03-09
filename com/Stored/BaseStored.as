@@ -28,7 +28,7 @@ package com.Stored
 		}
 		
 		public static function image(name:String):Bitmap{
-			if(images.hasOwnProperty(name))return images[name];
+			if(images && images.hasOwnProperty(name))return images[name];
 			return null;
 		}
 		
