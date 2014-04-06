@@ -20,9 +20,7 @@ package com.commands
 			super(stage,callBackF);
 		}
 		
-		override public function _github(data:Object):void{
-			messaging = new MessagingToUser(stage);
-			messaging.doingStuff(true);
+		override public function github():Function{
 			
 			function finishedSavingF():void{
 				callBackF(RESET_APP);
@@ -34,7 +32,6 @@ package com.commands
 					messaging.yesNo(false);
 				}
 				githubLink.kill();
-					
 			}
 			
 			function resultF(result:Boolean):void{
@@ -42,7 +39,11 @@ package com.commands
 				if(githubLink.message!='')	messaging.yesNo(true, githubLink.message,saveDataF);
 			}
 			
-			githubLink = new GitHubLink(data.toString(),resultF);
+			return function(data:Object):void{
+				messaging = new MessagingToUser(stage);
+				messaging.doingStuff(true);
+				githubLink = new GitHubLink(data.toString(),resultF);
+			}
 		}
 		
 		override public function render():void

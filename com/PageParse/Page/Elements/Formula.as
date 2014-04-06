@@ -13,7 +13,9 @@ package com.PageParse.Page.Elements
 		private var m:MathML;
 		private var formula:Sprite;
 		private var formulaXML:XML;
-
+		private var s:Style
+		
+		public static var css:Object;
 		
 		public function giveInputs(inputs:Vector.<Input>):void{
 			
@@ -25,23 +27,35 @@ package com.PageParse.Page.Elements
 			m = new MathML(<mathml>{formulaXML}</mathml>);
 			formula = new Sprite;
 		
-			var s:Style = new Style;
+			s = new Style;
 			s.color="#000000";
 			s.size=12;
+			s.fontweight="bold"
 			s.font="_serif";
 			m.drawFormula(formula,s);
-			
 			
 			super.compose(params);
 			
 		}
 		
+		
 		public function giveElement():DisplayObject{
-			trace(formula.width,formula.height)
+			
 			return formula;
 		}
 		
 		public function render(width:int):void{
+			if(css){
+				if(css.color)s.color=css.color;
+				s.size=12;
+				if(css.fontweight)s.fontweight=css.fontWeight;
+				s.font=css.fontStyle;
+			}
+			m.drawFormula(formula,s);
+			if(css){
+				if(css.backgroundColor)formula.graphics.beginFill(css.backgroundColor);
+				formula.graphics.drawRect(0,0,formula.width,formula.height);
+			}
 			
 		}
 		

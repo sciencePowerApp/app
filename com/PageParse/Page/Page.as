@@ -25,9 +25,16 @@ package com.PageParse.Page
 		protected var pageScroll:PageScroll;
 		public var decorated:Boolean = false;
 		
-
+		public static var css:Object;
+		private var margin:int;
+		
+		private static var valueMemory:Dictionary = new Dictionary;
+		private var tempMemory:Dictionary = new Dictionary;
+		
 		public function kill():void{
-			stage.removeEventListener(Event.CHANGE,refreshL);
+			
+			preserveData();
+			
 			if(pageScroll)pageScroll.kill();
 			var actualElement:DisplayObject;
 			for(var i:int=0;i<row.length;i++){
@@ -37,10 +44,23 @@ package com.PageParse.Page
 			if(stage.contains(pageSpr))stage.removeChild(pageSpr);
 		}
 		
+		private function preserveData():void
+		{
+			var f:Function;
+			var result:String;
+			for(var key:String in tempMemory){
+				result=tempMemory[key](null); 
+				f = function():String{
+					return result;
+				}
+				valueMemory[key] = f;
+			}
+		}
+		
 		public function Page(stage:Stage){
 			this.stage			=stage;
-			stage.addEventListener(Event.CHANGE,refreshL);
-			
+
+			//stage.addEventListener(Event.CHANGE,refreshL);
 			stage.addChild(pageSpr);
 		}
 		
@@ -56,8 +76,8 @@ package com.PageParse.Page
 		public function wireUp():void{
 			if(decorated==false)	decorate(null);
 			var giveValues:Vector.<IElement>;
-			var outputs:Vector.<IElement>;
 			var buttons:Vector.<IElement>;
+			var outputs:Vector.<IElement>;
 			
 			for(var i:int=0;i<row.length;i++){
 				giveValues=row[i].addSpecificType(IGiveValue,giveValues);
@@ -65,16 +85,27 @@ package com.PageParse.Page
 				buttons=row[i].addSpecificType(Button,buttons);
 			}
 			
-
+			var what:String;
 			
 			if(outputs){
 				//wire up outputs with inputs
 				if(giveValues){
 					var inputRequests:Dictionary = new Dictionary;
+					
 					for(i=0;i<giveValues.length;i++){
-						inputRequests[(giveValues[i] as IGiveValue).what()] = (giveValues[i] as IGiveValue).request;
+						what=(giveValues[i] as IGiveValue).what();
+						inputRequests[what] = (giveValues[i] as IGiveValue).request;
+						tempMemory[what] = inputRequests[what];
+						
+						if((giveValues[i] as IGiveValue).isGlobal())(giveValues[i] as IGiveValue).givenGlobalf(   
+								function(value:int):void{																												
+									BaseGlobalCommands.SET(what,value)  
+								}
+							);
 					}
-				
+					
+					addRemembered(inputRequests);
+
 					for(i=0;i<outputs.length;i++){
 						(outputs[i] as IWantValues).variables(inputRequests);
 					}
@@ -84,32 +115,39 @@ package com.PageParse.Page
 			//wire up buttons with outputs
 			if(buttons){
 		
-				var what:String;
-				var actionsObj:Object = BaseGlobalCommands.GET();				
+				var actionsObj:Object = BaseGlobalCommands.GET();
+				var f:Function;
 				
 				if(outputs){
 					for(i=0;i<outputs.length;i++){
 						if(outputs[i] is Output){
 							what=(outputs[i] as Output).what();
 							actionsObj[what] ||= new Vector.<Function>;
-							actionsObj[what].push((outputs[i] as Output).compute);	
+							f=(outputs[i] as Output).compute;
+							actionsObj[what].push(f);	
 						}
 					}
 				}
 				
 				for(i=0;i<buttons.length;i++){
 					what = (buttons[i] as Button).whichHappen();
-					
+
 					if(what!='' && actionsObj.hasOwnProperty(what)){
 						(buttons[i] as Button).actions(actionsObj[what]);
 					}					
 				}
-				
 			}
 		}
-	
+		
+		private function addRemembered(inputRequests:Dictionary):void
+		{
+			for(var key:String in valueMemory){
+				if(inputRequests.hasOwnProperty(key)==false)inputRequests[key]=valueMemory[key];
+			}
+		}	
 		
 		public function render():void{
+			sortBackground();
 			var stageHeight:int=BaseMobileScreen.stageHeight;
 			if(stageHeight==0)return;
 			
@@ -124,10 +162,8 @@ package com.PageParse.Page
 					pageSpr.addChild(actualElement);
 					row[i].render(scale_width);
 					actualElement.y=y;
-					y+=actualElement.height;
-					
+					y+=actualElement.height+margin;
 					align(actualElement,scale_width,alignment);
-					
 				}	
 			}
 			
@@ -162,7 +198,7 @@ package com.PageParse.Page
 		}
 		
 		protected function align(element:DisplayObject,_scale:Number, alignment:String):void{
-			
+	
 			switch(alignment){
 				case Element.MIDDLE:
 					element.x=_scale*BaseMobileScreen.stageWidth*.5-element.width*.5;
@@ -179,15 +215,12 @@ package com.PageParse.Page
 		public function decorate(params:Object):void
 		{
 			decorated=true;
-			background= 0xffffff;
+			
 			compose(params);
-			
-			
+		
 			if(params && params.hasOwnProperty("width")){
 				scale_width=Number(params.width.split("%").join(""))*.01;
 			}
-			
-			sortBackground();
 		}
 		
 		public function getElement(name:String):IElement{
@@ -201,8 +234,13 @@ package com.PageParse.Page
 		
 		public function sortBackground():void
 		{
-			pageSpr.graphics.beginFill(background,.9);
-			pageSpr.graphics.drawRect(0,0,BaseMobileScreen.stageWidth*scale_width,BaseMobileScreen.stageHeight);
+			if(css){
+				if(css.hasOwnProperty('backgroundColor')){
+					this.stage.color= css.backgroundColor;
+				}
+				if(css.margin)margin=css.margin;
+			}
+			
 		}
 		
 	}

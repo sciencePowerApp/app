@@ -5,12 +5,10 @@ package com.PageParse.Page
 	import com.greensock.TweenLite;
 	import com.greensock.plugins.ThrowPropsPlugin;
 	import com.greensock.plugins.TweenPlugin;
-	
 	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
-	import flash.utils.Timer;
 	import flash.utils.getTimer;
 
 

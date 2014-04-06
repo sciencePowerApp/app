@@ -3,34 +3,44 @@ package com.PageParse.Page.Elements
 
 	import com.BaseMobileScreen;
 	import com.PageParse.Page.Elements.Primitives.BasicText;
-	
 	import flash.display.DisplayObject;
 
 	public class Text extends Element implements IElement
 	{	
 		public var basicTxt:BasicText = new BasicText;
+
+		
+		static public var css:Object;
 		
 		override public function compose(params:Object):void
 		{
 			super.compose(params);
+			
 			basicTxt.compose(params);
 			basicTxt.selectable=false;
-
+			basicTxt.background=true;
 			basicTxt.render(BaseMobileScreen.stageWidth);
 			alignment=LEFT;
+
 		}
 		
-		public function setText(txt:String):void{
-			basicTxt.htmlText=txt;
+		public function style():void{
+			
+			if(css){
+				basicTxt.backgroundColor=css.backgroundColor;
+				basicTxt.textColor=css.color;
+				basicTxt.setFont(css.fontStyle);
+			}
+			
 		}
+		
 		
 		public function render(width:int):void{
+			style();
 			basicTxt.render(width);
-			basicTxt.x=0;
 		}
 		
 		public function giveElement():DisplayObject{
-		
 			return basicTxt;
 		}
 		

@@ -1,6 +1,7 @@
 package com.PageParse.Page.Elements
 {
-	import com.Stored.BaseStored;	
+	import com.Stored.BaseStored;
+	
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
@@ -13,6 +14,11 @@ package com.PageParse.Page.Elements
 		private var element:Sprite = new Sprite;
 		private var loaded:Boolean = false;
 		private var image:Bitmap;
+		private var origWidth:int;
+		private var origHeight:int;
+		
+		public static var scaleX:Number=1;
+		public static var scaleY:Number=1;
 
 		
 		override public function compose(params:Object):void
@@ -24,14 +30,16 @@ package com.PageParse.Page.Elements
 			if(file){
 
 				image = BaseStored.image(file);
-				if(image)	loaded=true;
+				
+				if(image){
+					loaded=true;
+					origWidth=image.width;
+					origHeight=image.height;
 				}
-			
+			}
 		}
 		
-		
 
-		
 		public function giveElement():DisplayObject{
 			return element;
 		}
@@ -46,10 +54,11 @@ package com.PageParse.Page.Elements
 				element.graphics.drawRect(0,0,width, width);		
 			}
 			else{
-				var maxScale:Number = image.width/width;
-				if(maxScale<image.height/width)maxScale=image.height/width;
-				image.scaleX=1/maxScale;
-				image.scaleY=1/maxScale;
+				
+				var maxScale:Number = origWidth/width;
+				if(maxScale<origHeight/origWidth)maxScale=origHeight/origWidth;
+				image.scaleX=scaleX*1/maxScale;
+				image.scaleY=scaleY*1/maxScale;
 				
 				element.addChild(image);
 				image.x=element.width*.5-image.width*.5;

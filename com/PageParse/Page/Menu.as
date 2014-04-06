@@ -35,10 +35,12 @@ package com.PageParse.Page
 		}
 		
 		private function setPosition(UP:Boolean):void{
+			
+			
 			if(UP)	{
 
-				pageSpr.y=-pageSpr.height+menuSpr.height*.75;
-				pageSpr.x=BaseMobileScreen.stageWidth-pageSpr.width*.5;
+				pageSpr.y=-pageSpr.height+menuSpr.height*.2;
+				pageSpr.x=BaseMobileScreen.stageWidth-menuSpr.width*.1;
 
 			}
 			else	{
@@ -52,7 +54,7 @@ package com.PageParse.Page
 		private function menuListener(ON:Boolean):void{
 
 			if(ON) menuSpr.addEventListener(MouseEvent.MOUSE_UP,menuL);
-			else   menuSpr.addEventListener(MouseEvent.MOUSE_UP,menuL);
+			else   menuSpr.removeEventListener(MouseEvent.MOUSE_UP,menuL);
 		}
 
 		

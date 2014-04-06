@@ -2,7 +2,7 @@ package com.PageParse.Page.Elements.Primitives
 {
 	import flash.text.TextFieldAutoSize;
 
-	public class CenterText extends BasicText
+	public class OutputText extends BasicText
 	{
 		
 		static public var css:Object;
@@ -10,7 +10,6 @@ package com.PageParse.Page.Elements.Primitives
 		override public function render(myWidth:int):void
 		{
 			setSize();
-			
 			
 			if (this.width > myWidth)
 			{
@@ -24,13 +23,16 @@ package com.PageParse.Page.Elements.Primitives
 				this.autoSize = TextFieldAutoSize.LEFT;
 			}
 			this.background=true;
+			
+		}
+		
+		public function style():void
+		{
 			if(css){
-				this.backgroundColor=int(css.backgroundColor);
-				
+				if(css.backgroundColor)	this.backgroundColor=int(css.backgroundColor);
+				if(css.color)	this.textColor=int(css.textColor);
 			}
-			else{
-				this.backgroundColor=0x335566;
-			}
+			
 		}
 	}
 }

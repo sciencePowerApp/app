@@ -23,6 +23,7 @@ package com
 		public function Main(stage:Stage=null)
 		{
 			if(stage)this.stage=stage;
+			setup();
 			
 			PageComposer.init();
 			
@@ -30,16 +31,19 @@ package com
 			
 			var mobileScreen:MobileScreen = new MobileScreen(stage);
 			mobileScreen.addEventListener(Event.COMPLETE,function(e:Event):void{
+				stage.addEventListener(Event.CHANGE,updateL);
 				if(page){
-					if(menu)menu.render()
-					if(page)page.render();
-					globalCommands.render();
+					updateL(null);
 				}
 			});
 			
 			mobileScreen.init();
-			
-			setup();
+		}
+		
+		private function updateL(e:Event):void{
+			if(menu)menu.render()
+			if(page)page.render();
+			globalCommands.render();
 		}
 		
 		private function setup():void
@@ -51,6 +55,7 @@ package com
 			stored.addEventListener(Event.COMPLETE,function(e:Event):void{
 				
 				if(Stored.loaded){
+					initCSS();
 					initMenu();
 					initPage("home");
 				}
@@ -59,6 +64,12 @@ package com
 			
 			stored.init();
 			
+		}
+		
+		private function initCSS():void
+		{
+			var css:CSS = new CSS(stored.getCSS("style"));
+			UpdateCSS_appWide.DO();			
 		}
 		
 		private function firstBoot():void
@@ -88,6 +99,13 @@ package com
 				
 				case BaseGlobalCommands.GOTO_PAGE:
 					initPage(params);
+					break;
+				
+				case BaseGlobalCommands.THEME:
+					CSS.scheme=params;
+					UpdateCSS_appWide.DO();	
+					stage.dispatchEvent(new Event(Event.CHANGE));
+
 					break;
 				
 				case BaseGlobalCommands.RESET_APP:

@@ -16,16 +16,23 @@ package com.PageParse.Page.Elements
 		public var name:String;
 		public var background:int;
 		public var fontSize:int = 12;
+
+		
+		public static var css:Object;
+		
+	
 		
 		public function compose(params:Object):void{
-			
+			linkup(params);
+		}
+		
+		public function linkup(params:Object):void{
 			for(var param:String in params){
 				if(this.hasOwnProperty(param)){
 					this[param]=params[param];
 					
 				}
 			}
-			
 		}
 		
 		public function wipeDictionary(d:Dictionary):void{

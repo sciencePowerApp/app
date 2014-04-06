@@ -5,11 +5,7 @@ package com
 	import com.PageParse.Page.PageComposer;
 	import com.Stored.BaseStored;
 	import com.commands.BaseGlobalCommands;
-	
-	import flash.display.Sprite;
 	import flash.display.Stage;
-	import flash.events.MouseEvent;
-	
 	import comms.WebInterface;
 	
 	public class Main_Web
@@ -47,11 +43,11 @@ package com
 
 			//stage.addEventListener(MouseEvent.CLICK,function(e:MouseEvent):void{
 				pass_page(String(<PAGE>
-<TEXT>{Math.random()*1000}</TEXT>
+<TEXT>Test page</TEXT>
 <INPUT default="1" name="B">rama</INPUT>
 <INPUT name="A" default="4" alignment="left">hello! abc</INPUT>
-<OUTPUT dp="4" name="output1">A*sqrt(pi/B)</OUTPUT>
-<OUTPUT dp="4" name="output2">A*sqrt(pi/output1)</OUTPUT>
+<OUTPUT dp="4" label="hello" name="output1">A*sqrt(pi/B)</OUTPUT>
+<OUTPUT dp="4" label="hello" name="output2">A*sqrt(pi/output1)</OUTPUT>
 <FORMULA><mathml>
 <mrow>
 <mrow>
@@ -131,7 +127,25 @@ bla bla bla bla bla</TEXT>
 		
 		private function initMenu():void
 		{
-			var menuStr:String = stored.getPage("menu")
+			var menuStr:String = (<![CDATA[
+
+				
+				<PAGE background="0xFFFFFF" shadow="true" width="40%" alignment="right">
+				
+				<BUTTON background="0xffffff" action="lightScheme" colour="0x000000">A</BUTTON>
+				<BUTTON action="darkScheme" up="true" background="0x000000" colour="0xffffff">A</BUTTON>
+				
+				<BUTTON action="fontBigger">A +</BUTTON> 
+				<BUTTON action="fontSmaller" up="true">A -</BUTTON>
+				
+				<BUTTON action="imageBigger">Image +</BUTTON>
+				<BUTTON action="imageSmaller" up="true">Image -</BUTTON>
+				
+				<BUTTON name="menu"/>
+				</PAGE>
+				
+			]]> ).toString();
+				
 			menu = new Menu(stage);
 			PageComposer.compose(stage,menuStr,menu); //hacky way to get around a typecasting issue.
 			menu.render();
@@ -152,7 +166,7 @@ bla bla bla bla bla</TEXT>
 					
 					break;
 				
-				default: throw new Error("devel err");
+				//default: throw new Error("devel err");
 		
 			}
 		}
@@ -171,7 +185,7 @@ bla bla bla bla bla</TEXT>
 			page.render();
 
 			if(menu)menu.toTop();
-			else if(givenPage==false)	initMenu();
+			else initMenu();
 		}
 		
 		public function render():void

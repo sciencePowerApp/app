@@ -71,7 +71,7 @@ package com
 		private function determineDimensions(orientation:String):void
 		{
 							
-			if(overlay){
+			/*if(overlay){
 				theStage.addChild(overlay);
 			}
 			else{
@@ -80,8 +80,9 @@ package com
 				if(max<Capabilities.screenResolutionX)max=Capabilities.screenResolutionX;
 				overlay.graphics.beginFill(0x112233);
 				overlay.graphics.drawRect(0,0,max,max);
+				overlay.visible=true;
 			}
-				
+				*/
 				
 			if(orientation=="default"){
 				BaseMobileScreen.stageWidth = Capabilities.screenResolutionX;

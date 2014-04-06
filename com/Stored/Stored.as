@@ -121,11 +121,11 @@ package com.Stored
 								
 								sprListen.addChild(new RawImage(file));	
 								break;
+							case "css":
 							case "xml":
 								sprListen.addChild(new RawText(file));
 								break;
 							case "log":
-
 								sprListen.addChild(new RawLog(file));
 								break;
 							default: 
@@ -161,7 +161,10 @@ package com.Stored
 			}
 		}
 		
-	
+		public function getCSS(name:String):String{
+			if(pages && pages.hasOwnProperty(name+".css"))	return pages[name+".css"];
+			else return null;
+		}
 		
 		override public function getPage(name:String):String{
 			if(pages && pages.hasOwnProperty(name+".xml"))	return pages[name+".xml"];
