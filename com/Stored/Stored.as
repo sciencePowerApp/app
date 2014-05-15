@@ -4,12 +4,14 @@ package com.Stored
 	import com.Stored.RawElements.RawImage;
 	import com.Stored.RawElements.RawLog;
 	import com.Stored.RawElements.RawText;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.filesystem.File;
 	import flash.filesystem.FileMode;
 	import flash.filesystem.FileStream;
 	import flash.utils.Dictionary;
+	import com.Stored.RawElements.RawCSS;
 
 	public class Stored extends BaseStored
 	{
@@ -104,9 +106,8 @@ package com.Stored
 			if (directory.isDirectory){
 				var localFiles:Array = directory.getDirectoryListing();
 				var extension:String;
-				
+						
 				for each (var file:File in localFiles){
-					
 					
 					if(!file.exists || file.name.indexOf(".")==-1){
 						// do nothing
@@ -118,10 +119,11 @@ package com.Stored
 							
 							case "png":
 							case "jpg":
-								
 								sprListen.addChild(new RawImage(file));	
 								break;
 							case "css":
+								sprListen.addChild(new RawCSS(file));
+								break;
 							case "xml":
 								sprListen.addChild(new RawText(file));
 								break;
@@ -129,8 +131,7 @@ package com.Stored
 								sprListen.addChild(new RawLog(file));
 								break;
 							default: 
-								trace(file.name,22)
-								throw new Error();
+								//throw new Error();
 						}
 					}
 					else{
@@ -145,12 +146,12 @@ package com.Stored
 			e.stopPropagation();
 			var raw:RawElement = e.target as RawElement;
 			if(raw.success){
+				if(raw is RawCSS)			pages[raw.name]=(raw as RawCSS).text();
+				else if(raw is RawText)		parsePages(raw as RawText);
+				else if(raw is RawImage)	images[raw.name]=(raw as RawImage).image();
+				else if(raw is RawLog)  	Params.init((raw as RawText).text());
 				
-				if(raw is RawImage)		images[raw.name]=(raw as RawImage).image();
-				else if(raw is RawLog)  Params.init((raw as RawText).text());
-				else if(raw is RawText)	pages[raw.name]=(raw as RawText).text();
 				loaded=true;
-				
 			}
 			
 			
@@ -159,6 +160,40 @@ package com.Stored
 			if(sprListen.numChildren==0){
 				this.dispatchEvent(new Event(Event.COMPLETE));
 			}
+		}
+		
+		private function parsePages(raw:RawText):void
+		{
+			var nam:String = raw.name; 
+			var txt:String = raw.text();
+		
+			var tempPages:Array = txt.split("<PAGE");
+
+			if(tempPages.length==2){
+				pages[nam]=txt; 
+				return;
+			}
+			
+			var rightCarrot:int;
+			var xml:XML;
+			for(var i:int=1;i<tempPages.length;i++){
+				try{
+					xml=XML("<PAGE"+tempPages[i])
+				}
+				catch(e:Error){
+					throw new Error("badly XML formatted page:"+"<PAGE"+tempPages[i]);
+				}
+				addXMLPage(xml);
+				
+			}
+		}
+		
+		private function addXMLPage(xml:XML):void{
+			var nam:String=xml.@['name'].toString();
+			
+			if(nam.length==0)throw new Error("when including multiple pages within one file you MUST specify the name of the page like so: <PAGE name='ABC'>");
+
+			pages[nam+".xml"]=xml.toString();
 		}
 		
 		public function getCSS(name:String):String{

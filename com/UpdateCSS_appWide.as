@@ -1,6 +1,7 @@
 package com
 {
 	import com.PageParse.Page.Page;
+	import com.PageParse.Page.PageFlippers;
 	import com.PageParse.Page.Elements.Button;
 	import com.PageParse.Page.Elements.Formula;
 	import com.PageParse.Page.Elements.Input;
@@ -21,6 +22,8 @@ package com
 			Formula.css=CSS.GET_goodColours("formula");
 			Output.css=CSS.GET_goodColours("output");
 			Button.setCSS(CSS.GET_goodColours("button"));
+			PageFlippers.setCSS(CSS.scheme);
+			
 			
 		}
 	}

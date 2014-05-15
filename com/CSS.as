@@ -29,6 +29,7 @@ package com
 				else if(key == "fontStyle"){
 					obj[key] = getFont(obj[key]);
 				}
+				else if(key.toLowerCase().indexOf("border")!=-1)obj[key]=int((obj[key]).split("px").join(""));
 			}
 			
 			return obj;

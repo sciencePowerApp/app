@@ -18,6 +18,7 @@ package com.commands
 		public static const GOTO_PAGE:String = "goto_page";
 		public static const RESET_APP:String = "reset_app";
 		public static const THEME:String = "change theme";
+		public static const PAGEFLIP:String = 'page flip';
 		
 		public function BaseGlobalCommands(stage:Stage,callBackF:Function)
 		{
@@ -45,7 +46,13 @@ package com.commands
 				
 				commands['goto'] = gotoP;
 				
+				commands.pageFlip = pageFlip;
+				
 			}
+		}
+		
+		private function pageFlip(direction:String):void{
+			callBackF(PAGEFLIP,direction);
 		}
 		
 		private function imageSize(size:Number):Function

@@ -175,12 +175,10 @@ bla bla bla bla bla</TEXT>
 		private function initPage(pageName:String, givenPage:Boolean = false):void
 		{
 			if(page)page.kill();
-			
-			
+
 			var homeStr:String;
 			if(givenPage)	homeStr=pageName
 			else 			homeStr = stored.getPage(pageName);
-			
 			page = PageComposer.compose(stage,homeStr);
 			page.render();
 

@@ -20,16 +20,11 @@ package com.PageParse.Page.Elements.Primitives
 			
 			this.type = TextFieldType.INPUT;
 			
-			this.background=true;
-			this.border=true;
+
 		}
 		
 		public function style():void
 		{
-			if(css){
-				if(css.backgroundColor)	this.backgroundColor=int(css.backgroundColor);
-				if(css.color)	this.textColor=int(css.textColor);
-			}
 			setSize();
 		}
 		

@@ -14,6 +14,7 @@ package com.PageParse.Page.Elements.Primitives
 			if (this.width > myWidth)
 			{
 				this.multiline = true;
+				this.background=false
 				this.wordWrap = true;
 				this.width = myWidth;
 			}
@@ -28,10 +29,7 @@ package com.PageParse.Page.Elements.Primitives
 		
 		public function style():void
 		{
-			if(css){
-				if(css.backgroundColor)	this.backgroundColor=int(css.backgroundColor);
-				if(css.color)	this.textColor=int(css.textColor);
-			}
+			
 			
 		}
 	}

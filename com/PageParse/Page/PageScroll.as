@@ -24,6 +24,8 @@ package com.PageParse.Page
 		
 		
 		public function kill():void{
+			blitMask.dispose();
+			
 			stage.removeEventListener(MouseEvent.MOUSE_DOWN,_mouseDownHandler);	
 		}
 		

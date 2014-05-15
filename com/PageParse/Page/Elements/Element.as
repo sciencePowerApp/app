@@ -9,7 +9,7 @@ package com.PageParse.Page.Elements
 		public static var MIDDLE:String="middle";
 		public static var TOP:String="top";
 		public static var BOTTOM:String="bottom";
-		public static var FONT_SIZE:int = 12;
+		public static var FONT_SIZE:int = 20;
 		
 		public var alignment:String = MIDDLE;
 		public var vertical:String = BOTTOM;

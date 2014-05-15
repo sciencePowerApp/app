@@ -11,7 +11,6 @@ package com.PageParse.Page.Elements.Primitives
 		{
 			setSize();
 			
-			
 			if (this.width > myWidth)
 			{
 				this.multiline = true;
@@ -22,14 +21,6 @@ package com.PageParse.Page.Elements.Primitives
 				this.multiline = false;
 				this.wordWrap = false;
 				this.autoSize = TextFieldAutoSize.LEFT;
-			}
-			this.background=true;
-			if(css){
-				this.backgroundColor=int(css.backgroundColor);
-				
-			}
-			else{
-				this.backgroundColor=0x335566;
 			}
 		}
 	}

@@ -30,6 +30,7 @@ package com.PageParse.Page
 		
 		private static var valueMemory:Dictionary = new Dictionary;
 		private var tempMemory:Dictionary = new Dictionary;
+		private static var pageFlippers:PageFlippers;
 		
 		public function kill():void{
 			
@@ -62,6 +63,14 @@ package com.PageParse.Page
 
 			//stage.addEventListener(Event.CHANGE,refreshL);
 			stage.addChild(pageSpr);
+			initPageFlip(stage);
+		}
+		
+		private static function initPageFlip(stage:Stage):void
+		{
+			if(!pageFlippers) pageFlippers = new PageFlippers();
+			stage.addChild(pageFlippers);
+			pageFlippers.init();
 		}
 		
 		protected function refreshL(event:Event):void
@@ -128,13 +137,14 @@ package com.PageParse.Page
 						}
 					}
 				}
-				
+				var actions:Array;
 				for(i=0;i<buttons.length;i++){
-					what = (buttons[i] as Button).whichHappen();
-
-					if(what!='' && actionsObj.hasOwnProperty(what)){
-						(buttons[i] as Button).actions(actionsObj[what]);
-					}					
+					actions = (buttons[i] as Button).whichHappen();
+					for each(var action:String in actions){
+						if(what!='' && actionsObj.hasOwnProperty(action)){
+							(buttons[i] as Button).actions(actionsObj[action]);
+						}	
+					}
 				}
 			}
 		}
@@ -159,7 +169,7 @@ package com.PageParse.Page
 				actualElement = row[i].giveElement();	
 				
 				if(actualElement!=null){ //for devel
-					pageSpr.addChild(actualElement);
+					if(pageSpr.contains(actualElement)==false)	pageSpr.addChild(actualElement);
 					row[i].render(scale_width);
 					actualElement.y=y;
 					y+=actualElement.height+margin;
@@ -170,9 +180,11 @@ package com.PageParse.Page
 			align(pageSpr,1,alignment);
 			pageSpr.x=0;
 
+
 			if(pageSpr.height<=stageHeight){
 				pageSpr.y=stageHeight*.5-pageSpr.height*.5;
 				scroll(false);
+				
 				
 			}
 			else{
@@ -180,13 +192,13 @@ package com.PageParse.Page
 				scroll(true);
 
 			}
-
+			
 		}
 
 		public function scroll(on:Boolean):void
 		{
 			if(!pageScroll){
-				if(on) pageScroll = new PageScroll(pageSpr);
+				if(on) pageScroll = new PageScroll(pageSpr);				
 			}
 			else{
 				if(on)pageScroll.update();

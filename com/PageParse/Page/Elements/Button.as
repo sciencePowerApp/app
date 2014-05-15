@@ -16,12 +16,14 @@ package com.PageParse.Page.Elements
 		private var button:ButtonText = new ButtonText;
 		private var backSpr:Sprite = new Sprite;
 		private var width:int;
+		private var widthMod:Number=1;
 		private static var css:Object
-		private var actionFs:Vector.<Function>;
+		private var actionFs:Vector.<Function> = new Vector.<Function>;
 		public var action:String='';
 		public var gotoP:String;
 		public var sendData:String;
 		private var inputRequests:Dictionary;
+		private var height:int=100;
 		
 		private static var downCol:int=0x668899;
 		private static var overCol:int=0x668899
@@ -55,9 +57,12 @@ package com.PageParse.Page.Elements
 			up(true);
 			
 			super.compose(params);
-			
+		
 			if(params.background)my_background=int(params.background);
 			if(params.color)my_color=int(params.color);
+			if(params.height) height=params.height.split("%").join("")*.01*height;
+			if(params.width)   widthMod=params.width.split("%").join("")*.01*widthMod;
+
 			
 			
 			params.autoSize=true;
@@ -94,8 +99,8 @@ package com.PageParse.Page.Elements
 			this.inputRequests = inputRequests;
 		}
 		
-		public function whichHappen():String{
-			return action;
+		public function whichHappen():Array{
+			return action.split(",");
 		}
 		
 		public function gotoPage():String{
@@ -103,12 +108,15 @@ package com.PageParse.Page.Elements
 		}
 		
 		public function actions(actionFs:Vector.<Function>):void{
-			this.actionFs = actionFs;
+			
+			for each(var f:Function in actionFs){
+				this.actionFs.push(f);
+			}
 		}
 		
 		public function render(width:int):void
 		{
-			this.width = width;
+			this.width = width * widthMod;
 			button.setTextFormat(CSS.TF(css));
 			if(this['my_color']) button.textColor=this['my_color'];
 			else button.textColor=this[color];
@@ -159,7 +167,7 @@ package com.PageParse.Page.Elements
 			if(backSpr){
 				backSpr.graphics.clear();			
 				backSpr.graphics.beginFill(col);
-				backSpr.graphics.drawRoundRect(0,0,width,100,10,10);
+				backSpr.graphics.drawRoundRect(0,0,width,height,10,10);
 			}
 		}
 		

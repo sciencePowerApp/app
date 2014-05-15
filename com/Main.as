@@ -18,6 +18,8 @@ package com
 		private var github:GitHubLink;
 		private var stored:Stored;
 		private var globalCommands:GlobalCommands;
+		private var pagesVisited:Vector.<String> = new Vector.<String>;
+		private var pagesVisitedCounter:int=0;
 
 		
 		public function Main(stage:Stage=null)
@@ -48,7 +50,6 @@ package com
 		
 		private function setup():void
 		{
-			
 
 			stored = new Stored();
 			
@@ -57,6 +58,7 @@ package com
 				if(Stored.loaded){
 					initCSS();
 					initMenu();
+					pagesVisited.push("home");
 					initPage("home");
 				}
 				else firstBoot();
@@ -98,6 +100,8 @@ package com
 			switch(command){
 				
 				case BaseGlobalCommands.GOTO_PAGE:
+					pagesVisited.push(params);
+					pagesVisitedCounter=pagesVisited.length-1;
 					initPage(params);
 					break;
 				
@@ -115,6 +119,23 @@ package com
 
 					break;
 				
+				case BaseGlobalCommands.PAGEFLIP:
+					
+					if(params=="back"){
+						if(pagesVisitedCounter>0){
+							pagesVisitedCounter--
+							initPage(pagesVisited[pagesVisitedCounter]);
+						}
+					}
+					else if(params=="forward"){
+						if(pagesVisitedCounter<pagesVisited.length-1){
+							pagesVisitedCounter++;
+							initPage(pagesVisited[pagesVisitedCounter]);
+						}
+					}
+
+					break;
+				
 				default: throw new Error("devel err");
 			}
 		}
@@ -122,6 +143,7 @@ package com
 		
 		private function initPage(pageName:String, givenPage:Boolean = false):void
 		{
+				
 			if(page)page.kill();
 			
 			var homeStr:String;
@@ -130,6 +152,7 @@ package com
 			
 			page = PageComposer.compose(stage,homeStr);
 			page.render();
+
 			if(menu)menu.toTop();
 			else if(givenPage==false)	initMenu();
 		}

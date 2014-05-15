@@ -1,6 +1,8 @@
 package com.PageParse.Page.Elements.Primitives
 {	
 	
+	import com.PageParse.Page.Elements.Element;
+	
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
@@ -9,8 +11,8 @@ package com.PageParse.Page.Elements.Primitives
 	{
 
 		private var autoS:Boolean=false;
-		protected var tf:TextFormat;
-		static public var fontSize:int=12;
+		public var tf:TextFormat = new TextFormat;
+		static public var fontSize:int= Element.FONT_SIZE;
 	//	public var css:Object;
 		
 		public function compose(params:Object):void
@@ -18,7 +20,6 @@ package com.PageParse.Page.Elements.Primitives
 
 			this.htmlText=(params.data as String).split("\r\n").join("\n");
 			setSize()
-			
 		}
 		
 		public function setFont(font:String):void{
@@ -36,13 +37,11 @@ package com.PageParse.Page.Elements.Primitives
 		}
 		
 		public function setSize(size:int=-1):void{
-			if(!tf){
-				tf=new TextFormat;
-			}
+
 			if(size!=-1)tf.size=size;
 			else 		tf.size=fontSize;
 			this.setTextFormat(tf)
-			//this.defaultTextFormat=tf;
+			this.defaultTextFormat=tf;
 		
 		}
 		
