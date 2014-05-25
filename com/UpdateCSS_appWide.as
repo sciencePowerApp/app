@@ -5,7 +5,7 @@ package com
 	import com.PageParse.Page.Elements.Button;
 	import com.PageParse.Page.Elements.Formula;
 	import com.PageParse.Page.Elements.Input;
-	import com.PageParse.Page.Elements.Output;
+	import com.PageParse.Page.Elements.Maths;
 	import com.PageParse.Page.Elements.Text;
 
 	public class UpdateCSS_appWide
@@ -20,7 +20,7 @@ package com
 			Input.css=CSS.GET_goodColours("input");
 			Text.css=CSS.GET_goodColours("body");	
 			Formula.css=CSS.GET_goodColours("formula");
-			Output.css=CSS.GET_goodColours("output");
+			Maths.css=CSS.GET_goodColours("output");
 			Button.setCSS(CSS.GET_goodColours("button"));
 			PageFlippers.setCSS(CSS.scheme);
 			

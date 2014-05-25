@@ -6,7 +6,7 @@ package com.PageParse.Page
 	import com.PageParse.Page.Elements.IElement;
 	import com.PageParse.Page.Elements.IGiveValue;
 	import com.PageParse.Page.Elements.IWantValues;
-	import com.PageParse.Page.Elements.Output;
+	import com.PageParse.Page.Elements.Maths;
 	import com.commands.BaseGlobalCommands;
 	
 	import flash.display.DisplayObject;
@@ -90,6 +90,7 @@ package com.PageParse.Page
 			
 			for(var i:int=0;i<row.length;i++){
 				giveValues=row[i].addSpecificType(IGiveValue,giveValues);
+			
 				outputs=row[i].addSpecificType(IWantValues,outputs);
 				buttons=row[i].addSpecificType(Button,buttons);
 			}
@@ -102,6 +103,7 @@ package com.PageParse.Page
 					var inputRequests:Dictionary = new Dictionary;
 					
 					for(i=0;i<giveValues.length;i++){
+						
 						what=(giveValues[i] as IGiveValue).what();
 						inputRequests[what] = (giveValues[i] as IGiveValue).request;
 						tempMemory[what] = inputRequests[what];
@@ -129,10 +131,10 @@ package com.PageParse.Page
 				
 				if(outputs){
 					for(i=0;i<outputs.length;i++){
-						if(outputs[i] is Output){
-							what=(outputs[i] as Output).what();
+						if(outputs[i] is Maths){
+							what=(outputs[i] as Maths).what();
 							actionsObj[what] ||= new Vector.<Function>;
-							f=(outputs[i] as Output).compute;
+							f=(outputs[i] as Maths).compute;
 							actionsObj[what].push(f);	
 						}
 					}

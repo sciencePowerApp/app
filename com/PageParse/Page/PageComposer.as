@@ -6,12 +6,13 @@ package com.PageParse.Page
 	import com.PageParse.Page.Elements.IElement;
 	import com.PageParse.Page.Elements.Image;
 	import com.PageParse.Page.Elements.Input;
-	import com.PageParse.Page.Elements.Output;
 	import com.PageParse.Page.Elements.Slidebutton;
+	import com.PageParse.Page.Elements.Stats;
 	import com.PageParse.Page.Elements.Text;
 	
 	import flash.display.Stage;
 	import flash.utils.Dictionary;
+	import com.PageParse.Page.Elements.Maths;
 
 
 
@@ -25,14 +26,16 @@ package com.PageParse.Page
 		private static var PAGE:String="page";
 		private static var FORMULA:String = "FORMULA";
 		
-		
+	
 		elementDict.IMAGE = Image;
-		elementDict.OUTPUT = Output;
+		elementDict.MATHS = Maths;
 		elementDict.INPUT = Input;
 		elementDict.BUTTON = Button;
 		elementDict.SLIDEBUTTON = Slidebutton;
 		elementDict.FORMULA = Formula;
 		elementDict.TEXT = Text;
+		elementDict.STATS = Stats;
+		
 			
 		static public function init():void{
 			for(var token:String in elementDict){
